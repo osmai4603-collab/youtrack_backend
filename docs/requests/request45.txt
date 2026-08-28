@@ -1,0 +1,9 @@
+https://osm.youtrack.cloud/api/admin/notificationSupplement?$top=-1&fields=preview(issueId)
+
+{
+    "preview": {
+        "issueId": "DEMO-16",
+        "$type": "NotificationPreview"
+    },
+    "$type": "NotificationSupplement"
+}

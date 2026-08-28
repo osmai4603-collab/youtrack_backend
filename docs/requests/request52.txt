@@ -1,0 +1,124 @@
+https://osm.youtrack.cloud/api/admin/customFieldSettings/customFields?fields=id,fieldType(valueType)&$top=-1
+
+[
+    {
+        "fieldType": {
+            "valueType": "enum",
+            "$type": "FieldType"
+        },
+        "id": "161-0",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "state",
+            "$type": "FieldType"
+        },
+        "id": "161-2",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "enum",
+            "$type": "FieldType"
+        },
+        "id": "161-1",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "user",
+            "$type": "FieldType"
+        },
+        "id": "161-3",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "ownedField",
+            "$type": "FieldType"
+        },
+        "id": "161-4",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "version",
+            "$type": "FieldType"
+        },
+        "id": "161-5",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "version",
+            "$type": "FieldType"
+        },
+        "id": "161-6",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "build",
+            "$type": "FieldType"
+        },
+        "id": "161-7",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "date",
+            "$type": "FieldType"
+        },
+        "id": "161-8",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "period",
+            "$type": "FieldType"
+        },
+        "id": "161-9",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "period",
+            "$type": "FieldType"
+        },
+        "id": "161-10",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "version",
+            "$type": "FieldType"
+        },
+        "id": "161-11",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "integer",
+            "$type": "FieldType"
+        },
+        "id": "161-12",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "integer",
+            "$type": "FieldType"
+        },
+        "id": "161-14",
+        "$type": "CustomField"
+    },
+    {
+        "fieldType": {
+            "valueType": "integer",
+            "$type": "FieldType"
+        },
+        "id": "161-13",
+        "$type": "CustomField"
+    }
+]

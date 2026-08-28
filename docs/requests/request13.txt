@@ -1,0 +1,4 @@
+
+https://youtrack.jetbrains.com/api/admin/projects/22-59/dashboard?fields=widgets(id,key,x,y,width,height,widget(id),settings)
+
+{"widgets":[],"$type":"ProjectDashboard"}

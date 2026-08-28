@@ -1,0 +1,543 @@
+https://osm.youtrack.cloud/api/users/me/recent/issues?$top=-1&fields=issue(id,idReadable,summary,reporter(%40updater),updater(%40updater),resolved,updated,created,unauthenticatedReporter,fields(value(id,minutes,presentation,isEstimation,isSpentTime,name,description,localizedName,isResolved,color(%40color),buildIntegration,buildLink,text,login,email,fullName,avatarUrl,userType(id,name),isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked,issueRelatedGroup(%40permittedGroups),$type(),auditTargetId,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable),id,$type,hasStateMachine,isUpdatable,projectCustomField($type,id,field(id,name,ordinal,aliases,localizedName,fieldType(id,presentation,isBundleType,valueType,isMultiValue)),bundle(id,$type),canBeEmpty,emptyFieldText,hasRunningJob,ordinal,isSpentTime,isEstimation,isPublic),visibleOnList,searchResults(id,textSearchResult(highlightRanges(%40textRange),textRange(%40textRange))),pausedTime),project(id,name,shortName,projectType(id),pinned,iconUrl,template,archived,restricted,hasArticles,team(id)),visibility($type,implicitPermittedUsers(%40user),permittedGroups(%40permittedGroups),permittedUsers(%40user)),tags(id,name,color(%40color),isDeletable,isUpdatable,isUsable),votes,voters(hasVote),watchers(hasStar),usersTyping(timestamp,user(%40user)),canUndoComment,canAddPublicComment),id,pinned,date%3B%40updater%3Aid,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked,issueRelatedGroup(%40permittedGroups)%3B%40user%3Aid,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked%3B%40permittedGroups%3Aid,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable%3B%40color%3Aid,background,foreground%3B%40textRange%3AstartOffset,endOffset
+
+[
+    {
+        "issue": {
+            "usersTyping": [],
+            "canAddPublicComment": true,
+            "unauthenticatedReporter": false,
+            "voters": {
+                "hasVote": false,
+                "$type": "IssueVoters"
+            },
+            "canUndoComment": false,
+            "resolved": null,
+            "summary": "Create a demo project",
+            "votes": 0,
+            "reporter": {
+                "online": true,
+                "canReadProfile": true,
+                "issueRelatedGroup": null,
+                "banBadge": null,
+                "isEmailVerified": true,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osmflutterdeveloper@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+                "login": "admin",
+                "guest": false,
+                "banned": false,
+                "name": "admin",
+                "isLocked": false,
+                "fullName": "admin",
+                "id": "2-1",
+                "$type": "User"
+            },
+            "updated": 1785721796458,
+            "created": 1784851998430,
+            "updater": {
+                "online": true,
+                "canReadProfile": true,
+                "issueRelatedGroup": null,
+                "banBadge": null,
+                "isEmailVerified": true,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osmflutterdeveloper@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+                "login": "admin",
+                "guest": false,
+                "banned": false,
+                "name": "admin",
+                "isLocked": false,
+                "fullName": "admin",
+                "id": "2-1",
+                "$type": "User"
+            },
+            "project": {
+                "hasArticles": true,
+                "projectType": {
+                    "id": "DEFAULT",
+                    "$type": "ProjectType"
+                },
+                "restricted": false,
+                "template": false,
+                "shortName": "DEMO",
+                "archived": false,
+                "iconUrl": null,
+                "team": {
+                    "id": "5-0",
+                    "$type": "ProjectTeam"
+                },
+                "pinned": true,
+                "name": "Demo project",
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "idReadable": "DEMO-4",
+            "watchers": {
+                "hasStar": false,
+                "$type": "IssueWatchers"
+            },
+            "visibility": {
+                "$type": "UnlimitedVisibility"
+            },
+            "tags": [],
+            "fields": [
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "163-3",
+                            "$type": "EnumBundle"
+                        },
+                        "emptyFieldText": "No Priority",
+                        "hasRunningJob": false,
+                        "canBeEmpty": false,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 0,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "enum[1]",
+                                "valueType": "enum",
+                                "id": "enum[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Priority",
+                            "id": "161-0",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-0",
+                        "$type": "EnumProjectCustomField"
+                    },
+                    "value": {
+                        "localizedName": null,
+                        "description": null,
+                        "name": "Normal",
+                        "color": {
+                            "foreground": "#1a5b2c",
+                            "background": "#C0E3C8",
+                            "id": "17",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "164-20",
+                        "$type": "EnumBundleElement"
+                    },
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-0",
+                    "$type": "SingleEnumIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "165-1",
+                            "$type": "StateBundle"
+                        },
+                        "emptyFieldText": "No State",
+                        "hasRunningJob": false,
+                        "canBeEmpty": false,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 1,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "state[1]",
+                                "valueType": "state",
+                                "id": "state[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "State",
+                            "id": "161-2",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-2",
+                        "$type": "StateProjectCustomField"
+                    },
+                    "value": {
+                        "isResolved": false,
+                        "localizedName": null,
+                        "description": null,
+                        "name": "In Progress",
+                        "color": {
+                            "foreground": "#FFF",
+                            "background": "#3574F0",
+                            "id": "29",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "166-13",
+                        "$type": "StateBundleElement"
+                    },
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-2",
+                    "$type": "StateIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "163-1",
+                            "$type": "EnumBundle"
+                        },
+                        "emptyFieldText": "No Type",
+                        "hasRunningJob": false,
+                        "canBeEmpty": false,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 2,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "enum[1]",
+                                "valueType": "enum",
+                                "id": "enum[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Type",
+                            "id": "161-1",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-1",
+                        "$type": "EnumProjectCustomField"
+                    },
+                    "value": {
+                        "localizedName": null,
+                        "description": null,
+                        "name": "Performance Problem",
+                        "color": {
+                            "foreground": "#444",
+                            "background": "#fff",
+                            "id": "0",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "164-11",
+                        "$type": "EnumBundleElement"
+                    },
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-1",
+                    "$type": "SingleEnumIssueCustomField"
+                },
+                {
+                    "value": null,
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "13-0",
+                            "$type": "UserBundle"
+                        },
+                        "emptyFieldText": "Unassigned",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 3,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "user[1]",
+                                "valueType": "user",
+                                "id": "user[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": "for, assigned to",
+                            "name": "Assignee",
+                            "id": "161-3",
+                            "$type": "CustomField"
+                        },
+                        "id": "190-0",
+                        "$type": "UserProjectCustomField"
+                    },
+                    "isUpdatable": true,
+                    "id": "190-0",
+                    "$type": "SingleUserIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "191-0",
+                            "$type": "OwnedBundle"
+                        },
+                        "emptyFieldText": "No Subsystem",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": false,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 4,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "ownedField[1]",
+                                "valueType": "ownedField",
+                                "id": "ownedField[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": "in",
+                            "name": "Subsystem",
+                            "id": "161-4",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-3",
+                        "$type": "OwnedProjectCustomField"
+                    },
+                    "value": null,
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-3",
+                    "$type": "SingleOwnedIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "168-1",
+                            "$type": "VersionBundle"
+                        },
+                        "emptyFieldText": "Unscheduled",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 5,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": true,
+                                "presentation": "version[*]",
+                                "valueType": "version",
+                                "id": "version[*]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": "fix for, fixed in, fix version, version",
+                            "name": "Fix versions",
+                            "id": "161-5",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-4",
+                        "$type": "VersionProjectCustomField"
+                    },
+                    "value": [],
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-4",
+                    "$type": "MultiVersionIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "192-0",
+                            "$type": "BuildBundle"
+                        },
+                        "emptyFieldText": "Next Build",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 7,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": false,
+                                "presentation": "build[1]",
+                                "valueType": "build",
+                                "id": "build[1]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": "fix for, fixed in, build, fix build",
+                            "name": "Fixed in build",
+                            "id": "161-7",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-6",
+                        "$type": "BuildProjectCustomField"
+                    },
+                    "value": null,
+                    "searchResults": [],
+                    "visibleOnList": false,
+                    "isUpdatable": true,
+                    "id": "189-6",
+                    "$type": "SingleBuildIssueCustomField"
+                },
+                {
+                    "value": {
+                        "presentation": "1d",
+                        "id": "P1D",
+                        "minutes": 480,
+                        "$type": "PeriodValue"
+                    },
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "projectCustomField": {
+                        "isSpentTime": false,
+                        "isEstimation": true,
+                        "emptyFieldText": "?",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 9,
+                            "fieldType": {
+                                "isBundleType": false,
+                                "isMultiValue": false,
+                                "presentation": "period",
+                                "valueType": "period",
+                                "id": "period",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Estimation",
+                            "id": "161-9",
+                            "$type": "CustomField"
+                        },
+                        "id": "196-0",
+                        "$type": "PeriodProjectCustomField"
+                    },
+                    "isUpdatable": true,
+                    "id": "196-0",
+                    "$type": "PeriodIssueCustomField"
+                },
+                {
+                    "value": null,
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "projectCustomField": {
+                        "isSpentTime": true,
+                        "isEstimation": false,
+                        "emptyFieldText": "?",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 10,
+                            "fieldType": {
+                                "isBundleType": false,
+                                "isMultiValue": false,
+                                "presentation": "period",
+                                "valueType": "period",
+                                "id": "period",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Spent time",
+                            "id": "161-10",
+                            "$type": "CustomField"
+                        },
+                        "id": "196-1",
+                        "$type": "PeriodProjectCustomField"
+                    },
+                    "isUpdatable": true,
+                    "id": "196-1",
+                    "$type": "PeriodIssueCustomField"
+                },
+                {
+                    "projectCustomField": {
+                        "bundle": {
+                            "id": "168-1",
+                            "$type": "VersionBundle"
+                        },
+                        "emptyFieldText": "Unknown",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 11,
+                            "fieldType": {
+                                "isBundleType": true,
+                                "isMultiValue": true,
+                                "presentation": "version[*]",
+                                "valueType": "version",
+                                "id": "version[*]",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Sprints",
+                            "id": "161-11",
+                            "$type": "CustomField"
+                        },
+                        "id": "189-18",
+                        "$type": "VersionProjectCustomField"
+                    },
+                    "value": [],
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "isUpdatable": true,
+                    "id": "189-18",
+                    "$type": "MultiVersionIssueCustomField"
+                },
+                {
+                    "value": null,
+                    "searchResults": [],
+                    "visibleOnList": true,
+                    "projectCustomField": {
+                        "emptyFieldText": "No ideal days",
+                        "hasRunningJob": false,
+                        "canBeEmpty": true,
+                        "isPublic": true,
+                        "ordinal": 0,
+                        "field": {
+                            "localizedName": null,
+                            "ordinal": 12,
+                            "fieldType": {
+                                "isBundleType": false,
+                                "isMultiValue": false,
+                                "presentation": "integer",
+                                "valueType": "integer",
+                                "id": "integer",
+                                "$type": "FieldType"
+                            },
+                            "aliases": null,
+                            "name": "Ideal days",
+                            "id": "161-12",
+                            "$type": "CustomField"
+                        },
+                        "id": "575-3",
+                        "$type": "SimpleProjectCustomField"
+                    },
+                    "isUpdatable": true,
+                    "id": "575-3",
+                    "$type": "SimpleIssueCustomField"
+                }
+            ],
+            "id": "3-3",
+            "$type": "Issue"
+        },
+        "pinned": false,
+        "id": "3-3",
+        "date": 1785771300229,
+        "$type": "RecentIssue"
+    }
+]

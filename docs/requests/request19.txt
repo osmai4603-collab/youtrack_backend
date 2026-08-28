@@ -1,0 +1,25 @@
+https://osm.youtrack.cloud/api/admin/globalSettings?fields=restSettings(allowAllOrigins,allowedOrigins),imageTextRecognitionSettings(enabled),systemSettings(ocrSupported),notificationSettings(emailSettings(isEnabled))
+
+{
+    "systemSettings": {
+        "ocrSupported": "true",
+        "$type": "SystemSettings"
+    },
+    "notificationSettings": {
+        "emailSettings": {
+            "isEnabled": true,
+            "$type": "EmailSettings"
+        },
+        "$type": "NotificationSettings"
+    },
+    "imageTextRecognitionSettings": {
+        "enabled": true,
+        "$type": "ImageTextRecognitionSettings"
+    },
+    "restSettings": {
+        "allowedOrigins": [],
+        "allowAllOrigins": false,
+        "$type": "RestCorsSettings"
+    },
+    "$type": "GlobalSettings"
+}

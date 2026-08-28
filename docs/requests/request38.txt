@@ -1,0 +1,21 @@
+https://osm.youtrack.cloud/hub/api/rest/users/me?fields=guest,id,name,login,profile%2Favatar%2Furl,profile%2Femail,profile%2Favatar%2Ftype,requiredTwoFactorAuthentication,twoFactorAuthentication%2Fenabled,webauthnDevice%2Fenabled
+
+{
+    "type": "user",
+    "id": "0d1219ff-dae2-4722-aa17-00381eb6be68",
+    "name": "admin",
+    "login": "admin",
+    "guest": false,
+    "profile": {
+        "avatar": {
+            "type": "defaultavatar",
+            "url": "https://osm.youtrack.cloud/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68"
+        },
+        "email": {
+            "type": "EmailJSON",
+            "verified": true,
+            "email": "osmflutterdeveloper@gmail.com"
+        }
+    },
+    "requiredTwoFactorAuthentication": false
+}

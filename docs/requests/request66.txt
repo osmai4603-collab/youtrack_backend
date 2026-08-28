@@ -1,0 +1,9 @@
+
+https://osm.youtrack.cloud/api/users/me/profiles/questionnaire?fields=showSurvey,showPmfSurvey,demoEligibilityTimestamp
+
+{
+    "showSurvey": false,
+    "showPmfSurvey": false,
+    "demoEligibilityTimestamp": null,
+    "$type": "QuestionnaireUserProfile"
+}

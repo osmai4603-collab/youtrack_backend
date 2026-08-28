@@ -1,0 +1,143 @@
+
+https://osm.youtrack.cloud/api/admin/customFieldSettings/customFields/161-10?fields=trimmedInstances(id,project(id,name,$type)),instances(id,project(id,name,$type,iconUrl,template),bundle(id,name),visibleTo(auditTargetId,description,avatarUrl,parentId(),childrenIds,usersCount,requireTwoFactorAuthentication,autoJoin,autoJoinDomain,ownTeams(id,project(id,name,icon)),teamForProject(id,name,icon),updaters(id(),$type),viewers(id(),$type),isUpdatable,isRemovable,isCustomerGroup,id,name,type),isSpentTime,isSlaField,isPublic,$type),id,name,ordinal,aliases,localizedName,fieldType(id,presentation,isBundleType,valueType,isMultiValue)
+
+{
+    "trimmedInstances": [
+        {
+            "project": {
+                "name": "Demo project",
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "id": "196-1",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "project": {
+                "name": "fingerprint",
+                "id": "0-1",
+                "$type": "Project"
+            },
+            "id": "196-3",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "project": {
+                "name": "pringo",
+                "id": "0-3",
+                "$type": "Project"
+            },
+            "id": "196-5",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "project": {
+                "name": "Test project",
+                "id": "0-2",
+                "$type": "Project"
+            },
+            "id": "196-7",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "project": {
+                "name": "traint-project-scrum",
+                "id": "0-4",
+                "$type": "Project"
+            },
+            "id": "196-9",
+            "$type": "PeriodProjectCustomField"
+        }
+    ],
+    "instances": [
+        {
+            "isSpentTime": true,
+            "visibleTo": null,
+            "isPublic": true,
+            "isSlaField": false,
+            "project": {
+                "template": false,
+                "iconUrl": null,
+                "name": "Demo project",
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "id": "196-1",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "isSpentTime": true,
+            "visibleTo": null,
+            "isPublic": true,
+            "isSlaField": false,
+            "project": {
+                "template": false,
+                "iconUrl": null,
+                "name": "fingerprint",
+                "id": "0-1",
+                "$type": "Project"
+            },
+            "id": "196-3",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "isSpentTime": true,
+            "visibleTo": null,
+            "isPublic": true,
+            "isSlaField": false,
+            "project": {
+                "template": false,
+                "iconUrl": null,
+                "name": "pringo",
+                "id": "0-3",
+                "$type": "Project"
+            },
+            "id": "196-5",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "isSpentTime": true,
+            "visibleTo": null,
+            "isPublic": true,
+            "isSlaField": false,
+            "project": {
+                "template": false,
+                "iconUrl": null,
+                "name": "Test project",
+                "id": "0-2",
+                "$type": "Project"
+            },
+            "id": "196-7",
+            "$type": "PeriodProjectCustomField"
+        },
+        {
+            "isSpentTime": true,
+            "visibleTo": null,
+            "isPublic": true,
+            "isSlaField": false,
+            "project": {
+                "template": false,
+                "iconUrl": null,
+                "name": "traint-project-scrum",
+                "id": "0-4",
+                "$type": "Project"
+            },
+            "id": "196-9",
+            "$type": "PeriodProjectCustomField"
+        }
+    ],
+    "localizedName": null,
+    "ordinal": 10,
+    "fieldType": {
+        "isBundleType": false,
+        "isMultiValue": false,
+        "presentation": "period",
+        "valueType": "period",
+        "id": "period",
+        "$type": "FieldType"
+    },
+    "aliases": null,
+    "name": "Spent time",
+    "id": "161-10",
+    "$type": "CustomField"
+}

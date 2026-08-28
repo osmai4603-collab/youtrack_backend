@@ -1,0 +1,399 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/timeTrackingSettings?fields=enabled,workItemTypes(%40values),attributes(id,name,values(%40values),prototype(values(%40values))),estimate(%40timeSpent),timeSpent(%40timeSpent)%3B%40timeSpent%3AdefaultValues(id,name,description,localizedName,isResolved,color(%40color),buildIntegration,buildLink),$type,id,field(id,name,ordinal,aliases,localizedName,fieldType(id,presentation,isBundleType,valueType,isMultiValue,canBeConvertedTo(id,$type,from(%40fieldType),localizedName,to(%40fieldType))),fieldDefaults(canBeEmpty,emptyFieldText)),bundle(id,$type),canBeEmpty,emptyFieldText,hasRunningJob,ordinal,isSpentTime,isEstimation,isPublic,condition(field($type,id,name,bundle(id),field(id,name)),values(id,$type,icon,name,login,avatarUrl,archived,color(%40color),isResolved,releaseDate,released,owner(id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked),assembleDate,buildIntegration,buildLink)),visibleToGroups(%40updatableByGroups),updatableByGroups(%40updatableByGroups),value(id,minutes,presentation,isEstimation,isSpentTime),hasStateMachine,isUpdatable,projectCustomField($type,id,field(id,name,ordinal,aliases,localizedName,fieldType(%40fieldType)),bundle(id,$type),canBeEmpty,emptyFieldText,hasRunningJob,ordinal,isSpentTime,isEstimation,isPublic),visibleOnList,searchResults(id,textSearchResult(highlightRanges(%40textRange),textRange(%40textRange))),valuesCondition(field(id))%3B%40values%3Aid,name,autoAttach,description,hasRunningJobs,color(%40color),attributes(id,timeTrackingSettings(id,project(id)))%3B%40updatableByGroups%3Aid,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable%3B%40fieldType%3Aid,presentation,isBundleType,valueType,isMultiValue%3B%40color%3Aid,background,foreground%3B%40textRange%3AstartOffset,endOffset
+
+{
+    "workItemTypes": [
+        {
+            "name": "Development",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-0",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Testing",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-1",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Documentation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-2",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Investigation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-3",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Implementation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-4",
+            "$type": "WorkItemType"
+        }
+    ],
+    "estimate": {
+        "isSpentTime": false,
+        "isEstimation": true,
+        "emptyFieldText": "?",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "condition": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "fieldDefaults": {
+                "emptyFieldText": null,
+                "canBeEmpty": true,
+                "$type": "CustomFieldDefaults"
+            },
+            "localizedName": null,
+            "ordinal": 9,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToFloatConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToFloatConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToIntTypeConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToIntTypeConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Estimation",
+            "id": "161-9",
+            "$type": "CustomField"
+        },
+        "id": "196-0",
+        "$type": "PeriodProjectCustomField"
+    },
+    "enabled": true,
+    "timeSpent": {
+        "isSpentTime": true,
+        "isEstimation": false,
+        "emptyFieldText": "?",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "condition": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "fieldDefaults": {
+                "emptyFieldText": null,
+                "canBeEmpty": true,
+                "$type": "CustomFieldDefaults"
+            },
+            "localizedName": null,
+            "ordinal": 10,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToFloatConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToFloatConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToIntTypeConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToIntTypeConverter",
+                        "from": {
+                            "isBundleType": false,
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Spent time",
+            "id": "161-10",
+            "$type": "CustomField"
+        },
+        "id": "196-1",
+        "$type": "PeriodProjectCustomField"
+    },
+    "attributes": [
+        {
+            "prototype": {
+                "values": [
+                    {
+                        "autoAttach": false,
+                        "hasRunningJobs": false,
+                        "description": null,
+                        "name": "34543",
+                        "attributes": [
+                            {
+                                "timeTrackingSettings": {
+                                    "project": {
+                                        "id": "0-0",
+                                        "$type": "Project"
+                                    },
+                                    "id": "195-0",
+                                    "$type": "ProjectTimeTrackingSettings"
+                                },
+                                "id": "324-0",
+                                "$type": "WorkItemProjectAttribute"
+                            },
+                            {
+                                "timeTrackingSettings": {
+                                    "project": {
+                                        "id": "0-2",
+                                        "$type": "Project"
+                                    },
+                                    "id": "195-2",
+                                    "$type": "ProjectTimeTrackingSettings"
+                                },
+                                "id": "324-1",
+                                "$type": "WorkItemProjectAttribute"
+                            }
+                        ],
+                        "color": {
+                            "foreground": "#444",
+                            "background": "#fff",
+                            "id": "0",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "527-0",
+                        "$type": "WorkItemAttributeValue"
+                    }
+                ],
+                "$type": "WorkItemAttributePrototype"
+            },
+            "values": [
+                {
+                    "autoAttach": false,
+                    "hasRunningJobs": false,
+                    "description": null,
+                    "name": "34543",
+                    "attributes": [
+                        {
+                            "timeTrackingSettings": {
+                                "project": {
+                                    "id": "0-0",
+                                    "$type": "Project"
+                                },
+                                "id": "195-0",
+                                "$type": "ProjectTimeTrackingSettings"
+                            },
+                            "id": "324-0",
+                            "$type": "WorkItemProjectAttribute"
+                        },
+                        {
+                            "timeTrackingSettings": {
+                                "project": {
+                                    "id": "0-2",
+                                    "$type": "Project"
+                                },
+                                "id": "195-2",
+                                "$type": "ProjectTimeTrackingSettings"
+                            },
+                            "id": "324-1",
+                            "$type": "WorkItemProjectAttribute"
+                        }
+                    ],
+                    "color": {
+                        "foreground": "#444",
+                        "background": "#fff",
+                        "id": "0",
+                        "$type": "FieldStyle"
+                    },
+                    "id": "527-0",
+                    "$type": "WorkItemAttributeValue"
+                }
+            ],
+            "name": "يسبشسي",
+            "id": "324-0",
+            "$type": "WorkItemProjectAttribute"
+        }
+    ],
+    "$type": "ProjectTimeTrackingSettings"
+}

@@ -1,0 +1,12 @@
+
+https://osm.youtrack.cloud/api/users/me/profiles/general?fields=id,dateFieldFormat(pattern,datePattern)
+
+{
+    "dateFieldFormat": {
+        "datePattern": "d MMM yyyy",
+        "pattern": "d MMM yyyy HH:mm",
+        "$type": "DateFormatDescriptor"
+    },
+    "id": "generalProfile",
+    "$type": "GeneralUserProfile"
+}

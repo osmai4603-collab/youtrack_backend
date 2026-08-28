@@ -1,0 +1,67 @@
+https://osm.youtrack.cloud/api/users/me/recent/articles?$top=-1&fields=article(id,idReadable,reporter(%40permittedUsers),summary,project(id,name,shortName,projectType(id),pinned,iconUrl,template,archived,restricted,hasArticles,team(id)),parentArticle(idReadable),ordinal,visibility($type,implicitPermittedUsers(%40permittedUsers),permittedGroups(id,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable),permittedUsers(%40permittedUsers)),hasUnpublishedChanges,hasChildren,tags(id,name,color(id,background,foreground),isDeletable,isUpdatable,isUsable),hasStar,updated),id,pinned,date%3B%40permittedUsers%3Aid,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked
+
+[
+    {
+        "article": {
+            "hasUnpublishedChanges": false,
+            "hasChildren": false,
+            "parentArticle": null,
+            "hasStar": false,
+            "ordinal": 0,
+            "updated": 1784852000410,
+            "project": {
+                "hasArticles": true,
+                "projectType": {
+                    "id": "DEFAULT",
+                    "$type": "ProjectType"
+                },
+                "restricted": false,
+                "template": false,
+                "shortName": "DEMO",
+                "archived": false,
+                "iconUrl": null,
+                "team": {
+                    "id": "5-0",
+                    "$type": "ProjectTeam"
+                },
+                "pinned": true,
+                "name": "Demo project",
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "idReadable": "DEMO-A-1",
+            "summary": "Getting Started with the YouTrack Knowledge Base",
+            "reporter": {
+                "online": true,
+                "canReadProfile": true,
+                "banBadge": null,
+                "isEmailVerified": true,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osmflutterdeveloper@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+                "login": "admin",
+                "guest": false,
+                "banned": false,
+                "name": "admin",
+                "isLocked": false,
+                "fullName": "admin",
+                "id": "2-1",
+                "$type": "User"
+            },
+            "visibility": {
+                "$type": "UnlimitedVisibility"
+            },
+            "tags": [],
+            "id": "186-0",
+            "$type": "Article"
+        },
+        "pinned": false,
+        "id": "186-0",
+        "date": 1785818696478,
+        "$type": "RecentArticle"
+    }
+]

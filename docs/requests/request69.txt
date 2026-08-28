@@ -1,0 +1,499 @@
+https://osm.youtrack.cloud/api/filterFields?%24top=-1&fields=%24type%2Cid%2Cname%2CcustomField%28id%2Cname%2Cordinal%2Caliases%2ClocalizedName%2CfieldType%28id%2Cpresentation%2CisBundleType%2CvalueType%2CisMultiValue%29%29&getUnusedVisibleFields=true&fieldTypes=predefined&fieldTypes=custom&query=&helpdesk=false
+
+[
+    {
+        "id": "created",
+        "name": "created",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "resolved date",
+        "name": "resolved date",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "updated",
+        "name": "updated",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "attachments",
+        "name": "attachments",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "commented",
+        "name": "commented",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "commenter",
+        "name": "commenter",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "comments",
+        "name": "comments",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "custom",
+        "name": "custom",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "document type",
+        "name": "document type",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "has",
+        "name": "has",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "issue id",
+        "name": "issue id",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "links",
+        "name": "links",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "mentioned in",
+        "name": "mentioned in",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "organization",
+        "name": "organization",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "project",
+        "name": "project",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "saved search",
+        "name": "saved search",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "looks like",
+        "name": "looks like",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "sort by",
+        "name": "sort by",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "star",
+        "name": "star",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "tag",
+        "name": "tag",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "underestimation",
+        "name": "underestimation",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "votes",
+        "name": "votes",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "reporter",
+        "name": "reporter",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "mentions",
+        "name": "mentions",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "reaction from",
+        "name": "reaction from",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "updater",
+        "name": "updater",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "visible to",
+        "name": "visible to",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "voter",
+        "name": "voter",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "attachment name",
+        "name": "attachment name",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "attachment text",
+        "name": "attachment text",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "code",
+        "name": "code",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "comment text",
+        "name": "comment text",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "description",
+        "name": "description",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "summary",
+        "name": "summary",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "work",
+        "name": "work",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "id": "work text",
+        "name": "work text",
+        "$type": "PredefinedFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 6,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "aliases": "affects, affecting, that affect, affected version, version",
+            "name": "Affected versions",
+            "id": "161-6",
+            "$type": "CustomField"
+        },
+        "id": "161-6",
+        "name": "Affected versions",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 3,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "user[1]",
+                "valueType": "user",
+                "id": "user[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "for, assigned to",
+            "name": "Assignee",
+            "id": "161-3",
+            "$type": "CustomField"
+        },
+        "id": "161-3",
+        "name": "Assignee",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 7,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "build[1]",
+                "valueType": "build",
+                "id": "build[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "fix for, fixed in, build, fix build",
+            "name": "Fixed in build",
+            "id": "161-7",
+            "$type": "CustomField"
+        },
+        "id": "161-7",
+        "name": "Fixed in build",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 8,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "date",
+                "valueType": "date",
+                "id": "date",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Due Date",
+            "id": "161-8",
+            "$type": "CustomField"
+        },
+        "id": "161-8",
+        "name": "Due Date",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 9,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Estimation",
+            "id": "161-9",
+            "$type": "CustomField"
+        },
+        "id": "161-9",
+        "name": "Estimation",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 5,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "aliases": "fix for, fixed in, fix version, version",
+            "name": "Fix versions",
+            "id": "161-5",
+            "$type": "CustomField"
+        },
+        "id": "161-5",
+        "name": "Fix versions",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 12,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "integer",
+                "valueType": "integer",
+                "id": "integer",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Ideal days",
+            "id": "161-12",
+            "$type": "CustomField"
+        },
+        "id": "161-12",
+        "name": "Ideal days",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 4,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "ownedField[1]",
+                "valueType": "ownedField",
+                "id": "ownedField[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "in",
+            "name": "Subsystem",
+            "id": "161-4",
+            "$type": "CustomField"
+        },
+        "id": "161-4",
+        "name": "Subsystem",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 14,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "integer",
+                "valueType": "integer",
+                "id": "integer",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Original estimation",
+            "id": "161-13",
+            "$type": "CustomField"
+        },
+        "id": "161-13",
+        "name": "Original estimation",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 0,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Priority",
+            "id": "161-0",
+            "$type": "CustomField"
+        },
+        "id": "161-0",
+        "name": "Priority",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 10,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Spent time",
+            "id": "161-10",
+            "$type": "CustomField"
+        },
+        "id": "161-10",
+        "name": "Spent time",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 11,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Sprints",
+            "id": "161-11",
+            "$type": "CustomField"
+        },
+        "id": "161-11",
+        "name": "Sprints",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 1,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "state[1]",
+                "valueType": "state",
+                "id": "state[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "State",
+            "id": "161-2",
+            "$type": "CustomField"
+        },
+        "id": "161-2",
+        "name": "State",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 13,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "integer",
+                "valueType": "integer",
+                "id": "integer",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Story points",
+            "id": "161-14",
+            "$type": "CustomField"
+        },
+        "id": "161-14",
+        "name": "Story points",
+        "$type": "CustomFilterField"
+    },
+    {
+        "customField": {
+            "localizedName": null,
+            "ordinal": 2,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Type",
+            "id": "161-1",
+            "$type": "CustomField"
+        },
+        "id": "161-1",
+        "name": "Type",
+        "$type": "CustomFilterField"
+    }
+]

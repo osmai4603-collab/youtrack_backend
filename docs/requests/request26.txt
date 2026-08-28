@@ -1,0 +1,588 @@
+
+https://osm.youtrack.cloud/api/permissions/cache?fields=global,permission(id,key,name),projects(id)
+
+[
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Project Basic",
+            "key": "jetbrains.jetpass.project-read-basic",
+            "id": "jetbrains.jetpass.project-read-basic",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Project",
+            "key": "jetbrains.jetpass.project-create",
+            "id": "jetbrains.jetpass.project-create",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Project Full",
+            "key": "jetbrains.jetpass.project-read",
+            "id": "jetbrains.jetpass.project-read",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Project",
+            "key": "jetbrains.jetpass.project-update",
+            "id": "jetbrains.jetpass.project-update",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Project",
+            "key": "jetbrains.jetpass.project-delete",
+            "id": "jetbrains.jetpass.project-delete",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Organization",
+            "key": "jetbrains.jetpass.organization-read",
+            "id": "jetbrains.jetpass.organization-read",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Organization",
+            "key": "jetbrains.jetpass.organization-update",
+            "id": "jetbrains.jetpass.organization-update",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Organization",
+            "key": "jetbrains.jetpass.organization-create",
+            "id": "jetbrains.jetpass.organization-create",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Organization",
+            "key": "jetbrains.jetpass.organization-delete",
+            "id": "jetbrains.jetpass.organization-delete",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Self",
+            "key": "jetbrains.jetpass.profile-updateSelf",
+            "id": "jetbrains.jetpass.profile-updateSelf",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read User Basic",
+            "key": "jetbrains.jetpass.user-read-basic",
+            "id": "jetbrains.jetpass.user-read-basic",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read User Details",
+            "key": "jetbrains.jetpass.user-read",
+            "id": "jetbrains.jetpass.user-read",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update User",
+            "key": "jetbrains.jetpass.user-update",
+            "id": "jetbrains.jetpass.user-update",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create User",
+            "key": "jetbrains.jetpass.user-create",
+            "id": "jetbrains.jetpass.user-create",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete User",
+            "key": "jetbrains.jetpass.user-delete",
+            "id": "jetbrains.jetpass.user-delete",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Low-level Admin Read",
+            "key": "jetbrains.jetpass.low-level-read",
+            "id": "jetbrains.jetpass.low-level-read",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Low-level Admin Write",
+            "key": "jetbrains.jetpass.low-level",
+            "id": "jetbrains.jetpass.low-level",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Issue",
+            "key": "JetBrains.YouTrack.READ_ISSUE",
+            "id": "JetBrains.YouTrack.READ_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Issue Private Fields",
+            "key": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+            "id": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Issue",
+            "key": "JetBrains.YouTrack.UPDATE_ISSUE",
+            "id": "JetBrains.YouTrack.UPDATE_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Issue",
+            "key": "JetBrains.YouTrack.CREATE_ISSUE",
+            "id": "JetBrains.YouTrack.CREATE_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Issue",
+            "key": "JetBrains.YouTrack.DELETE_ISSUE",
+            "id": "JetBrains.YouTrack.DELETE_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Link Issues",
+            "key": "JetBrains.YouTrack.LINK_ISSUE",
+            "id": "JetBrains.YouTrack.LINK_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Issue Private Fields",
+            "key": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+            "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Apply Commands Silently",
+            "key": "JetBrains.YouTrack.APPLY_COMMANDS_SILENTLY",
+            "id": "JetBrains.YouTrack.APPLY_COMMANDS_SILENTLY",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "View Watchers",
+            "key": "JetBrains.YouTrack.VIEW_WATCHERS",
+            "id": "JetBrains.YouTrack.VIEW_WATCHERS",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Watchers",
+            "key": "JetBrains.YouTrack.UPDATE_WATCHERS",
+            "id": "JetBrains.YouTrack.UPDATE_WATCHERS",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "View Voters",
+            "key": "JetBrains.YouTrack.VIEW_VOTERS",
+            "id": "JetBrains.YouTrack.VIEW_VOTERS",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Add Attachment",
+            "key": "JetBrains.YouTrack.CREATE_ATTACHMENT_ISSUE",
+            "id": "JetBrains.YouTrack.CREATE_ATTACHMENT_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Attachment",
+            "key": "JetBrains.YouTrack.UPDATE_ATTACHMENT_ISSUE",
+            "id": "JetBrains.YouTrack.UPDATE_ATTACHMENT_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Attachment",
+            "key": "JetBrains.YouTrack.DELETE_ATTACHMENT_ISSUE",
+            "id": "JetBrains.YouTrack.DELETE_ATTACHMENT_ISSUE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Issue Comment",
+            "key": "JetBrains.YouTrack.CREATE_COMMENT",
+            "id": "JetBrains.YouTrack.CREATE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Issue Comment",
+            "key": "JetBrains.YouTrack.READ_COMMENT",
+            "id": "JetBrains.YouTrack.READ_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Issue Comment",
+            "key": "JetBrains.YouTrack.UPDATE_COMMENT",
+            "id": "JetBrains.YouTrack.UPDATE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Issue Comment",
+            "key": "JetBrains.YouTrack.DELETE_COMMENT",
+            "id": "JetBrains.YouTrack.DELETE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Not Own Issue Comment",
+            "key": "JetBrains.YouTrack.UPDATE_NOT_OWN_COMMENT",
+            "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Not Own Comment and Permanent Comment Delete",
+            "key": "JetBrains.YouTrack.DELETE_NOT_OWN_COMMENT",
+            "id": "JetBrains.YouTrack.DELETE_NOT_OWN_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Override Visibility Restrictions",
+            "key": "JetBrains.YouTrack.READ_HIDDEN_STUFF",
+            "id": "JetBrains.YouTrack.READ_HIDDEN_STUFF",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Work Item",
+            "key": "JetBrains.YouTrack.READ_WORK_ITEM",
+            "id": "JetBrains.YouTrack.READ_WORK_ITEM",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Work Item",
+            "key": "JetBrains.YouTrack.UPDATE_WORK_ITEM",
+            "id": "JetBrains.YouTrack.UPDATE_WORK_ITEM",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Not Own Work Item",
+            "key": "JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM",
+            "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Work Item",
+            "key": "JetBrains.YouTrack.CREATE_WORK_ITEM",
+            "id": "JetBrains.YouTrack.CREATE_WORK_ITEM",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Not Own Work Item",
+            "key": "JetBrains.YouTrack.CREATE_NOT_OWN_WORK_ITEM",
+            "id": "JetBrains.YouTrack.CREATE_NOT_OWN_WORK_ITEM",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Article",
+            "key": "JetBrains.YouTrack.READ_ARTICLE",
+            "id": "JetBrains.YouTrack.READ_ARTICLE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Article",
+            "key": "JetBrains.YouTrack.CREATE_ARTICLE",
+            "id": "JetBrains.YouTrack.CREATE_ARTICLE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Article",
+            "key": "JetBrains.YouTrack.UPDATE_ARTICLE",
+            "id": "JetBrains.YouTrack.UPDATE_ARTICLE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Article",
+            "key": "JetBrains.YouTrack.DELETE_ARTICLE",
+            "id": "JetBrains.YouTrack.DELETE_ARTICLE",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read Article Comment",
+            "key": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+            "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Create Article Comment",
+            "key": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+            "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update Article Comment",
+            "key": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+            "id": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Delete Article Comment",
+            "key": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+            "id": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Read App Content",
+            "key": "JetBrains.YouTrack.READ_APP_CONTENT",
+            "id": "JetBrains.YouTrack.READ_APP_CONTENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "projects": null,
+        "permission": {
+            "name": "Update App Content",
+            "key": "JetBrains.YouTrack.UPDATE_APP_CONTENT",
+            "id": "JetBrains.YouTrack.UPDATE_APP_CONTENT",
+            "$type": "Permission"
+        },
+        "global": true,
+        "$type": "CachedPermission"
+    }
+]

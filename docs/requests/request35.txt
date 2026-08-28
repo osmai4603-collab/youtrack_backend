@@ -1,0 +1,3566 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/people?fields=usersInTeam%3A0%3A16(%40users),groupsInTeam%3A0%3A16(%40otherGroupsWithAccess),otherUsersWithAccess%3A0%3A16(%40users),otherGroupsWithAccess%3A0%3A16(%40otherGroupsWithAccess),totalUsersInTeamCount%3B%40otherGroupsWithAccess%3Aid,name,$type(),icon,usersCount,users%3A20(%40users),transitiveRoles(%40transitiveRoles)%3B%40users%3Aid,login,email,fullName,avatarUrl,userType(id,name),banned,banBadge,transitiveRoles(%40transitiveRoles)%3B%40transitiveRoles%3Aid,role(id,name,permissions(isGlobal,permissionEntityType,localizedPermissionEntityType)),scope($type,id),holder($type,id,name)&transitiveRolesQuery=scope%3A%200-0
+
+{
+    "otherGroupsWithAccess": [
+        {
+            "$type": "RegisteredUsersGroup",
+            "users": [],
+            "icon": null,
+            "usersCount": 3,
+            "name": "Registered Users",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Registered Users",
+                        "id": "6-0",
+                        "$type": "RegisteredUsersGroup"
+                    },
+                    "role": {
+                        "name": "Observer",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "User Profile",
+                                "localizedPermissionEntityType": "User profile",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-0",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "93-0",
+                        "$type": "GlobalScope"
+                    },
+                    "id": "149-0",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "6-0"
+        }
+    ],
+    "totalUsersInTeamCount": 4,
+    "usersInTeam": [
+        {
+            "banBadge": null,
+            "userType": {
+                "name": "Standard user",
+                "id": "STANDARD_USER",
+                "$type": "UserType"
+            },
+            "email": "osmflutterdeveloper@gmail.com",
+            "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+            "login": "admin",
+            "banned": false,
+            "fullName": "admin",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Registered Users",
+                        "id": "6-0",
+                        "$type": "RegisteredUsersGroup"
+                    },
+                    "role": {
+                        "name": "Observer",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "User Profile",
+                                "localizedPermissionEntityType": "User profile",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-0",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "93-0",
+                        "$type": "GlobalScope"
+                    },
+                    "id": "149-0",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "admin",
+                        "id": "2-1",
+                        "$type": "User"
+                    },
+                    "role": {
+                        "name": "System Admin",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User Profile",
+                                "localizedPermissionEntityType": "User profile",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "System",
+                                "localizedPermissionEntityType": "System",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "System",
+                                "localizedPermissionEntityType": "System",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Visibility",
+                                "localizedPermissionEntityType": "Visibility",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-5",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "93-0",
+                        "$type": "GlobalScope"
+                    },
+                    "id": "149-1",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "Demo project Team",
+                        "id": "5-0",
+                        "$type": "ProjectTeam"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-2",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "admin",
+                        "id": "2-1",
+                        "$type": "User"
+                    },
+                    "role": {
+                        "name": "Project Admin",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-2",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-3",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "2-1",
+            "$type": "User"
+        },
+        {
+            "banBadge": null,
+            "userType": {
+                "name": "Standard user",
+                "id": "STANDARD_USER",
+                "$type": "UserType"
+            },
+            "email": "osmai4603@gmail.com",
+            "avatarUrl": "/hub/api/rest/avatar/921211c1-9f61-4784-92ad-34250abd94c0?s=48",
+            "login": "osm",
+            "banned": false,
+            "fullName": "osm",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Registered Users",
+                        "id": "6-0",
+                        "$type": "RegisteredUsersGroup"
+                    },
+                    "role": {
+                        "name": "Observer",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "User Profile",
+                                "localizedPermissionEntityType": "User profile",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-0",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "93-0",
+                        "$type": "GlobalScope"
+                    },
+                    "id": "149-0",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "Demo project Team",
+                        "id": "5-0",
+                        "$type": "ProjectTeam"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-2",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "osm",
+                        "id": "2-3",
+                        "$type": "User"
+                    },
+                    "role": {
+                        "name": "Project Admin",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-2",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-8",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "osm",
+                        "id": "2-3",
+                        "$type": "User"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-9",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "2-3",
+            "$type": "User"
+        }
+    ],
+    "groupsInTeam": [
+        {
+            "icon": null,
+            "users": [
+                {
+                    "banBadge": null,
+                    "userType": {
+                        "name": "Standard user",
+                        "id": "STANDARD_USER",
+                        "$type": "UserType"
+                    },
+                    "email": "osmai4603@gmail.com",
+                    "avatarUrl": "/hub/api/rest/avatar/921211c1-9f61-4784-92ad-34250abd94c0?s=48",
+                    "login": "osm",
+                    "banned": false,
+                    "fullName": "osm",
+                    "transitiveRoles": [
+                        {
+                            "holder": {
+                                "name": "Registered Users",
+                                "id": "6-0",
+                                "$type": "RegisteredUsersGroup"
+                            },
+                            "role": {
+                                "name": "Observer",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "User Profile",
+                                        "localizedPermissionEntityType": "User profile",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "User",
+                                        "localizedPermissionEntityType": "User",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "User",
+                                        "localizedPermissionEntityType": "User",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-0",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "93-0",
+                                "$type": "GlobalScope"
+                            },
+                            "id": "149-0",
+                            "$type": "AssignedRole"
+                        },
+                        {
+                            "holder": {
+                                "name": "Demo project Team",
+                                "id": "5-0",
+                                "$type": "ProjectTeam"
+                            },
+                            "role": {
+                                "name": "Contributor",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-1",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "188-0",
+                                "$type": "ProjectScope"
+                            },
+                            "id": "149-2",
+                            "$type": "AssignedRole"
+                        },
+                        {
+                            "holder": {
+                                "name": "osm",
+                                "id": "2-3",
+                                "$type": "User"
+                            },
+                            "role": {
+                                "name": "Project Admin",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "App",
+                                        "localizedPermissionEntityType": "App",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "App",
+                                        "localizedPermissionEntityType": "App",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-2",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "188-0",
+                                "$type": "ProjectScope"
+                            },
+                            "id": "149-8",
+                            "$type": "AssignedRole"
+                        },
+                        {
+                            "holder": {
+                                "name": "osm",
+                                "id": "2-3",
+                                "$type": "User"
+                            },
+                            "role": {
+                                "name": "Contributor",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-1",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "188-0",
+                                "$type": "ProjectScope"
+                            },
+                            "id": "149-9",
+                            "$type": "AssignedRole"
+                        }
+                    ],
+                    "id": "2-3",
+                    "$type": "User"
+                },
+                {
+                    "banBadge": null,
+                    "userType": {
+                        "name": "Standard user",
+                        "id": "STANDARD_USER",
+                        "$type": "UserType"
+                    },
+                    "email": "osminventory@gmail.com",
+                    "avatarUrl": "/hub/api/rest/avatar/0df202be-b74d-4a94-b233-2ffea5b4bbe1?s=48",
+                    "login": "osminventory",
+                    "banned": false,
+                    "fullName": "osminventory",
+                    "transitiveRoles": [
+                        {
+                            "holder": {
+                                "name": "Registered Users",
+                                "id": "6-0",
+                                "$type": "RegisteredUsersGroup"
+                            },
+                            "role": {
+                                "name": "Observer",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "User Profile",
+                                        "localizedPermissionEntityType": "User profile",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "User",
+                                        "localizedPermissionEntityType": "User",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "User",
+                                        "localizedPermissionEntityType": "User",
+                                        "isGlobal": true,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-0",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "93-0",
+                                "$type": "GlobalScope"
+                            },
+                            "id": "149-0",
+                            "$type": "AssignedRole"
+                        },
+                        {
+                            "holder": {
+                                "name": "Demo project Team",
+                                "id": "5-0",
+                                "$type": "ProjectTeam"
+                            },
+                            "role": {
+                                "name": "Contributor",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-1",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "188-0",
+                                "$type": "ProjectScope"
+                            },
+                            "id": "149-2",
+                            "$type": "AssignedRole"
+                        }
+                    ],
+                    "id": "2-4",
+                    "$type": "User"
+                }
+            ],
+            "usersCount": 2,
+            "name": "dev",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Demo project Team",
+                        "id": "5-0",
+                        "$type": "ProjectTeam"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-2",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "4-0",
+            "$type": "NestedGroup"
+        },
+        {
+            "icon": null,
+            "users": [
+                {
+                    "banBadge": null,
+                    "userType": {
+                        "name": "Standard user",
+                        "id": "STANDARD_USER",
+                        "$type": "UserType"
+                    },
+                    "email": null,
+                    "avatarUrl": "/hub/api/rest/avatar/5dd5893c-e15b-4857-ba25-c37e1f959908?s=48",
+                    "login": "guest",
+                    "banned": true,
+                    "fullName": "guest",
+                    "transitiveRoles": [
+                        {
+                            "holder": {
+                                "name": "Demo project Team",
+                                "id": "5-0",
+                                "$type": "ProjectTeam"
+                            },
+                            "role": {
+                                "name": "Contributor",
+                                "permissions": [
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Attachment",
+                                        "localizedPermissionEntityType": "Attachment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue Work Item",
+                                        "localizedPermissionEntityType": "Issue work item",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Issue",
+                                        "localizedPermissionEntityType": "Issue",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Project",
+                                        "localizedPermissionEntityType": "Project",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Article",
+                                        "localizedPermissionEntityType": "Article",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    },
+                                    {
+                                        "permissionEntityType": "Comment",
+                                        "localizedPermissionEntityType": "Comment",
+                                        "isGlobal": false,
+                                        "$type": "Permission"
+                                    }
+                                ],
+                                "id": "17-1",
+                                "$type": "Role"
+                            },
+                            "scope": {
+                                "id": "188-0",
+                                "$type": "ProjectScope"
+                            },
+                            "id": "149-2",
+                            "$type": "AssignedRole"
+                        }
+                    ],
+                    "id": "2-0",
+                    "$type": "User"
+                }
+            ],
+            "usersCount": 1,
+            "name": "ahmed group",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Demo project Team",
+                        "id": "5-0",
+                        "$type": "ProjectTeam"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-2",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "4-1",
+            "$type": "NestedGroup"
+        },
+        {
+            "icon": null,
+            "users": [],
+            "usersCount": 0,
+            "name": "hiworld",
+            "transitiveRoles": [
+                {
+                    "holder": {
+                        "name": "Demo project Team",
+                        "id": "5-0",
+                        "$type": "ProjectTeam"
+                    },
+                    "role": {
+                        "name": "Contributor",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-1",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-2",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "hiworld",
+                        "id": "4-2",
+                        "$type": "NestedGroup"
+                    },
+                    "role": {
+                        "name": "System Admin",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Organization",
+                                "localizedPermissionEntityType": "Organization",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User Profile",
+                                "localizedPermissionEntityType": "User profile",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "User",
+                                "localizedPermissionEntityType": "User",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "System",
+                                "localizedPermissionEntityType": "System",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "System",
+                                "localizedPermissionEntityType": "System",
+                                "isGlobal": true,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Visibility",
+                                "localizedPermissionEntityType": "Visibility",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-5",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-13",
+                    "$type": "AssignedRole"
+                },
+                {
+                    "holder": {
+                        "name": "hiworld",
+                        "id": "4-2",
+                        "$type": "NestedGroup"
+                    },
+                    "role": {
+                        "name": "Project Admin",
+                        "permissions": [
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Attachment",
+                                "localizedPermissionEntityType": "Attachment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue Work Item",
+                                "localizedPermissionEntityType": "Issue work item",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Project",
+                                "localizedPermissionEntityType": "Project",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Article",
+                                "localizedPermissionEntityType": "Article",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Comment",
+                                "localizedPermissionEntityType": "Comment",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "Issue",
+                                "localizedPermissionEntityType": "Issue",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            },
+                            {
+                                "permissionEntityType": "App",
+                                "localizedPermissionEntityType": "App",
+                                "isGlobal": false,
+                                "$type": "Permission"
+                            }
+                        ],
+                        "id": "17-2",
+                        "$type": "Role"
+                    },
+                    "scope": {
+                        "id": "188-0",
+                        "$type": "ProjectScope"
+                    },
+                    "id": "149-14",
+                    "$type": "AssignedRole"
+                }
+            ],
+            "id": "4-2",
+            "$type": "NestedGroup"
+        }
+    ],
+    "otherUsersWithAccess": [],
+    "$type": "ProjectPeopleResponse"
+}

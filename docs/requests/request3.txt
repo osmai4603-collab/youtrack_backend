@@ -1,0 +1,4 @@
+
+https://youtrack.jetbrains.com/api/config?fields=helpdeskEnabled
+
+{"helpdeskEnabled":true,"$type":"FrontendConfig"}

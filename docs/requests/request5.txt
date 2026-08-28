@@ -1,0 +1,16 @@
+https://youtrack.jetbrains.com/api/admin/globalSettings?fields=restSettings(allowAllOrigins,allowedOrigins),imageTextRecognitionSettings(enabled),systemSettings(ocrSupported),notificationSettings(emailSettings(isEnabled))
+
+{
+    "imageTextRecognitionSettings": {
+        "enabled": true,
+        "$type": "ImageTextRecognitionSettings"
+    },
+    "notificationSettings": {
+        "emailSettings": {
+            "isEnabled": true,
+            "$type": "EmailSettings"
+        },
+        "$type": "NotificationSettings"
+    },
+    "$type": "GlobalSettings"
+}

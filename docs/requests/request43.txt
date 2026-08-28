@@ -1,0 +1,13 @@
+https://osm.youtrack.cloud/hub/api/rest/users/0d1219ff-dae2-4722-aa17-00381eb6be68/groups?$top=-1&fields=id
+
+{
+    "type": "GroupsPage",
+    "skip": 0,
+    "total": 1,
+    "groups": [
+        {
+            "type": "userGroup",
+            "id": "e233f45d-eecf-4ea3-8994-d2d0467666a2"
+        }
+    ]
+}

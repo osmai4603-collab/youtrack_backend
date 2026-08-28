@@ -1,0 +1,375 @@
+https://osm.youtrack.cloud/api/permissions/cache?fields=id,global,projects(id,projectType(id)),organizations(id)
+
+[
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.project-read-basic",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.project-create",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.project-read",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.project-update",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.project-delete",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.organization-read",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.organization-update",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.organization-create",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.organization-delete",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.profile-updateSelf",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.user-read-basic",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.user-read",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.user-update",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.user-create",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.user-delete",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.low-level-read",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "jetbrains.jetpass.low-level",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.LINK_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.APPLY_COMMANDS_SILENTLY",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.VIEW_WATCHERS",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_WATCHERS",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.VIEW_VOTERS",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_ATTACHMENT_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_ATTACHMENT_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_ATTACHMENT_ISSUE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_NOT_OWN_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_HIDDEN_STUFF",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_WORK_ITEM",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_WORK_ITEM",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_WORK_ITEM",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_NOT_OWN_WORK_ITEM",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_ARTICLE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_ARTICLE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_ARTICLE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_ARTICLE",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.READ_APP_CONTENT",
+        "global": true,
+        "$type": "CachedPermission"
+    },
+    {
+        "organizations": null,
+        "projects": null,
+        "id": "JetBrains.YouTrack.UPDATE_APP_CONTENT",
+        "global": true,
+        "$type": "CachedPermission"
+    }
+]

@@ -1,0 +1,4 @@
+
+https://osm.youtrack.cloud/api/admin/apps/predefinedScriptsRestoreStatus?fields=isDefault
+
+{"isDefault":true,"$type":"PredefinedScriptsRestoreStatus"}

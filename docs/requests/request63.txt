@@ -1,0 +1,415 @@
+https://osm.youtrack.cloud/api/agiles/204-1?$top=-1&fields=backlog(availableRules(id),folderId,id,isUpdatable,name,query,updateableBy(id,name),visibleFor(id,name)),cardOnSeveralSprints,cardSettings(fields(field(fieldDefaults(bundle(id,isUpdateable)),fieldType(id,presentation,valueType),id,instances(project(id)),localizedName,name,type),id,presentation(id))),colorCoding(id,projectColors(color(id),id,project(id,name)),prototype(id,localizedName,name)),colorizeCustomFields,columnSettings(columns(collapsed,color($type,id),fieldValues(canUpdate,column(id),id,isResolved,name,ordinal,presentation),id,isResolved,isVisible,ordinal,parent($type,id),wipLimit($type,max,min)),field(fieldDefaults(bundle(id,isUpdateable)),fieldType(id,presentation,valueType),id,instances(project(id)),localizedName,name,type),id,showBundleWarning),currentSprint(id),estimationField($type,fieldType(id,valueType),id,name),extensions(reportSettings(doNotUseBurndown,estimationBurndownField,filterType(id),id,subQuery,yaxis(id))),favorite,flatBacklog,hideOrphansSwimlane,id,isDemo,isUpdatable,name,originalEstimationField($type,fieldType(id,valueType),id,name),orphansAtTheTop,owner(fullName,id,login,ringId),projects($type,archived,id,name,plugins(timeTrackingSettings(enabled,estimate(field(id,name),id),timeSpent(field(id,name),id))),projectType(id),shortName),readSharingSettings(permittedGroups(id,name),permittedUsers(id,login,name),projectBased),sprints(archived,finish,id,isDefault,isStarted,name,start),sprintsSettings(addNewIssueToKanban,canSyncSprintDates,cardOnSeveralSprints,defaultSprint($type,id,name),disableSprints,explicitQuery,hideSubtasksOfCards,isExplicit,shouldSyncSprintDates,sprintSyncField(fieldType(isMultiValue),id,localizedName,name),syncSprintDates),status(errors,hasJobs,valid,warnings),swimlaneSettings($type,defaultCardType(id,name),enabled,field(customField(fieldDefaults(bundle(id,isUpdateable)),fieldType(id,presentation,valueType),id,instances(project(id)),localizedName,name,type),id,instant,multiValue,name,presentation),id,values(id,isResolved,name,presentation,value)),updateSharingSettings(permittedGroups(id,name,teamForProject(id)),permittedUsers(id,login,name),projectBased)
+
+{
+    "readSharingSettings": {
+        "projectBased": true,
+        "permittedGroups": [],
+        "permittedUsers": [],
+        "$type": "AgileSharingSettings"
+    },
+    "updateSharingSettings": {
+        "projectBased": true,
+        "permittedGroups": [],
+        "permittedUsers": [],
+        "$type": "AgileSharingSettings"
+    },
+    "originalEstimationField": {
+        "fieldType": {
+            "valueType": "integer",
+            "id": "integer",
+            "$type": "FieldType"
+        },
+        "name": "Original estimation",
+        "id": "161-13",
+        "$type": "CustomField"
+    },
+    "sprints": [
+        {
+            "finish": null,
+            "archived": false,
+            "start": null,
+            "name": "Unscheduled",
+            "isDefault": false,
+            "isStarted": false,
+            "id": "218-1",
+            "$type": "Sprint"
+        }
+    ],
+    "isDemo": false,
+    "backlog": {
+        "query": "project: fingerprint has: -{Board fingerprint Project Development} #Unresolved -Epic",
+        "visibleFor": null,
+        "updateableBy": null,
+        "isUpdatable": true,
+        "folderId": "fingerprint Scrum-Board-Backlog-7",
+        "name": "fingerprint Scrum-Board-Backlog",
+        "id": "11-7",
+        "$type": "SavedQuery"
+    },
+    "swimlaneSettings": {
+        "defaultCardType": {
+            "name": "Task",
+            "id": "Task",
+            "$type": "SwimlaneValue"
+        },
+        "values": [
+            {
+                "name": "User Story",
+                "id": "User Story",
+                "presentation": "User Story",
+                "$type": "SwimlaneValue"
+            }
+        ],
+        "field": {
+            "customField": {
+                "fieldDefaults": {
+                    "bundle": {
+                        "isUpdateable": true,
+                        "id": "163-1",
+                        "$type": "EnumBundle"
+                    },
+                    "$type": "EnumBundleCustomFieldDefaults"
+                },
+                "instances": [
+                    {
+                        "project": {
+                            "id": "0-0",
+                            "$type": "Project"
+                        },
+                        "$type": "EnumProjectCustomField"
+                    },
+                    {
+                        "project": {
+                            "id": "0-1",
+                            "$type": "Project"
+                        },
+                        "$type": "EnumProjectCustomField"
+                    },
+                    {
+                        "project": {
+                            "id": "0-2",
+                            "$type": "Project"
+                        },
+                        "$type": "EnumProjectCustomField"
+                    },
+                    {
+                        "project": {
+                            "id": "0-4",
+                            "$type": "Project"
+                        },
+                        "$type": "EnumProjectCustomField"
+                    }
+                ],
+                "localizedName": null,
+                "fieldType": {
+                    "presentation": "enum[1]",
+                    "valueType": "enum",
+                    "id": "enum[1]",
+                    "$type": "FieldType"
+                },
+                "name": "Type",
+                "id": "161-1",
+                "$type": "CustomField"
+            },
+            "presentation": "Type",
+            "id": "161-1",
+            "multiValue": false,
+            "name": "Type",
+            "$type": "CustomFilterField"
+        },
+        "enabled": true,
+        "id": "377-0",
+        "$type": "IssueBasedSwimlaneSettings"
+    },
+    "estimationField": {
+        "fieldType": {
+            "valueType": "integer",
+            "id": "integer",
+            "$type": "FieldType"
+        },
+        "name": "Ideal days",
+        "id": "161-12",
+        "$type": "CustomField"
+    },
+    "cardSettings": null,
+    "hideOrphansSwimlane": false,
+    "colorizeCustomFields": true,
+    "orphansAtTheTop": true,
+    "flatBacklog": false,
+    "columnSettings": {
+        "showBundleWarning": false,
+        "columns": [
+            {
+                "fieldValues": [
+                    {
+                        "column": {
+                            "id": "205-3",
+                            "$type": "AgileColumn"
+                        },
+                        "canUpdate": true,
+                        "name": "Open",
+                        "isResolved": false,
+                        "presentation": "Open",
+                        "id": "206-3",
+                        "$type": "AgileColumnFieldValue"
+                    }
+                ],
+                "wipLimit": null,
+                "ordinal": 0,
+                "parent": {
+                    "id": "204-1",
+                    "$type": "ColumnSettings"
+                },
+                "isResolved": false,
+                "id": "205-3",
+                "$type": "AgileColumn"
+            },
+            {
+                "fieldValues": [
+                    {
+                        "column": {
+                            "id": "205-4",
+                            "$type": "AgileColumn"
+                        },
+                        "canUpdate": true,
+                        "name": "In Progress",
+                        "isResolved": false,
+                        "presentation": "In Progress",
+                        "id": "206-4",
+                        "$type": "AgileColumnFieldValue"
+                    }
+                ],
+                "wipLimit": null,
+                "ordinal": 1,
+                "parent": {
+                    "id": "204-1",
+                    "$type": "ColumnSettings"
+                },
+                "isResolved": false,
+                "id": "205-4",
+                "$type": "AgileColumn"
+            },
+            {
+                "fieldValues": [
+                    {
+                        "column": {
+                            "id": "205-5",
+                            "$type": "AgileColumn"
+                        },
+                        "canUpdate": true,
+                        "name": "To Verify",
+                        "isResolved": false,
+                        "presentation": "To Verify",
+                        "id": "206-5",
+                        "$type": "AgileColumnFieldValue"
+                    }
+                ],
+                "wipLimit": null,
+                "ordinal": 2,
+                "parent": {
+                    "id": "204-1",
+                    "$type": "ColumnSettings"
+                },
+                "isResolved": false,
+                "id": "205-5",
+                "$type": "AgileColumn"
+            },
+            {
+                "fieldValues": [
+                    {
+                        "column": {
+                            "id": "205-6",
+                            "$type": "AgileColumn"
+                        },
+                        "canUpdate": true,
+                        "name": "Done",
+                        "isResolved": true,
+                        "presentation": "Done",
+                        "id": "206-6",
+                        "$type": "AgileColumnFieldValue"
+                    }
+                ],
+                "wipLimit": null,
+                "ordinal": 3,
+                "parent": {
+                    "id": "204-1",
+                    "$type": "ColumnSettings"
+                },
+                "isResolved": true,
+                "id": "205-6",
+                "$type": "AgileColumn"
+            }
+        ],
+        "field": {
+            "fieldDefaults": {
+                "bundle": {
+                    "isUpdateable": true,
+                    "id": "165-0",
+                    "$type": "StateBundle"
+                },
+                "$type": "StateBundleCustomFieldDefaults"
+            },
+            "instances": [
+                {
+                    "project": {
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "$type": "StateProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "fieldType": {
+                "presentation": "state[1]",
+                "valueType": "state",
+                "id": "state[1]",
+                "$type": "FieldType"
+            },
+            "name": "State",
+            "id": "161-2",
+            "$type": "CustomField"
+        },
+        "id": "204-1",
+        "$type": "ColumnSettings"
+    },
+    "colorCoding": {
+        "prototype": {
+            "localizedName": null,
+            "name": "Priority",
+            "id": "161-0",
+            "$type": "CustomField"
+        },
+        "id": "201-1",
+        "$type": "FieldBasedColorCoding"
+    },
+    "currentSprint": {
+        "id": "218-1",
+        "$type": "Sprint"
+    },
+    "isUpdatable": true,
+    "projects": [
+        {
+            "projectType": {
+                "id": "DEFAULT",
+                "$type": "ProjectType"
+            },
+            "shortName": "FIN",
+            "archived": false,
+            "plugins": {
+                "$type": "ProjectPlugins",
+                "timeTrackingSettings": {
+                    "estimate": {
+                        "field": {
+                            "name": "Estimation",
+                            "id": "161-9",
+                            "$type": "CustomField"
+                        },
+                        "id": "196-2",
+                        "$type": "PeriodProjectCustomField"
+                    },
+                    "enabled": true,
+                    "timeSpent": {
+                        "field": {
+                            "name": "Spent time",
+                            "id": "161-10",
+                            "$type": "CustomField"
+                        },
+                        "id": "196-3",
+                        "$type": "PeriodProjectCustomField"
+                    },
+                    "$type": "ProjectTimeTrackingSettings"
+                }
+            },
+            "name": "fingerprint",
+            "id": "0-1",
+            "$type": "Project"
+        }
+    ],
+    "favorite": true,
+    "sprintsSettings": {
+        "canSyncSprintDates": true,
+        "shouldSyncSprintDates": true,
+        "isExplicit": false,
+        "explicitQuery": null,
+        "disableSprints": false,
+        "hideSubtasksOfCards": false,
+        "cardOnSeveralSprints": false,
+        "addNewIssueToKanban": false,
+        "defaultSprint": null,
+        "sprintSyncField": {
+            "localizedName": null,
+            "fieldType": {
+                "isMultiValue": true,
+                "$type": "FieldType"
+            },
+            "name": "Sprints",
+            "id": "161-11",
+            "$type": "CustomField"
+        },
+        "syncSprintDates": true,
+        "$type": "SprintsSettings"
+    },
+    "status": {
+        "hasJobs": false,
+        "valid": true,
+        "warnings": [],
+        "errors": [],
+        "$type": "AgileStatus"
+    },
+    "name": "fingerprint Project Development",
+    "owner": {
+        "login": "admin",
+        "ringId": "0d1219ff-dae2-4722-aa17-00381eb6be68",
+        "fullName": "admin",
+        "id": "2-1",
+        "$type": "User"
+    },
+    "extensions": {
+        "$type": "AgileExtensions",
+        "reportSettings": {
+            "estimationBurndownField": null,
+            "subQuery": null,
+            "filterType": {
+                "id": "ALL_TASKS",
+                "$type": "AgileReportFilterType"
+            },
+            "doNotUseBurndown": false,
+            "yaxis": {
+                "id": "ESTIMATION",
+                "$type": "BurndownYAxis"
+            },
+            "id": "212-1",
+            "$type": "AgileReportSettings"
+        }
+    },
+    "id": "204-1",
+    "$type": "Agile"
+}

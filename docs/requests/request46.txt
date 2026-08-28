@@ -1,0 +1,12 @@
+https://osm.youtrack.cloud/api/admin/globalSettings?$top=-1&fields=notificationSettings(emailSettings(isDefault))
+
+{
+    "notificationSettings": {
+        "emailSettings": {
+            "isDefault": true,
+            "$type": "EmailSettings"
+        },
+        "$type": "NotificationSettings"
+    },
+    "$type": "GlobalSettings"
+}

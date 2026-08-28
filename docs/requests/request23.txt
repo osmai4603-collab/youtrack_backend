@@ -1,0 +1,36 @@
+Request URL
+https://osm.youtrack.cloud/api/admin/projects/0-0/dashboard?fields=widgets(id,key,x,y,width,height,widget(id),settings)
+
+{
+    "widgets": [
+        {
+            "x": 0,
+            "y": 0,
+            "height": 2,
+            "width": 2,
+            "widget": {
+                "id": "174-7",
+                "$type": "EmbeddingWidget"
+            },
+            "key": "hbr",
+            "settings": "{\"customWidgetConfig\":\"{ \\\"selectedProject\\\": { \\\"key\\\": \\\"0-0\\\", \\\"label\\\": \\\"Demo project\\\" }, \\\"title\\\": \\\"Project Team — Demo project\\\" }\"}",
+            "id": "178-4",
+            "$type": "DashboardWidgetEmbedding"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "height": 2,
+            "width": 2,
+            "widget": {
+                "id": "174-3",
+                "$type": "EmbeddingWidget"
+            },
+            "key": "mob",
+            "settings": "{\"customWidgetConfig\":\"{ \\\"search\\\": \\\"project: {Demo project} State: Unresolved\\\", \\\"title\\\": \\\"Issue List — Unresolved in Demo project\\\" }\"}",
+            "id": "178-5",
+            "$type": "DashboardWidgetEmbedding"
+        }
+    ],
+    "$type": "ProjectDashboard"
+}

@@ -1,0 +1,29 @@
+https://osm.youtrack.cloud/api/admin/projects?fields=id,name&orderBy=name&$top=-1
+
+[
+    {
+        "name": "Demo project",
+        "id": "0-0",
+        "$type": "Project"
+    },
+    {
+        "name": "fingerprint",
+        "id": "0-1",
+        "$type": "Project"
+    },
+    {
+        "name": "pringo",
+        "id": "0-3",
+        "$type": "Project"
+    },
+    {
+        "name": "traint-project-scrum",
+        "id": "0-4",
+        "$type": "Project"
+    },
+    {
+        "name": "Test project",
+        "id": "0-2",
+        "$type": "Project"
+    }
+]

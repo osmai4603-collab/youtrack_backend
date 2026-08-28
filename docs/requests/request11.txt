@@ -1,0 +1,11 @@
+https://youtrack.jetbrains.com/api/config?$top=-1&fields=banners(globalBanner,globalBannerEnabled,systemEventsBanners)
+
+{
+    "banners": {
+        "globalBannerEnabled": false,
+        "globalBanner": "An upgrade is currently in progress. YouTrack is available in read-only mode. We estimate that the service will be fully available at 00:42 UTC",
+        "systemEventsBanners": [],
+        "$type": "BannersConfig"
+    },
+    "$type": "FrontendConfig"
+}

@@ -1,0 +1,3 @@
+https://youtrack.jetbrains.com/api/issueListSubscription?fields=ticket
+
+{"ticket":"g9qk4fe77jefpavefi1qacdhbefa3l","$type":"IssueListSubscriptionBean"}

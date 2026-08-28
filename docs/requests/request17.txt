@@ -1,0 +1,10 @@
+https://youtrack.jetbrains.com/api/issuesGetter/count?fields=folder(id),count
+
+{
+    "folder": {
+        "id": "22-59",
+        "$type": "Project"
+    },
+    "count": -1,
+    "$type": "IssueCountResponse"
+}

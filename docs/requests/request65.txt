@@ -1,0 +1,277 @@
+https://osm.youtrack.cloud/api/agiles/204-1/sprints/current?issuesQuery=&$top=-1&$topLinks=3&$topSwimlanes=50&fields=agile(hideOrphansSwimlane,id,name,orphansAtTheTop,status(errors,valid,warnings)),archived,board(columns(agileColumn(collapsed,color($type,id),fieldValues(canUpdate,column(id),id,isResolved,name,ordinal,presentation),id,isResolved,isVisible,ordinal,parent($type,id),wipLimit($type,max,min)),collapsed,id,timeTrackingData(effectiveEstimation,estimation,hasExplicitSpentTime,originalEstimation,spentTime)),id,name,notOnBoardCount,notOnBoardIssues(idReadable),orphanRow($type,cells(column(collapsed,id),id,issues($type,id,idReadable,summary),issuesCount,row(id),tooManyIssues),collapsed,id,issue($type,created,description,fields($type,hasStateMachine,id,isUpdatable,name,projectCustomField($type,bundle(id),canBeEmpty,emptyFieldText,field(fieldType(isMultiValue,valueType),id,localizedName,name,ordinal),id,isEstimation,isPublic,isSpentTime,ordinal,size),value($type,archived,avatarUrl,buildIntegration,buildLink,color(background,foreground,id),description,fullName,id,isResolved,localizedName,login,markdownText,minutes,name,presentation,ringId,text)),id,idReadable,isDraft,mentionedArticles(idReadable,summary),mentionedIssues(idReadable,project(projectType(id)),resolved,summary),mentionedUsers($type,avatarUrl,banBadge,banned,canReadProfile,email,fullName,id,isEmailVerified,isLocked,issueRelatedGroup(icon),login,name,online,profiles(general(trackOnlineStatus)),ringId,userType(id)),numberInProject,project($type,id,isDemo,leader(id),name,plugins(timeTrackingSettings(enabled,estimate(field(id,name),id),timeSpent(field(id,name),id)),vcsIntegrationSettings(processors(changesProcessingOption(id),enabled,migrationFailed,server(enabled,url),upsourceHubResourceKey,url))),projectType(id),shortName,team($type,allUsersGroup,icon,id,name,ringId)),reporter($type,avatarUrl,banBadge,banned,canReadProfile,email,fullName,id,isEmailVerified,isLocked,issueRelatedGroup(icon),login,name,online,profiles(general(trackOnlineStatus)),ringId,userType(id)),resolved,summary,updated,watchers(hasStar)),matchesQuery,name,timeTrackingData(effectiveEstimation,estimation,hasExplicitSpentTime,originalEstimation,spentTime),value(presentation,relatedTag(color%2Fid,id))),sortByQuery,sprint,timeTrackingData(effectiveEstimation,estimation,hasExplicitSpentTime,originalEstimation,spentTime),tooManyIssues,trimmedSwimlanes($type,cells(column(collapsed,id),id,issues($type,id,idReadable,summary),issuesCount,row(id),tooManyIssues),collapsed,id,issue($type,created,description,fields($type,hasStateMachine,id,isUpdatable,name,projectCustomField($type,bundle(id),canBeEmpty,emptyFieldText,field(fieldType(isMultiValue,valueType),id,localizedName,name,ordinal),id,isEstimation,isPublic,isSpentTime,ordinal,size),value($type,archived,avatarUrl,buildIntegration,buildLink,color(background,foreground,id),description,fullName,id,isResolved,localizedName,login,markdownText,minutes,name,presentation,ringId,text)),id,idReadable,isDraft,mentionedArticles(idReadable,summary),mentionedIssues(idReadable,project(projectType(id)),resolved,summary),mentionedUsers($type,avatarUrl,banBadge,banned,canReadProfile,email,fullName,id,isEmailVerified,isLocked,issueRelatedGroup(icon),login,name,online,profiles(general(trackOnlineStatus)),ringId,userType(id)),numberInProject,project($type,id,isDemo,leader(id),name,plugins(timeTrackingSettings(enabled,estimate(field(id,name),id),timeSpent(field(id,name),id)),vcsIntegrationSettings(processors(changesProcessingOption(id),enabled,migrationFailed,server(enabled,url),upsourceHubResourceKey,url))),projectType(id),shortName,team($type,allUsersGroup,icon,id,name,ringId)),reporter($type,avatarUrl,banBadge,banned,canReadProfile,email,fullName,id,isEmailVerified,isLocked,issueRelatedGroup(icon),login,name,online,profiles(general(trackOnlineStatus)),ringId,userType(id)),resolved,summary,updated,watchers(hasStar)),matchesQuery,name,timeTrackingData(effectiveEstimation,estimation,hasExplicitSpentTime,originalEstimation,spentTime),value(presentation,relatedTag(color%2Fid,id)))),finish,goal,id,isDefault,isStarted,name,ordinal,report(id),start
+
+{
+    "board": {
+        "sprint": {},
+        "sortByQuery": false,
+        "tooManyIssues": false,
+        "orphanRow": {
+            "name": "orphans",
+            "id": "orphans",
+            "timeTrackingData": {
+                "estimation": 0,
+                "spentTime": 0,
+                "effectiveEstimation": 0,
+                "originalEstimation": 0,
+                "hasExplicitSpentTime": false,
+                "$type": "TimeTrackingData"
+            },
+            "collapsed": false,
+            "matchesQuery": true,
+            "cells": [
+                {
+                    "row": {
+                        "id": "orphans",
+                        "$type": "OrphanRow"
+                    },
+                    "column": {
+                        "collapsed": false,
+                        "id": "205-3",
+                        "$type": "BoardColumn"
+                    },
+                    "issuesCount": 0,
+                    "issues": [],
+                    "id": "orphans.205-3",
+                    "$type": "BoardCell"
+                },
+                {
+                    "row": {
+                        "id": "orphans",
+                        "$type": "OrphanRow"
+                    },
+                    "column": {
+                        "collapsed": false,
+                        "id": "205-4",
+                        "$type": "BoardColumn"
+                    },
+                    "issuesCount": 0,
+                    "issues": [],
+                    "id": "orphans.205-4",
+                    "$type": "BoardCell"
+                },
+                {
+                    "row": {
+                        "id": "orphans",
+                        "$type": "OrphanRow"
+                    },
+                    "column": {
+                        "collapsed": false,
+                        "id": "205-5",
+                        "$type": "BoardColumn"
+                    },
+                    "issuesCount": 0,
+                    "issues": [],
+                    "id": "orphans.205-5",
+                    "$type": "BoardCell"
+                },
+                {
+                    "row": {
+                        "id": "orphans",
+                        "$type": "OrphanRow"
+                    },
+                    "column": {
+                        "collapsed": false,
+                        "id": "205-6",
+                        "$type": "BoardColumn"
+                    },
+                    "issuesCount": 0,
+                    "issues": [],
+                    "id": "orphans.205-6",
+                    "$type": "BoardCell"
+                }
+            ],
+            "$type": "OrphanRow"
+        },
+        "notOnBoardIssues": [],
+        "trimmedSwimlanes": [],
+        "timeTrackingData": {
+            "estimation": 0,
+            "spentTime": 0,
+            "effectiveEstimation": 0,
+            "originalEstimation": 0,
+            "hasExplicitSpentTime": false,
+            "$type": "TimeTrackingData"
+        },
+        "notOnBoardCount": 0,
+        "columns": [
+            {
+                "timeTrackingData": {
+                    "estimation": 0,
+                    "spentTime": 0,
+                    "effectiveEstimation": 0,
+                    "originalEstimation": 0,
+                    "hasExplicitSpentTime": false,
+                    "$type": "TimeTrackingData"
+                },
+                "agileColumn": {
+                    "fieldValues": [
+                        {
+                            "column": {
+                                "id": "205-3",
+                                "$type": "AgileColumn"
+                            },
+                            "canUpdate": true,
+                            "name": "Open",
+                            "isResolved": false,
+                            "presentation": "Open",
+                            "id": "206-3",
+                            "$type": "AgileColumnFieldValue"
+                        }
+                    ],
+                    "wipLimit": null,
+                    "ordinal": 0,
+                    "parent": {
+                        "id": "204-1",
+                        "$type": "ColumnSettings"
+                    },
+                    "isResolved": false,
+                    "id": "205-3",
+                    "$type": "AgileColumn"
+                },
+                "collapsed": false,
+                "id": "205-3",
+                "$type": "BoardColumn"
+            },
+            {
+                "timeTrackingData": {
+                    "estimation": 0,
+                    "spentTime": 0,
+                    "effectiveEstimation": 0,
+                    "originalEstimation": 0,
+                    "hasExplicitSpentTime": false,
+                    "$type": "TimeTrackingData"
+                },
+                "agileColumn": {
+                    "fieldValues": [
+                        {
+                            "column": {
+                                "id": "205-4",
+                                "$type": "AgileColumn"
+                            },
+                            "canUpdate": true,
+                            "name": "In Progress",
+                            "isResolved": false,
+                            "presentation": "In Progress",
+                            "id": "206-4",
+                            "$type": "AgileColumnFieldValue"
+                        }
+                    ],
+                    "wipLimit": null,
+                    "ordinal": 1,
+                    "parent": {
+                        "id": "204-1",
+                        "$type": "ColumnSettings"
+                    },
+                    "isResolved": false,
+                    "id": "205-4",
+                    "$type": "AgileColumn"
+                },
+                "collapsed": false,
+                "id": "205-4",
+                "$type": "BoardColumn"
+            },
+            {
+                "timeTrackingData": {
+                    "estimation": 0,
+                    "spentTime": 0,
+                    "effectiveEstimation": 0,
+                    "originalEstimation": 0,
+                    "hasExplicitSpentTime": false,
+                    "$type": "TimeTrackingData"
+                },
+                "agileColumn": {
+                    "fieldValues": [
+                        {
+                            "column": {
+                                "id": "205-5",
+                                "$type": "AgileColumn"
+                            },
+                            "canUpdate": true,
+                            "name": "To Verify",
+                            "isResolved": false,
+                            "presentation": "To Verify",
+                            "id": "206-5",
+                            "$type": "AgileColumnFieldValue"
+                        }
+                    ],
+                    "wipLimit": null,
+                    "ordinal": 2,
+                    "parent": {
+                        "id": "204-1",
+                        "$type": "ColumnSettings"
+                    },
+                    "isResolved": false,
+                    "id": "205-5",
+                    "$type": "AgileColumn"
+                },
+                "collapsed": false,
+                "id": "205-5",
+                "$type": "BoardColumn"
+            },
+            {
+                "timeTrackingData": {
+                    "estimation": 0,
+                    "spentTime": 0,
+                    "effectiveEstimation": 0,
+                    "originalEstimation": 0,
+                    "hasExplicitSpentTime": false,
+                    "$type": "TimeTrackingData"
+                },
+                "agileColumn": {
+                    "fieldValues": [
+                        {
+                            "column": {
+                                "id": "205-6",
+                                "$type": "AgileColumn"
+                            },
+                            "canUpdate": true,
+                            "name": "Done",
+                            "isResolved": true,
+                            "presentation": "Done",
+                            "id": "206-6",
+                            "$type": "AgileColumnFieldValue"
+                        }
+                    ],
+                    "wipLimit": null,
+                    "ordinal": 3,
+                    "parent": {
+                        "id": "204-1",
+                        "$type": "ColumnSettings"
+                    },
+                    "isResolved": true,
+                    "id": "205-6",
+                    "$type": "AgileColumn"
+                },
+                "collapsed": false,
+                "id": "205-6",
+                "$type": "BoardColumn"
+            }
+        ],
+        "id": "218-1",
+        "$type": "Board"
+    },
+    "agile": {
+        "hideOrphansSwimlane": false,
+        "orphansAtTheTop": true,
+        "status": {
+            "valid": true,
+            "warnings": [],
+            "errors": [],
+            "$type": "AgileStatus"
+        },
+        "name": "fingerprint Project Development",
+        "id": "204-1",
+        "$type": "Agile"
+    },
+    "goal": null,
+    "finish": null,
+    "archived": false,
+    "report": null,
+    "ordinal": 0,
+    "start": null,
+    "name": "Unscheduled",
+    "isDefault": false,
+    "isStarted": false,
+    "id": "218-1",
+    "$type": "Sprint"
+}

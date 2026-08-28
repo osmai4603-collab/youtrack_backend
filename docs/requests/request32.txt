@@ -1,0 +1,89 @@
+
+https://osm.youtrack.cloud/api/users/?query=&$top=50&$skip=0&fields=id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked
+
+[
+    {
+        "online": true,
+        "canReadProfile": true,
+        "banBadge": null,
+        "isEmailVerified": true,
+        "userType": {
+            "name": "Standard user",
+            "id": "STANDARD_USER",
+            "$type": "UserType"
+        },
+        "email": "osmflutterdeveloper@gmail.com",
+        "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+        "login": "admin",
+        "guest": false,
+        "banned": false,
+        "name": "admin",
+        "isLocked": false,
+        "fullName": "admin",
+        "id": "2-1",
+        "$type": "User"
+    },
+    {
+        "online": false,
+        "canReadProfile": true,
+        "banBadge": null,
+        "isEmailVerified": false,
+        "userType": {
+            "name": "Standard user",
+            "id": "STANDARD_USER",
+            "$type": "UserType"
+        },
+        "email": null,
+        "avatarUrl": "/hub/api/rest/avatar/5dd5893c-e15b-4857-ba25-c37e1f959908?s=48",
+        "login": "guest",
+        "guest": true,
+        "banned": true,
+        "name": "guest",
+        "isLocked": false,
+        "fullName": "guest",
+        "id": "2-0",
+        "$type": "User"
+    },
+    {
+        "online": false,
+        "canReadProfile": true,
+        "banBadge": null,
+        "isEmailVerified": true,
+        "userType": {
+            "name": "Standard user",
+            "id": "STANDARD_USER",
+            "$type": "UserType"
+        },
+        "email": "osmai4603@gmail.com",
+        "avatarUrl": "/hub/api/rest/avatar/921211c1-9f61-4784-92ad-34250abd94c0?s=48",
+        "login": "osm",
+        "guest": false,
+        "banned": false,
+        "name": "osm",
+        "isLocked": false,
+        "fullName": "osm",
+        "id": "2-3",
+        "$type": "User"
+    },
+    {
+        "online": false,
+        "canReadProfile": true,
+        "banBadge": null,
+        "isEmailVerified": false,
+        "userType": {
+            "name": "Standard user",
+            "id": "STANDARD_USER",
+            "$type": "UserType"
+        },
+        "email": "osminventory@gmail.com",
+        "avatarUrl": "/hub/api/rest/avatar/0df202be-b74d-4a94-b233-2ffea5b4bbe1?s=48",
+        "login": "osminventory",
+        "guest": false,
+        "banned": false,
+        "name": "osminventory",
+        "isLocked": false,
+        "fullName": "osminventory",
+        "id": "2-4",
+        "$type": "User"
+    }
+]

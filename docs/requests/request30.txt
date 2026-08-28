@@ -1,0 +1,19 @@
+https://osm.youtrack.cloud/api/securitySearch/filterFields?entityType=ProjectPeopleResponse&fields=$type,id,name&$top=-1
+
+[
+    {
+        "name": "Scope",
+        "id": "role.scope",
+        "$type": "SecurityFilterField"
+    },
+    {
+        "name": "Role",
+        "id": "role.role",
+        "$type": "SecurityFilterField"
+    },
+    {
+        "name": "Permission",
+        "id": "role.permission",
+        "$type": "SecurityFilterField"
+    }
+]

@@ -1,0 +1,315 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/customFields?fields=$type,id,field(id,name,ordinal,aliases,localizedName,fieldType(id,presentation,isBundleType,valueType,isMultiValue)),bundle(id,$type),canBeEmpty,emptyFieldText,hasRunningJob,ordinal,isSpentTime,isEstimation,isPublic&$top=-1
+
+[
+    {
+        "bundle": {
+            "id": "163-3",
+            "$type": "EnumBundle"
+        },
+        "emptyFieldText": "No Priority",
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 0,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Priority",
+            "id": "161-0",
+            "$type": "CustomField"
+        },
+        "id": "189-0",
+        "$type": "EnumProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "163-1",
+            "$type": "EnumBundle"
+        },
+        "emptyFieldText": "No Type",
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 2,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Type",
+            "id": "161-1",
+            "$type": "CustomField"
+        },
+        "id": "189-1",
+        "$type": "EnumProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "165-1",
+            "$type": "StateBundle"
+        },
+        "emptyFieldText": "No State",
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 1,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "state[1]",
+                "valueType": "state",
+                "id": "state[1]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "State",
+            "id": "161-2",
+            "$type": "CustomField"
+        },
+        "id": "189-2",
+        "$type": "StateProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "191-0",
+            "$type": "OwnedBundle"
+        },
+        "emptyFieldText": "No Subsystem",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": false,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 4,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "ownedField[1]",
+                "valueType": "ownedField",
+                "id": "ownedField[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "in",
+            "name": "Subsystem",
+            "id": "161-4",
+            "$type": "CustomField"
+        },
+        "id": "189-3",
+        "$type": "OwnedProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "168-1",
+            "$type": "VersionBundle"
+        },
+        "emptyFieldText": "Unscheduled",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 5,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "aliases": "fix for, fixed in, fix version, version",
+            "name": "Fix versions",
+            "id": "161-5",
+            "$type": "CustomField"
+        },
+        "id": "189-4",
+        "$type": "VersionProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "192-0",
+            "$type": "BuildBundle"
+        },
+        "emptyFieldText": "Next Build",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 7,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "build[1]",
+                "valueType": "build",
+                "id": "build[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "fix for, fixed in, build, fix build",
+            "name": "Fixed in build",
+            "id": "161-7",
+            "$type": "CustomField"
+        },
+        "id": "189-6",
+        "$type": "BuildProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "168-1",
+            "$type": "VersionBundle"
+        },
+        "emptyFieldText": "Unknown",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 11,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Sprints",
+            "id": "161-11",
+            "$type": "CustomField"
+        },
+        "id": "189-18",
+        "$type": "VersionProjectCustomField"
+    },
+    {
+        "bundle": {
+            "id": "13-0",
+            "$type": "UserBundle"
+        },
+        "emptyFieldText": "Unassigned",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 3,
+            "fieldType": {
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "user[1]",
+                "valueType": "user",
+                "id": "user[1]",
+                "$type": "FieldType"
+            },
+            "aliases": "for, assigned to",
+            "name": "Assignee",
+            "id": "161-3",
+            "$type": "CustomField"
+        },
+        "id": "190-0",
+        "$type": "UserProjectCustomField"
+    },
+    {
+        "isSpentTime": false,
+        "isEstimation": true,
+        "emptyFieldText": "?",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 9,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Estimation",
+            "id": "161-9",
+            "$type": "CustomField"
+        },
+        "id": "196-0",
+        "$type": "PeriodProjectCustomField"
+    },
+    {
+        "isSpentTime": true,
+        "isEstimation": false,
+        "emptyFieldText": "?",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 10,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Spent time",
+            "id": "161-10",
+            "$type": "CustomField"
+        },
+        "id": "196-1",
+        "$type": "PeriodProjectCustomField"
+    },
+    {
+        "emptyFieldText": "No ideal days",
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "isPublic": true,
+        "ordinal": 0,
+        "field": {
+            "localizedName": null,
+            "ordinal": 12,
+            "fieldType": {
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "integer",
+                "valueType": "integer",
+                "id": "integer",
+                "$type": "FieldType"
+            },
+            "aliases": null,
+            "name": "Ideal days",
+            "id": "161-12",
+            "$type": "CustomField"
+        },
+        "id": "575-3",
+        "$type": "SimpleProjectCustomField"
+    }
+]

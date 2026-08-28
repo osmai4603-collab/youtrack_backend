@@ -1,0 +1,22 @@
+https://osm.youtrack.cloud/api/admin/projects/FIN?$top=-1&fields=id,shortName,name,iconUrl,projectType(id),pinned,template,archived,hasArticles,restricted,team(id)
+
+{
+    "hasArticles": false,
+    "projectType": {
+        "id": "DEFAULT",
+        "$type": "ProjectType"
+    },
+    "restricted": false,
+    "template": false,
+    "shortName": "FIN",
+    "archived": false,
+    "iconUrl": null,
+    "team": {
+        "id": "5-1",
+        "$type": "ProjectTeam"
+    },
+    "pinned": true,
+    "name": "fingerprint",
+    "id": "0-1",
+    "$type": "Project"
+}

@@ -1,0 +1,22 @@
+https://osm.youtrack.cloud/api/agileUserProfile?$top=-1&fields=cardDetailLevel,defaultAgile(createdWithOriginal,currentSprint(id),id,isUpdatable,name,status(errors,valid)),visitedSprints(agile(id),id)
+
+{
+    "cardDetailLevel": 2,
+    "defaultAgile": {
+        "createdWithOriginal": true,
+        "currentSprint": {
+            "id": "218-3",
+            "$type": "Sprint"
+        },
+        "isUpdatable": true,
+        "status": {
+            "valid": true,
+            "errors": [],
+            "$type": "AgileStatus"
+        },
+        "name": "pringo Task Management Board",
+        "id": "204-3",
+        "$type": "Agile"
+    },
+    "$type": "AgileUserProfile"
+}

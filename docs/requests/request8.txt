@@ -1,0 +1,113 @@
+https://youtrack.jetbrains.com/api/inbox/folders?fields=id,lastNotified,lastSeen,enabled
+
+[
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "direct",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "subscription",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "system",
+        "enabled": false,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "whatsnew",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 1779755105649,
+        "id": "version_deploy",
+        "enabled": true,
+        "$type": "InboxFolder"
+    }
+]
+[
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "direct",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "subscription",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "system",
+        "enabled": false,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "whatsnew",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 1779755105649,
+        "id": "version_deploy",
+        "enabled": true,
+        "$type": "InboxFolder"
+    }
+]
+[
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "direct",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "subscription",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "system",
+        "enabled": false,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 0,
+        "id": "whatsnew",
+        "enabled": true,
+        "$type": "InboxFolder"
+    },
+    {
+        "lastSeen": 0,
+        "lastNotified": 1779755105649,
+        "id": "version_deploy",
+        "enabled": true,
+        "$type": "InboxFolder"
+    }
+]

@@ -1,0 +1,419 @@
+https://resources.jetbrains.com/youtrack/features/features-en_US.json
+
+{
+  "versions": [
+    {
+      "id": "2021.4",
+      "features": [
+        {
+          "header": "Workflow Constructor",
+          "content": "Automating activity in YouTrack just got a whole lot easier with our new drag-and-drop Workflow Constructor. Tailor YouTrack to mirror your business processes without writing a single line of code.",
+          "doc": "workflow-constructor.html"
+        },
+        {
+          "header": "Access Management Improvements",
+          "content": "Migrate and manage user accounts using a preconfigured authentication module for Okta, Keycloak, or the JetBrains Account service. In addition, we've added mapping options to all OAuth 2.0 modules that help you keep your user accounts in sync.",
+          "doc": "Access-Management.html"
+        },{
+          "header": "Updates and Enhancements",
+          "content": "Enrich articles and issues by embedding content from even more external sources, including Google Calendar and Figma. We've also added import scripts that let you migrate content from Zendesk and monday.com.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, please refer to the documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2021.3",
+      "features": [
+        {
+          "header": "Timesheets",
+          "content": "Dedicated views for managing work items let you and your team track time with greater efficiency and precision. View and update work items for yourself and other users on a calendar or a collection of interactive spreadsheets for specific projects.",
+          "doc": "timesheets.html"
+        },
+        {
+          "header": "New Official Languages",
+          "content": "YouTrack is now fully available in Brazilian Portuguese, Korean, and Simplified Chinese. We hope this helps you manage your work in the language you love.",
+          "doc": "internationalization-settings.html#global-system-language-settings"
+        },{
+          "header": "Updates and Enhancements",
+          "content": "You now have the option to use versions or subsystems as columns on an agile board to visualize your project activity in new and creative ways.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, please refer to the documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2021.2",
+      "features": [
+        {
+          "header": "GitLab CI/CD Integration",
+          "content": "Update YouTrack issues based on the outcome of automated jobs that build and test your software using GitLab CI/CD.\nThis integration is built as an extension to existing GitLab VCS integrations so you can set it up with minimal effort.",
+          "doc": "integration-with-gitlab-ci-cd.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "Our latest update brings suggestions for linking similar issues to YouTrack Lite and adds rich-text formatting options to YouTrack Classic.\nWe’ve also optimized the administration section of the application to give you quick access to settings you update most often.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2021.1",
+      "features": [
+        {
+          "header": "Notification Center",
+          "content": "Our new in-app notification center delivers messages that match your subscriptions, mentions, and reactions to your comments.\nThe access point in the application header lets you view this information from any page in YouTrack.\nThis means that you can stay up to date without losing focus on your current task.",
+          "doc": "notification-center.html"
+        },
+        {
+          "header": "Time Tracking in YouTrack Lite",
+          "content": "Our latest update lets you add and view work items in YouTrack Lite.\nIf time spent resolving issues is an essential metric for you or your team, you're free to choose whichever interface suits your style.",
+          "doc": "Add-Work-Items-to-Issue.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "YouTrack 2021.1 also includes the latest version of JetBrains Hub.\nEnhance user profiles with custom attributes, allow self-registration for Google accounts from multiple domains, and enjoy enhanced security when using YouTrack Mobile with built-in support for PKCE.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2022.1",
+      "features": [
+        {
+          "header": "Interactive Gantt Charts",
+          "content": "Create and update your project plans directly on an interactive timeline. Set start dates, add finish-to-start dependencies, and enforce resource constraints, so you know exactly how long it will take to reach key milestones. Once your project is underway, you can schedule and assign tasks without losing sight of the bigger picture.",
+          "doc": "gantt-charts.html"
+        },
+        {
+          "header": "State-machine Rules in the Workflow Constructor",
+          "content": "Our no-code Workflow Constructor now supports state-machine rules. Build flowcharts that illustrate your business processes using drag-and-drop tools. You can then activate the workflow in your projects to regulate transitions between various issue states.",
+          "doc": "workflow-constructor-state-machines.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "Our first release in 2022 is packed with surprises. For example:\nYou can now find issues by searching for attributes in their linked issues.\nGet messages that inform you about changes to articles in the knowledge base in the in-app notification center.\nMathematicians and scientists can format equations using LaTeX notation.\nSoftware professionals who prefer working with YouTrack Lite can view VCS changes without switching back to Classic.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2022.2",
+      "features": [
+        {
+          "header": "Timesheets for Workgroups",
+          "content": "We've added dedicated timesheets that track work performed by any set of users, groups, and project teams. Whether you're working with a cross-functional matrix team or an ad-hoc task force, this feature lets you track spent time flexibly and efficiently.",
+          "doc": "timesheets.html"
+        },
+        {
+          "header": "Custom Attributes for Work Items",
+          "content": "You can now identify the information you want to capture when users add spent time to their issues by adding custom attributes to your work items. Each project can have its own set of attributes and store a project-specific collection of values.",
+          "doc": "custom-work-item-attributes.html"
+        },
+        {
+          "header": "Import from Google Sheets",
+          "content": "We added support for importing issue data from Google Sheets. This means you can effectively import issues from any tracker that exports data in a compatible format, including CSV and XLSX. You can also use it as a tool for importing issues in bulk.",
+          "doc": "import-from-google-sheets.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "Thanks to contributions from our community translation project, YouTrack is now available in Italian and Ukrainian. We have also updated our rich text editor to let you apply a range of colors and highlights to text and edit images inline.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2022.3",
+      "features": [
+        {
+          "header": "Telegram Integration",
+          "content": "Immerse yourself in conversations about various issues and articles by installing the YouTrack bot for Telegram. Get notifications based on the subscription settings stored in your YouTrack profile. You can also update issues with commands, add comments to issues and articles, and pin issues as discussions in group chats.",
+          "doc": "telegram-integration.html"
+        },
+        {
+          "header": "Multi-record Data Entry for Timesheets",
+          "content": "Record spent time on multiple dates or date ranges with a single action. This means you can report all your activity for a single issue in one go.",
+          "doc": "add-edit-work-items.html"
+        },
+        {
+          "header": "User Input in Action Rules",
+          "content": "Script action rules that prompt users to provide additional information. For example, when cloning an issue, you can ask the user to choose the project where the issue will be created.",
+          "doc": "action-rules.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "We’ve added new action blocks to the Workflow Constructor that let you add issue links, work items, or require values for specific fields. Other workflow updates give you access to work item data and improve date calculations.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2023.1",
+      "features": [
+        {
+          "header": "Helpdesk Projects",
+          "content": "YouTrack now includes a ticket-based helpdesk solution that lets you support external customers or maintain service desks for internal users. Key features include multiple support channels, exclusive tools for agents, and service-level agreements. The updated licensing model also lets you support unlimited accounts for reporters in YouTrack.",
+          "doc": "helpdesk.html"
+        },
+        {
+          "header": "Filters and Tags for Articles",
+          "content": "Find articles with greater precision with filters that let you find articles that contain matches for specific attributes. You can also classify and filter articles in the knowledge base using tags.",
+          "doc": "search-for-articles.html"
+        },
+        {
+          "header": "Updates and Enhancements",
+          "content": "There are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2023.2",
+      "features": [
+        {
+          "header": "Knowledge Base Updates",
+          "content": "Using our new inline comments, you can now annotate specific parts of text from articles in the knowledge base. This lets you express your thoughts and ask questions related to the highlighted content. You can also use this feature to start and resolve threaded discussions directly in an article.\nThere's a new option that lets you export articles as PDF files, which means you can share content from your knowledge base anywhere you like, online or off.\nWe've also added statistics so you can track how many people are viewing and linking to your content.",
+          "doc": "knowledge-base.html"
+        },
+        {
+          "header": "Helpdesk Improvements",
+          "content": "Tickets in helpdesk projects now include the option to add reporters and other users as CCs. This means you can keep all concerned parties up to date on every response and interaction.\nWe've also made it possible for helpdesk agents to create tickets on behalf of other users.",
+          "doc": "helpdesk.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "Thanks to contributions from our community translation project, you can now start using YouTrack in Turkish. We've also ported all of the flexible layout options for single issues from YouTrack Classic to the YouTrack Lite UI.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2023.3",
+      "features": [
+        {
+          "header": "AI Assistance in YouTrack",
+          "content": "Supercharge your teams by giving them direct access to our new AI Assistant. The assistant is powered by the JetBrains AI service that transparently connects you to a sophisticated LLM and enables specific AI-powered features inside YouTrack.\nYouTrack’s AI Assistant can help you generate summaries for content and use generative AI when composing comments and replies.",
+          "doc": "ai-assistant.html"
+        },
+        {
+          "header": "Text Recognition",
+          "content": "The latest version of YouTrack now comes with built-in optical character recognition. This feature lets users copy text from image attachments and even returns images that contain matching text in search results.",
+          "doc": "text-recognition.html"
+        },
+        {
+          "header": "Pinned Comments",
+          "content": "Draw attention to comments that contain crucial information or provide answers to frequently asked questions by pinning them to the top of the activity stream. This feature is available for both issues and articles.",
+          "doc": "add-a-comment.html#pinned-comments"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "We’ve freshened up the interface for viewing single issues in YouTrack Classic, bringing some visual enhancements that were exclusive to YouTrack Lite. We’ve also given you greater control over the look and feel by letting you resize the fields panel and manage the density of the layout.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What’s New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2024.1",
+      "features": [
+        {
+          "header": "Restricted Helpdesk Projects",
+          "content": "Project administrators have the option to restrict ticket creation to a predefined group of reporters. This means you can ask reporters in different projects for specific pieces of information without them knowing what data you collect from reporters in other projects.",
+          "doc": "restricted-helpdesk-projects.html"
+        },
+        {
+          "header": "Recovery Options for Deleted Content",
+          "content": "We've added a page to the application where system administrators can review recently deleted issues, tickets, and articles. Here, they have the option to restore content that was deleted unintentionally or permanently remove items to free up storage capacity.",
+          "doc": "deleted-items.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "There are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2024.2",
+      "features": [
+        {
+          "header": "AI-Powered Writing Assistance",
+          "content": "YouTrack users can now get help from JetBrains Grazie when describing their issues and tasks, posting comments, or adding content to the knowledge base. Grazie is designed to help you write, communicate, and work more effectively — regardless of your role.",
+          "doc": "grazie-writing-assistant.html"
+        },
+        {
+          "header": "Warnings When Other Agents Add Comments",
+          "content": "This new feature lets agents see when other agents are in the process of adding a comment to a ticket. This is designed to help avoid duplicating efforts or redundant communication.",
+          "doc": "agents-are-typing.html"
+        },
+        {
+          "header": "Streamlined Setup for New Projects",
+          "content": "Our updated flow for creating projects is designed to guide you through every step of the process. As a result, you should have an easier time configuring your projects correctly and efficiently.",
+          "doc": "create-new-project.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "We’ve added new options to the component for managing attachments so you can easily find and review these files. We’ve also made it possible to view a complete history of changes applied to comments.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2024.3",
+      "features": [
+        {
+          "header": "Apps",
+          "content": "You can now use apps to extend the functionality in YouTrack by adding new features, tools, and integrations that aren’t available out of the box. Apps help teams customize YouTrack to fit their specific needs, improving project management, reporting, automation, or integrating with other software tools.",
+          "doc": "admin-apps.html"
+        },
+        {
+          "header": "Text-to-Issue Transformation",
+          "content": "We've added an AI action that lets you scan selected text for possible action items. Once detected, you can select the items you want to transform into issues and create them all at once. Additional options let you use the selected text to create new issues.",
+          "doc": "text-selection-toolbar.html"
+        },
+        {
+          "header": "Generic VCS Integrations",
+          "content": "YouTrack now lets you set up integrations with version control systems that aren’t included in our predefined list of supported services. This lets you manually attach commits to issues in YouTrack or add links programmatically using webhooks.",
+          "doc": "generic-vcs-integration.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "Several pages in the application have been tidied up and polished. This includes dashboards, the project list, and the workflow administration page.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2025.1",
+      "features": [
+        {
+          "header": "New Navigation Scheme",
+          "content": "Our redesigned navigation scheme takes you exactly where you want to go, then gets out of your way. Everything you used to find in the application header has moved to a collapsible menu on the left. This leaves space for breadcrumbs that help you navigate your way around the system.",
+          "doc": "design-update-2025.html#new-navigation"
+        },
+        {
+          "header": "Unified Issue Views",
+          "content": "Advanced functionality that was exclusively available in our Classic UI has been ported to YouTrack Lite. As a result, we now offer a single, unified view for browsing issue search results. New settings let you view results as a list or table and switch between a flat or hierarchical structure. The unified sidebar lets you locate drafts and filter the list by project, saved search, or tag.",
+          "doc": "design-update-2025.html#unified-issue-views"
+        },
+        {
+          "header": "Improved User Management",
+          "content": "Our upgraded authentication modules let you import groups and user accounts from Okta or Microsoft Entra ID into YouTrack and keep them in sync. Administrators who work with these platforms no longer need to create and manage these groups and user accounts manually in YouTrack.",
+          "doc": "user-import-and-synchronization.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "We've updated the search interface in the list of the issues with dynamic filters that suggest possible attributes and values as you type.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2025.2",
+      "features": [
+        {
+          "header": "Further Design Improvements",
+          "content": "We've continued building on the new design introduced in our previous release to enhance your experience. Project overview pages have been completely redesigned, now offering more intuitive links to access project-related content.",
+          "doc": "project-overview.html"
+        },
+        {
+          "header": "More Dev Tool Integrations",
+          "content": "YouTrack has expanded its integration support for developer tools to include Azure Repos and Azure Pipelines.",
+          "doc": "integrations.html"
+        },
+        {
+          "header": "New Project Templates",
+          "content": "We've expanded the list of available project templates to include support for lightweight task management, generic project management, and ongoing marketing initiatives.",
+          "doc": "project-templates.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "Every YouTrack site now comes with a single default dashboard shared across all users, providing a central place for your organization to display and share key data. Additionally, you can now clone a dashboard and customize it to suit your personal or team needs.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2025.3",
+      "features": [
+        {
+          "header": "Remote MCP Server",
+          "content": "YouTrack now provides support for an MCP (Model Context Protocol) server, making it easy to connect with AI-powered tools. This lets you access information stored in YouTrack, create and update issues, and perform other predefined actions without leaving your favorite LLM, IDE, or agent platform. These actions are accessible from our built-in JavaScript editor, which means you can script your own custom tools.",
+          "doc": "model-context-protocol-server.html"
+        },
+        {
+          "header": "Text Completion",
+          "content": "Our built-in writing assistant now supports AI-powered text completion, suggesting context-aware words and phrases as you type. Save time, reduce effort, and ensure every sentence is clear and consistent.",
+          "doc": "grazie-writing-assistant.html#text-completion"
+        },
+        {
+          "header": "Improved Relevance Ranking for Issue Search",
+          "content": "Our issue search engine has been upgraded with machine learning for smarter results. The system ranks issues using signals like freshness, user interactions, and personal relevance to highlight the most important matches, delivering more accurate results than keyword search alone.",
+          "doc": "full-text-search.html"
+        },
+        {
+          "header": "Document List Widget",
+          "content": "We've added a new widget for dashboards and project overview pages that lets you display customizable lists of issues and knowledge base articles. Use it to highlight important items and keep key information visible for everyone on your team.",
+          "doc": "document-list-widgets.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "Administrators can now invite new users directly when assigning issues, making it even easier to bring teams together. We've also added customizable conditions for widgets, so app developers can ensure they appear only when relevant.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2026.1",
+      "features": [
+        {
+          "header": "Whiteboards",
+          "content": "YouTrack whiteboards let teams brainstorm, visualize ideas, and collaborate seamlessly in real time. Transform notes into actionable tasks and informative articles, keeping your ideas connected and driving projects forward.",
+          "doc": "whiteboards.html"
+        },
+        {
+          "header": "Unified Access Management for Projects",
+          "content": "We've streamlined project access management by combining the Team and Access pages into a single page. Now you can easily manage user and team member access on the People page in the project settings.",
+          "doc": "manage-project-access.html"
+        },
+        {
+          "header": "n8n Integration",
+          "content": "YouTrack now offers a dedicated integration node for n8n, empowering you to automate workflows and connect YouTrack with hundreds of apps and services. Streamline your processes by syncing data, automating issue updates, and creating powerful cross-platform workflows with ease.",
+          "doc": "youtrack-integration-with-n8n.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "We've enhanced the experience for standard users and agents participating as reporters in helpdesk projects, making it easier for them to submit and track their own requests.\nWe've also added the ability to reply to comments directly in the full-page notification center, making it easier for you to quickly respond to feedback or discussions without switching contexts.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    },
+    {
+      "id": "2026.2",
+      "features": [
+        {
+          "header": "Helpdesk Customer Groups",
+          "content": "Share tickets with multiple reporters from the same company, team, or organization. Group members can follow and comment on shared tickets, so everyone involved stays informed without agents having to manually add each person.",
+          "doc": "helpdesk-customer-groups.html"
+        },
+        {
+          "header": "Whiteboard Updates",
+          "content": "Whiteboards now make it easier to organize work with interactive widgets, resizable text, multi-card commands, and undo/redo actions. A new auto-arrange option helps you clean up scattered cards and turn messy boards into structured layouts with less manual effort.",
+          "doc": "whiteboards.html"
+        },
+        {
+          "header": "Easier MCP Connections",
+          "content": "Connect AI tools to our remote MCP server by signing in with your YouTrack account. This eliminates the need to create or copy permanent tokens, making setup simpler and safer.",
+          "doc": "model-context-protocol-server.html"
+        },
+        {
+          "header": "New Import Options",
+          "content": "Move your work from ClickUp or Asana to YouTrack with new pre-defined import packages. Set up imports faster with ready-made mappings for common project data, so your teams can get started with less manual configuration.",
+          "doc": "imports.html"
+        },
+        {
+          "header": "Other Enhancements",
+          "content": "We've made it easier to navigate and update Gantt charts, with improvements for creating items directly in the timeline and jumping to bars that are outside the current view.\nThere are several other minor changes designed to improve your overall experience. For a recap of all the updates that are included in this release, check the What's New page in our documentation.",
+          "doc": "whats-new.html#updates-enhancements"
+        }
+      ]
+    }
+  ]
+}

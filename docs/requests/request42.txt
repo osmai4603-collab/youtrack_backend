@@ -1,0 +1,45 @@
+https://osm.youtrack.cloud/api/admin/integrations/vcsHostingServers?$top=-1&fields=id,url,applicationId,appId,appName,isPredefined,sslKey(id,name),changesProcessors
+
+[
+    {
+        "isPredefined": true,
+        "changesProcessors": [],
+        "sslKey": null,
+        "url": "https://generic.server",
+        "id": "102-0",
+        "$type": "GenericVcsChangesServer"
+    },
+    {
+        "isPredefined": true,
+        "changesProcessors": [],
+        "sslKey": null,
+        "url": "https://dev.azure.com",
+        "id": "153-0",
+        "$type": "AzureReposServer"
+    },
+    {
+        "isPredefined": true,
+        "appId": null,
+        "changesProcessors": [],
+        "sslKey": null,
+        "url": "https://github.com",
+        "id": "182-0",
+        "$type": "GitHubServer"
+    },
+    {
+        "isPredefined": true,
+        "changesProcessors": [],
+        "sslKey": null,
+        "url": "https://gitlab.com",
+        "id": "183-0",
+        "$type": "GitLabServer"
+    },
+    {
+        "isPredefined": true,
+        "changesProcessors": [],
+        "sslKey": null,
+        "url": "https://bitbucket.org",
+        "id": "184-0",
+        "$type": "BitBucketServer"
+    }
+]

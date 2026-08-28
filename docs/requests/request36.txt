@@ -1,0 +1,632 @@
+https://osm.youtrack.cloud/api/assignedRoles?query=scope%3A0-0%20holder%3A5-0&fields=id,auditTargetId,scope($type,id,organization(id,key,name,iconUrl,projectsCount),project(id,name,shortName,projectType(id),pinned,iconUrl,template,archived,restricted,hasArticles,team(id))),role(id,name,auditTargetId,description,isUpdatable,immutable,permissions(id,name,description,permissionEntityType,localizedPermissionEntityType,operation,isGlobal,dependentPermissions(id,name),impliedPermissions(id,name))),holder($type,id,name,avatarUrl,email,project(id))&$top=-1
+
+[
+    {
+        "holder": {
+            "project": {
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "name": "Demo project Team",
+            "id": "5-0",
+            "$type": "ProjectTeam"
+        },
+        "role": {
+            "immutable": true,
+            "isUpdatable": false,
+            "auditTargetId": "06dc3c30-19db-4954-8e4e-5dda57eceda0",
+            "description": "The Contributor role is intended for users who create and work with issues. Contributors can create new issues, add comments, view existing issues and comments, and update most issue attributes.",
+            "name": "Contributor",
+            "permissions": [
+                {
+                    "permissionEntityType": "Attachment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Attachment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Add Attachment",
+                    "id": "JetBrains.YouTrack.CREATE_ATTACHMENT_ISSUE",
+                    "description": "Attach files or screenshots to issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Attachment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Attachment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Attachment",
+                    "id": "JetBrains.YouTrack.UPDATE_ATTACHMENT_ISSUE",
+                    "description": "Modify files attached to issue and modify attachment visibility",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Attachment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Attachment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Delete",
+                    "name": "Delete Attachment",
+                    "id": "JetBrains.YouTrack.DELETE_ATTACHMENT_ISSUE",
+                    "description": "Delete files attached to issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Create Issue Comment",
+                    "id": "JetBrains.YouTrack.CREATE_COMMENT",
+                    "description": "Comment issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [
+                        {
+                            "name": "Update Not Own Issue Comment",
+                            "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Not Own Comment and Permanent Comment Delete",
+                            "id": "JetBrains.YouTrack.DELETE_NOT_OWN_COMMENT",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Issue Comment",
+                    "id": "JetBrains.YouTrack.READ_COMMENT",
+                    "description": "View issues comments",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Issue Comment",
+                    "id": "JetBrains.YouTrack.UPDATE_COMMENT",
+                    "description": "Edit own issue comments",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Delete",
+                    "name": "Delete Issue Comment",
+                    "id": "JetBrains.YouTrack.DELETE_COMMENT",
+                    "description": "Delete comments that you have added to issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue Work Item",
+                    "dependentPermissions": [
+                        {
+                            "name": "Update Not Own Work Item",
+                            "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Issue work item",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Work Item",
+                    "id": "JetBrains.YouTrack.READ_WORK_ITEM",
+                    "description": "View issue work items",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue Work Item",
+                    "dependentPermissions": [
+                        {
+                            "name": "Update Not Own Work Item",
+                            "id": "JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Issue work item",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Work Item",
+                    "id": "JetBrains.YouTrack.UPDATE_WORK_ITEM",
+                    "description": "Add and edit work items",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue Work Item",
+                    "dependentPermissions": [
+                        {
+                            "name": "Create Not Own Work Item",
+                            "id": "JetBrains.YouTrack.CREATE_NOT_OWN_WORK_ITEM",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Issue work item",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Create Work Item",
+                    "id": "JetBrains.YouTrack.CREATE_WORK_ITEM",
+                    "description": "Create work items",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Create Issue",
+                    "id": "JetBrains.YouTrack.CREATE_ISSUE",
+                    "description": "Create new issue (also allows viewing and updating public fields in reported issues)",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [
+                        {
+                            "name": "Update Issue Private Fields",
+                            "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Issue",
+                    "id": "JetBrains.YouTrack.UPDATE_ISSUE",
+                    "description": "Update public fields of any issue",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Delete",
+                    "name": "Delete Issue",
+                    "id": "JetBrains.YouTrack.DELETE_ISSUE",
+                    "description": "Delete issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Issue",
+                    "id": "JetBrains.YouTrack.READ_ISSUE",
+                    "description": "View issues (public fields only)",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [
+                        {
+                            "name": "Update Issue Private Fields",
+                            "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Override Visibility Restrictions",
+                            "id": "JetBrains.YouTrack.READ_HIDDEN_STUFF",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Issue Private Fields",
+                    "id": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+                    "description": "View issue private fields",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Issue Private Fields",
+                            "id": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Issue",
+                            "id": "JetBrains.YouTrack.UPDATE_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Issue Private Fields",
+                    "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+                    "description": "Update issue private fields",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Link",
+                    "name": "Link Issues",
+                    "id": "JetBrains.YouTrack.LINK_ISSUE",
+                    "description": "Set relationships between issues",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "View Voters",
+                    "id": "JetBrains.YouTrack.VIEW_VOTERS",
+                    "description": "View the list of users who have voted for an issue (available in full issue view)",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "View Watchers",
+                    "id": "JetBrains.YouTrack.VIEW_WATCHERS",
+                    "description": "View the list of users who are watching an issue (available in full issue view)",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Issue",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Issue",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Update",
+                    "name": "Update Watchers",
+                    "id": "JetBrains.YouTrack.UPDATE_WATCHERS",
+                    "description": "Set another user as a watcher for an issue",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Project",
+                    "dependentPermissions": [
+                        {
+                            "name": "Read Project Full",
+                            "id": "jetbrains.jetpass.project-read",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Issue",
+                            "id": "JetBrains.YouTrack.READ_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Issue Private Fields",
+                            "id": "JetBrains.YouTrack.PRIVATE_READ_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Create Issue",
+                            "id": "JetBrains.YouTrack.CREATE_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "View Watchers",
+                            "id": "JetBrains.YouTrack.VIEW_WATCHERS",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "View Voters",
+                            "id": "JetBrains.YouTrack.VIEW_VOTERS",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Article",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Create Article",
+                            "id": "JetBrains.YouTrack.CREATE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Article",
+                            "id": "JetBrains.YouTrack.UPDATE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Article",
+                            "id": "JetBrains.YouTrack.DELETE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Article Comment",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Create Article Comment",
+                            "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Article Comment",
+                            "id": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Article Comment",
+                            "id": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Issue Private Fields",
+                            "id": "JetBrains.YouTrack.PRIVATE_UPDATE_ISSUE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Override Visibility Restrictions",
+                            "id": "JetBrains.YouTrack.READ_HIDDEN_STUFF",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Project",
+                            "id": "jetbrains.jetpass.project-update",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Project",
+                            "id": "jetbrains.jetpass.project-delete",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Project",
+                    "impliedPermissions": [],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Project Basic",
+                    "id": "jetbrains.jetpass.project-read-basic",
+                    "description": "View basic project properties and content. With Read User Basic, view the members of the project team.",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Article",
+                    "dependentPermissions": [
+                        {
+                            "name": "Create Article",
+                            "id": "JetBrains.YouTrack.CREATE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Article",
+                            "id": "JetBrains.YouTrack.UPDATE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Article",
+                            "id": "JetBrains.YouTrack.DELETE_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Article Comment",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Create Article Comment",
+                            "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Article Comment",
+                            "id": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Article Comment",
+                            "id": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Article",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Article",
+                    "id": "JetBrains.YouTrack.READ_ARTICLE",
+                    "description": "Read articles that are posted to the knowledge base",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Article",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Article",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Article",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Create Article",
+                    "id": "JetBrains.YouTrack.CREATE_ARTICLE",
+                    "description": "Add articles to the knowledge base",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [
+                        {
+                            "name": "Create Article Comment",
+                            "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Update Article Comment",
+                            "id": "JetBrains.YouTrack.UPDATE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Delete Article Comment",
+                            "id": "JetBrains.YouTrack.DELETE_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Article",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Read",
+                    "name": "Read Article Comment",
+                    "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+                    "description": "Read comments that are posted to articles in the knowledge base",
+                    "$type": "Permission"
+                },
+                {
+                    "permissionEntityType": "Comment",
+                    "dependentPermissions": [],
+                    "localizedPermissionEntityType": "Comment",
+                    "impliedPermissions": [
+                        {
+                            "name": "Read Article Comment",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE_COMMENT",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Article",
+                            "id": "JetBrains.YouTrack.READ_ARTICLE",
+                            "$type": "Permission"
+                        },
+                        {
+                            "name": "Read Project Basic",
+                            "id": "jetbrains.jetpass.project-read-basic",
+                            "$type": "Permission"
+                        }
+                    ],
+                    "isGlobal": false,
+                    "operation": "Create",
+                    "name": "Create Article Comment",
+                    "id": "JetBrains.YouTrack.CREATE_ARTICLE_COMMENT",
+                    "description": "Add comments to articles in the knowledge base",
+                    "$type": "Permission"
+                }
+            ],
+            "id": "17-1",
+            "$type": "Role"
+        },
+        "auditTargetId": "149-2",
+        "scope": {
+            "project": {
+                "hasArticles": true,
+                "projectType": {
+                    "id": "DEFAULT",
+                    "$type": "ProjectType"
+                },
+                "restricted": false,
+                "template": false,
+                "shortName": "DEMO",
+                "archived": false,
+                "iconUrl": null,
+                "team": {
+                    "id": "5-0",
+                    "$type": "ProjectTeam"
+                },
+                "pinned": true,
+                "name": "Demo project",
+                "id": "0-0",
+                "$type": "Project"
+            },
+            "id": "188-0",
+            "$type": "ProjectScope"
+        },
+        "id": "149-2",
+        "$type": "AssignedRole"
+    }
+]

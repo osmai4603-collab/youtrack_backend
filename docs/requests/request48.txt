@@ -1,0 +1,666 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/notificationTemplateGroups?$top=-1&fields=$type,customizable,description,enabled,id,name,subgroups($type,customizable,description,enabled,id,name,subgroups($type,customizable,description,enabled,id,name,templates($type,content,description,fileName,id,overrided),title),templates($type,content,description,fileName,id,overrided),title),templates($type,content,description,fileName,id,overrided),title&userType=any
+
+[
+    {
+        "customizable": false,
+        "subgroups": [
+            {
+                "customizable": true,
+                "subgroups": [],
+                "templates": [
+                    {
+                        "overrided": false,
+                        "content": "<@l10n>Action required: review updated roles and permissions in YouTrack</@l10n>",
+                        "id": "refactoring_migrated_permissions_in_261_subject",
+                        "fileName": "refactoring_migrated_permissions_in_261_subject.ftl",
+                        "description": "",
+                        "$type": "NotificationTemplate"
+                    },
+                    {
+                        "overrided": false,
+                        "content": "<#-- @ftlvariable name=\"application.url\" type=\"String\" -->\n<#-- @ftlvariable name=\"customRolesWithHolders\" type=\"java.util.List<jetbrains.youtrack.refactoring.migratepermissions.notification.RoleWithHolders>\" -->\n<#-- @ftlvariable name=\"featureFlags\" type=\"java.lang.Iterable<jetbrains.youtrack.refactoring.migratepermissions.notification.FeatureFlagWithHolders>\" -->\n<#escape x as x?html>\n<html>\n<style>\n    td, th {\n        padding-right: 10px;\n    }\n    th {\n        text-align: left;\n    }\n</style>\n<#include \"mailbox_hello.ftl\"/>\n\n<p>\n    <@l10n>\n        In the latest YouTrack update, we introduced changes to our permission model.\n        To ensure a smooth transition and prevent any disruptions, we applied a series of automated database migrations to preserve the previous behavior within the new model.\n    </@l10n>\n</p>\n\n<#if customRolesWithHolders?has_content>\n<p>\n    <@l10n>As part of this process, the following roles have been created and granted to specific users and groups:</@l10n>\n</p>\n<table>\n    <thead>\n    <tr>\n        <th><@l10n>Role Name</@l10n></th>\n        <th><@l10n>Permissions</@l10n></th>\n        <th><@l10n>Granted to</@l10n></th>\n    </tr>\n    </thead>\n    <tbody>\n    <#list customRolesWithHolders as el>\n        <tr>\n            <td><a href=\"${application.url}/admin/roles?id=${el.role.id}\">${el.role.name}</a></td>\n            <td>\n                <#list el.role.permissions as permission>\n                    ${permission.visibleName}<#sep>, </#sep>\n                </#list>\n            </td>\n            <td>\n                <#if (el.holderGroup)?has_content>\n                    <a href=\"${application.url}/admin/groups/${el.holderGroup.id}?tab=access\">${el.holderGroup.name}</a>\n                <#else>\n                    <#list el.holderUsers as user>\n                        <a\n                        href=\"${application.url}/users/${user.id}?tab=roles\">${user.fullName}</a><#sep>, </#sep>\n                    </#list>\n                </#if>\n            </td>\n        </tr>\n    </#list>\n    </tbody>\n</table>\n</#if>\n\n<#if featureFlags?has_content>\n<p>\n    <@l10n>Access to features that are no longer managed by the permission model is now configured using optional features.\n        These features have been enabled for the following groups:</@l10n>\n</p>\n\n<table>\n    <thead>\n    <tr>\n        <th>Feature</th>\n        <th>Group</th>\n    </tr>\n    </thead>\n    <tbody>\n    <#list featureFlags as ff>\n        <tr>\n            <td>${ff.name}</td>\n            <td>\n                <a href=\"${application.url}/admin/groups/${ff.holderGroup.id}?tab=members\">${ff.holderGroup.name}</a>\n            </td>\n        </tr>\n    </#list>\n    </tbody>\n</table>\n</#if>\n\n<p>\n    <@l10n>While the changes were designed to have minimal effect on user access, we recommend reviewing the newly created roles, their permissions, and the assignment of optional features to confirm everything is configured as intended for your organization.</@l10n>\n</p>\n<p>\n    <@l10n>\n        Best regards,<br/>\n        The YouTrack Team at JetBrains\n    </@l10n>\n</p>\n</html>\n</#escape>",
+                        "id": "refactoring_migrated_permissions_in_261_email",
+                        "fileName": "refactoring_migrated_permissions_in_261_email.ftl",
+                        "description": "",
+                        "$type": "NotificationTemplate"
+                    }
+                ],
+                "enabled": true,
+                "title": "Email",
+                "name": "email",
+                "id": "fb766ff3-221e-3922-bd5e-c4c4e7c35ede",
+                "description": "",
+                "$type": "NotificationTemplateGroup"
+            }
+        ],
+        "templates": [],
+        "enabled": true,
+        "title": "Migrated Permissions",
+        "name": "refactoring_migrated_permissions_in_261",
+        "id": "af989353-965b-3292-9c3b-10b3e77e00e5",
+        "description": "Migrated Permissions",
+        "$type": "NotificationTemplateGroup"
+    },
+    {
+        "customizable": true,
+        "subgroups": [
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "[${application.name}, ${header}] <@l10n>Cluster ${issue.getId()}: ${issue.summary}</@l10n>",
+                                "id": "cluster_digest_subject",
+                                "fileName": "cluster_digest_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <#import \"styles.ftl\" as styles>\n    <#assign bold = \"font-weight: bold;\">\n    <div style=\"font-size: 14px;\n                font-family: sans-serif;\n                color: #000000;\n                margin:14px 0 19px ${styles.icon_width}px\">\n        <#if from == to>\n            <@l10n>\n                Duplicate cluster was updated by <span style=\"${bold}\">you</span>\n                in project ${issue.project.name}.\n            </@l10n>\n        <#else>\n            <@l10n>\n                Duplicate cluster was updated by <span style=\"${bold}\">${from.getVisibleName()}</span>\n                in project ${issue.project.name}.\n            </@l10n>\n        </#if>\n    </div>\n    <#include \"issue_header.ftl\">\n    <#list changes as change>\n        <div style=\"font-family: sans-serif;\n                    margin: 18px 20px 0 45px;\n                    padding-bottom: 4px;\n                    border-bottom: 1px solid #D4D5D6;\">\n                <#assign duplicate = change.issue>\n\n                <a title=\"${duplicate.summary}\"\n                   style=\"float:left;\n                           margin-right:6px;\n                           font-size: 15px;\n                           text-decoration: none;\n                       <#if duplicate.isResolved()>\n                           color: #676E75;\n                           text-decoration: line-through;\n                       <#else>\n                           color: #105CB6;\n                       </#if>\"\n                   href=\"${Utils.getUrl(duplicate)}\">\n                    ${duplicate.getId()}\n                </a>\n\n                <span style=\"padding-left: 5px;\n                             font-size: 11px;\n                             font-family:sans-serif;\n                             text-align: right;\n                             color: #888888\">\n                    <#if duplicate.reporter == to>\n                        <@l10n>(Created by you)</@l10n>\n                    <#else>\n                        <@l10n>(Created by ${duplicate.reporter.getVisibleName()})</@l10n>\n                    </#if>\n                </span>\n            </div>\n            <#include \"events.ftl\">\n    </#list>\n    <div style=\"margin-left: ${styles.icon_width}px; padding: 4px 0 8px;\">\n        <#include \"footer.ftl\">\n    </div>\n</html>\n</#escape>",
+                                "id": "cluster_digest_email",
+                                "fileName": "cluster_digest_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "afc74f40-ef3f-308a-b598-b7b8387110fd",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Duplicate cluster digest",
+                "name": "clusterDigest",
+                "id": "b7f4059e-210e-3bca-b7ad-05fa8d47beed",
+                "description": "Cluster of issue duplicates is modified",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "<#include \"default_subject.ftl\">",
+                                "id": "issue_digest_subject",
+                                "fileName": "issue_digest_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <#import \"styles.ftl\" as styles>\n    <#include \"markup_styles.ftl\">\n    <#include \"digest_overview_email.ftl\">\n    <#include \"issue_header.ftl\">\n    <div style=\"margin-top: 12px\">\n        <#include \"events.ftl\">\n    </div>\n    <div style=\"margin-left: ${styles.icon_width}px;\n                padding: 4px 0 8px;\">\n        <#include \"footer.ftl\">\n    </div>\n</html>\n</#escape>",
+                                "id": "issue_digest_email",
+                                "fileName": "issue_digest_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "a76c67f8-3d7d-31e4-af51-8d8f2cdf5f89",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Issue digest",
+                "name": "issueDigest",
+                "id": "abf57976-6138-3c93-ae99-cb7650fe3108",
+                "description": "Issue is created or modified",
+                "$type": "NotificationTemplateGroup"
+            }
+        ],
+        "templates": [],
+        "enabled": true,
+        "title": "Issue Change",
+        "name": "issue_digest",
+        "id": "a661bc1a-7173-3722-9e3f-f81ab1406656",
+        "description": "",
+        "$type": "NotificationTemplateGroup"
+    },
+    {
+        "customizable": true,
+        "subgroups": [
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "[${application.name}, ${header}] <@l10n>Article ${article.title}</@l10n>\n",
+                                "id": "article_digest_subject",
+                                "fileName": "article_digest_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <#import \"styles.ftl\" as styles>\n    <#include \"markup_styles.ftl\">\n    <#include \"article_overview_email.ftl\">\n    <#include \"article_header.ftl\">\n    <div style=\"margin-top: 12px\">\n        <#include \"events.ftl\">\n    </div>\n    <#include \"footer.ftl\">\n</html>\n</#escape>\n",
+                                "id": "article_digest_email",
+                                "fileName": "article_digest_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "8e41821a-0c90-32c3-8f62-09f68aaf40c7",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Article digest",
+                "name": "articleDigest",
+                "id": "a32014c1-f957-37e6-a9d1-4c48be0e2016",
+                "description": "Article is created or modified",
+                "$type": "NotificationTemplateGroup"
+            }
+        ],
+        "templates": [],
+        "enabled": true,
+        "title": "Article Change",
+        "name": "article_digest",
+        "id": "53640204-a888-3b0a-9aab-0396311e42e2",
+        "description": "",
+        "$type": "NotificationTemplateGroup"
+    },
+    {
+        "customizable": false,
+        "subgroups": [
+            {
+                "customizable": false,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "[${application.name}, ${header}] <@l10n>Database backup status</@l10n>",
+                                "id": "backup_status_subject",
+                                "fileName": "backup_status_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <@l10n>Database backup status report from ${application.url}</@l10n><br/>\n    <#if exception?has_content>\n        <@l10n>Exception while performing database backup:</@l10n>\n    ${exception.getMessage()}<br/>\n    <div>\n        <pre><@stacktrace throwable=exception/></pre>\n    </div>\n    <#else>\n        <@l10n>Database backup completed successfully.</@l10n>\n    </#if>\n</html>\n</#escape>",
+                                "id": "backup_status_email",
+                                "fileName": "backup_status_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "6ff5eedb-5eee-385e-876a-5544127c5ce7",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Backup status",
+                "name": "backup_status",
+                "id": "e3966690-5857-3281-a64d-6666d2e773ff",
+                "description": "Database backup has failed",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "<@l10n>Online Form Error</@l10n>",
+                                "id": "online_form_workflow_subject",
+                                "fileName": "online_form_workflow_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <p>\n        <@l10n>There was a problem processing a ticket through the ${onlineForm.title} form</@l10n>\n    </p>\n\n    <p>\n        <@l10n>When YouTrack created the ticket as <a title=\"${issue.project.name}\"\n                                                      style=\"margin-right: 6px;\n                                                              font-size: 15px;\n                                                      <#if issue.isResolved()>\n                                                              color: #676E75;\n                                                              text-decoration: line-through;\n                                                      <#else>\n                                                              color: #1466c6;\n                                                              text-decoration: none;\n                                                      </#if>\"\n                                                      href=\"${Utils.getUrl(issue)}\">${issue.getId()}</a>, the <b>${scriptName}</b> workflow rule reported the following error: ${exception.getMessage()}</@l10n>\n    </p>\n\n</html>\n</#escape>",
+                                "id": "online_form_workflow_email",
+                                "fileName": "online_form_workflow_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "bbb5ba10-43ac-3eba-bd5d-fe505513bdc6",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Workflow error in online form",
+                "name": "onlineFormWorkflow",
+                "id": "e0db49c7-f9a4-38fe-8b81-783f7599bcc7",
+                "description": "A workflow encountered an error when processing an issue created using an online form",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [],
+                "templates": [],
+                "enabled": true,
+                "title": "mailbox_notify_admin",
+                "name": "mailbox_notify_admin",
+                "id": "5cdf32b1-c57c-3cf5-a4c2-dfad64298fba",
+                "description": "",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [],
+                "templates": [],
+                "enabled": true,
+                "title": "system_ping",
+                "name": "system_ping",
+                "id": "9f8d2dd5-e02c-3723-8351-ce9492bc9fab",
+                "description": "",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": false,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "<@l10n>Test message from JetBrains ${application.name}</@l10n>",
+                                "id": "test_message_subject",
+                                "fileName": "test_message_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <@l10n>${to.getVisibleName()}, greetings from ${application.name}!</@l10n><br/>\n    <br/>\n    <p><@l10n>If you are reading this message, it means that you are able to receive notifications into this mailbox.</@l10n></p>\n    <p><@l10n>Notification settings can be configured in your profile page using\n        <a href=\"${Utils.getSettingUrl(to)}\">\"Notifications\"</a> tab.</@l10n></p>\n    <p><@l10n>Good luck!</@l10n></p>\n</html>\n</#escape>",
+                                "id": "test_message_email",
+                                "fileName": "test_message_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "80d5b34d-b7b8-32b9-aa95-f33ae07f23b0",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Test message",
+                "name": "test_message",
+                "id": "4b51c6a0-6d3b-360c-acfc-4dab18bdffe8",
+                "description": "User tests email or jabber settings",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "[${application.name}, ${header}] <@l10n>Commit message processed by integration with ${mapping.serverUrl} in ${mapping.project.name} contains unrecognized command</@l10n>",
+                                "id": "teamcity_bad_command_subject",
+                                "fileName": "teamcity_bad_command_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n<html>\n    <p>\n  \t    <@l10n>A command that was processed from a commit message by the integration with ${mapping.integrationName} in\n            the ${mapping.project.name} project is not valid. The referenced issue was not updated.</@l10n>\n    </p>\n    <p>\n        <@l10n>Command: ${mapping.command}</@l10n>\n        <br/>\n\n  \t\t<#assign badCommands=commandList.badCommands>\n        <#list badCommands as badCommand>\n            ${badCommand.presentation}\n        </#list>\n    </p>\n    <p>\n        <@l10n>\n            To update the issue, open the issue in YouTrack and apply the desired changes manually.\n        </@l10n>\n        <br/>\n        <a style=\"margin-right:6px; color: #1466c6;\"\n           href=\"${mapping.serverUrl}\">${mapping.integrationName}</a><@l10n>for project</@l10n> <b>${mapping.project.name}</b>\n    </p>\n\n</html>\n</#escape>",
+                                "id": "teamcity_bad_command_email",
+                                "fileName": "teamcity_bad_command_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "74d4da53-966b-3749-bc14-17236457f91d",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Build server integration bad mapping command",
+                "name": "build-server-bad-mapping-command",
+                "id": "573ec60a-5615-370f-8681-7d940f692b8c",
+                "description": "YouTrack can't find a user that matches the change author for a commit that is processed by the build server integration",
+                "$type": "NotificationTemplateGroup"
+            },
+            {
+                "customizable": true,
+                "subgroups": [
+                    {
+                        "customizable": true,
+                        "templates": [
+                            {
+                                "overrided": false,
+                                "content": "[${application.name}, ${header}] <@l10n>Can't process issue ${issue.getId()} by integration with ${mapping.serverUrl} in ${mapping.project.name}</@l10n>",
+                                "id": "build_server_issue_processing_fail_subject",
+                                "fileName": "build_server_issue_processing_fail_subject.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            },
+                            {
+                                "overrided": false,
+                                "content": "<#escape x as x?html>\n    <html>\n    <@l10n>Build server integration with <a href=\"${mapping.serverUrl}\">${mapping.serverUrl}</a> can't apply changes to</@l10n><br/>\n    <a href=\"${Utils.getUrl(issue)}\">${issue.getId()}</a>\n    <span>&mdash; ${issue.summary}</span>\n\n    <br/>\n    ${exception.getMessage()}<br/>\n    <div>\n        <pre><@stacktrace throwable=exception/></pre>\n    </div>\n    </html>\n</#escape>",
+                                "id": "build_server_issue_processing_fail_email",
+                                "fileName": "build_server_issue_processing_fail_email.ftl",
+                                "description": "",
+                                "$type": "NotificationTemplate"
+                            }
+                        ],
+                        "enabled": true,
+                        "title": "Email",
+                        "name": "email",
+                        "id": "bb93485a-f3ec-31fb-8057-d1a00e7f7ea5",
+                        "description": "",
+                        "$type": "NotificationTemplateGroup"
+                    }
+                ],
+                "templates": [],
+                "enabled": true,
+                "title": "Build server integration",
+                "name": "build-server-process-issues-failure",
+                "id": "20200ca7-19e7-3dc1-a897-d90ea58cca48",
+                "description": "YouTrack can't apply changes from Build server to issue",
+                "$type": "NotificationTemplateGroup"
+            }
+        ],
+        "templates": [],
+        "enabled": true,
+        "title": "Miscellaneous",
+        "name": "miscellaneous",
+        "id": "02c081f8-95e2-3a66-bab8-09d28570e0bf",
+        "description": "",
+        "$type": "NotificationTemplateGroup"
+    },
+    {
+        "customizable": true,
+        "subgroups": [],
+        "templates": [
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Article title and author information\"}>\n<#escape x as x?html>\n<#import \"styles.ftl\" as styles>\n<div style=\"padding: 12px 16px; background: #f0f0f0;\">\n    <table style=\"${styles.table}\">\n        <tr>\n            <td style=\"padding: 0; vertical-align: top;\">\n                <#if last_notification?has_content && last_notification>\n                    <span style=\"font-size: 15px;\n                          text-decoration: none;\">\n                        ${article.title}\n                    </span>\n                <#else>\n                    <a title=<#if article.author == to>\n                                \"<@l10n>Article authored by you</@l10n>\"\n                              <#else>\n                                \"<@l10n>Article authored by ${article.author.getVisibleName()}</@l10n>\"\n                              </#if>\n                       style=\"font-size: 15px;\n                              color: #1466c6;\n                              text-decoration: none;\"\n                       href=\"${article.url}\">\n                        ${article.title}\n                    </a>\n                </#if>\n            </td>\n            <td style=\"padding-left: 5px;\n                       font-size: 11px;\n                       font-family: sans-serif;\n                       text-align: right;\n                       color: #888888;\">\n                <#if to?has_content && article.author == to>\n                    <@l10n>Authored by you</@l10n>\n                <#else>\n                    <@l10n>Authored by ${article.author.getVisibleName()}</@l10n>\n                </#if>\n            </td>\n        </tr>\n    </table>\n</div>\n</#escape>\n",
+                "id": "article_header",
+                "fileName": "article_header.ftl",
+                "description": "Article title and author information",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Overview of the article update in email notification\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <div style=\"${styles.overview_text} padding: 12px 16px;\">\n        <#assign bold = \"font-weight: bold;\">\n        <#assign projectName = article.project.name>\n        <#assign time = change.getWhen()>\n        <#if change.hasEvent(\"ARTICLE_CREATED\")>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> added an article\n                    to the <span style=\"${bold}\">${projectName}</span> project.\n                </@l10n>\n        <#elseif change.hasEvent(\"ARTICLE_RESTORED\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you restored an article\n                    in the <span style=\"${bold}\">${projectName}</span> project.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restored an article\n                    in the <span style=\"${bold}\">${projectName}</span> project.\n                </@l10n>\n            </#if>\n        <#elseif last_notification?has_content && last_notification>\n            <#if change.hasEvent(\"ARTICLE_PROJECT\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you moved an article\n                        to a project in which you don't have permission to read articles.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> moved an article\n                        to a project in which you don't have permission to read articles.\n                    </@l10n>\n                </#if>\n            <#elseif change.hasEvent(\"ARTICLE_VISIBILITY\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you restricted the visibility\n                        of an article to a group of users that you don't belong to.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restricted the visibility\n                        of an article to a group of users that you don't belong to.\n                    </@l10n>\n                </#if>\n            <#elseif change.hasEvent(\"ARTICLE_DELETED\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you deleted an article\n                        in the <span style=\"${bold}\">${projectName}</span> project.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> deleted an article\n                        in the <span style=\"${bold}\">${projectName}</span> project.\n                    </@l10n>\n                </#if>\n            <#else>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restricted access to an article.\n                </@l10n>\n            </#if>\n        <#else>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">you</span> updated an article\n                    in the ${projectName} project.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> updated an article\n                    in the ${projectName} project.\n                </@l10n>\n            </#if>\n        </#if>\n    </div>\n</#escape>\n",
+                "id": "article_overview_email",
+                "fileName": "article_overview_email.ftl",
+                "description": "Overview of the article update in email notification",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Overview of the article update in jabber notification\"}>\n<#escape x as x?html>\n<p>\n    <#assign projectName = article.project.name>\n    <#assign time = change.getWhen()>\n    <#if change.hasEvent(\"ARTICLE_CREATED\")>\n        <@l10n>\n            On ${time}, ${article.author.getVisibleName()} added an article to the ${projectName} project.\n        </@l10n>\n    <#elseif change.hasEvent(\"ARTICLE_RESTORED\")>\n        <#if from == to>\n            <@l10n>\n                On ${time}, you restored an article in the ${projectName} project.\n            </@l10n>\n        <#else>\n            <@l10n>\n                On ${time}, ${from.getVisibleName()} restored an article in the ${projectName} project.\n            </@l10n>\n        </#if>\n    <#elseif last_notification?has_content && last_notification>\n        <#if change.hasEvent(\"ARTICLE_PROJECT\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you moved an article\n                    to a project in which you don't have permission to read articles.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} moved an article\n                    to a project in which you don't have permission to read articles.\n                </@l10n>\n            </#if>\n        <#elseif change.hasEvent(\"ARTICLE_VISIBILITY\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you restricted the visibility of an article\n                    to a group of users that you don't belong to.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} restricted the visibility of an article\n                    to a group of users that you don't belong to.\n                </@l10n>\n            </#if>\n        <#elseif change.hasEvent(\"ARTICLE_DELETED\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you deleted an article in the ${projectName} project.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} deleted an article in the ${projectName} project.\n                </@l10n>\n            </#if>\n        <#else>\n            <@l10n>\n                On ${time}, ${from.getVisibleName()} restricted access to an article.\n            </@l10n>\n        </#if>\n    <#else>\n        <#if from == to>\n            <@l10n>\n                On ${time}, you updated an article in the ${projectName} project.\n            </@l10n>\n        <#else>\n            <@l10n>\n                On ${time}, ${from.getVisibleName()} updated an article in the ${projectName} project.\n            </@l10n>\n        </#if>\n    </#if>\n</p>\n</#escape>\n",
+                "id": "article_overview_jabber",
+                "fileName": "article_overview_jabber.ftl",
+                "description": "Overview of the article update in jabber notification",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"List of added and removed attachments\"}>\n<#escape x as x?html>\n    <#if attachments?has_content>\n    <ul style=\"margin: 1em 0 0 0 !important;\n               padding: 0 !important\">\n        <#list attachments as attachment>\n            <li style=\"display: inline-block;\n                       font-size: 13px;\n                       list-style: none;\n                       padding: 0 !important;\n                       margin: 0 !important;\">\n                <#assign attachmentUrl = Utils.getAttachmentUrl(attachment)>\n                <a title=\"<#if Utils.hasVisibilityRestrictions(attachment)>\n                                <@l10n>Added by ${attachment.author.getVisibleName()} for ${Utils.getVisibilityPresentation(attachment)}</@l10n>\n                          <#else>\n                                <@l10n>Added by ${attachment.author.getVisibleName()}</@l10n>\n                          </#if>\"\n                   <#if attachmentUrl?has_content>\n                        href=\"${attachmentUrl}\"\n                   </#if>\n                >\n                    <span style=\"color: #0F5B99;\n                                 text-decoration: none;\n                                 font-size:16px\">\n                        ${attachment.name}\n                    </span>\n                </a>\n                <span style=\"color: #9EA1A5; font-size:14px;\">\n                    <#if attachment.size?has_content>\n                        <#assign size = attachment.size>\n                        <#if (size < 1024)>\n                            (<@l10n>${size}&nbsp;B</@l10n>)\n                        <#else>\n                            <#if (1024 <= size && size < 1024*1024) >\n                                (<@l10n>${size/1024}&nbsp;KB</@l10n>)\n                            <#else>\n                                (<@l10n>${size/(1024*1024)}&nbsp;MB</@l10n>)\n                            </#if>\n                        </#if>\n                    <#else>\n                        (<@l10n>0&nbsp;B</@l10n>)\n                    </#if>\n                </span>\n            </li>\n        </#list>\n    </ul>\n    </#if>\n    <#assign invisibleCount = Utils.getInvisibleAttachmentsCount(issue)>\n    <#if (invisibleCount > 0)>\n        <div>\n            <#if (invisibleCount == 1)>\n                <@l10n>You don't have permissions to view 1 more attachment to this issue</@l10n>\n            <#else >\n                <@l10n>You don't have permissions to view ${invisibleCount} more attachments to this issue</@l10n>\n            </#if>\n        </div>\n    </#if>\n</#escape>\n",
+                "id": "attachments_panel",
+                "fileName": "attachments_panel.ftl",
+                "description": "List of added and removed attachments",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Overview of the issue update in email notification\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <div style=\"${styles.overview_text}\n            margin: 14px 0 19px ${styles.icon_width}px;\">\n        <#assign bold = \"font-weight: bold;\">\n        <#assign priority = issue.Priority>\n        <#if (!priority?is_enumerable && (priority == \"Critical\" || priority == \"Show-stopper\"))>\n            <#assign issueTypeStyle = \"color: #cc0000;\" + bold>\n        <#else>\n            <#assign issueTypeStyle = bold>\n        </#if>\n        <#assign type = issue.Type>\n        <#assign time = change.getWhen()>\n        <#if type?has_content>\n            <#assign issueName = type>\n        <#else>\n            <#assign issueName = \"Issue\">\n        </#if>\n        <#if change.hasEvent(\"CREATED\")>\n            <#if type?has_content>\n                <@l10n>New <span style=\"${issueTypeStyle}\">${type}</span> in project <span style=\"${bold}\">${issue.project.name}</span></@l10n>\n            <#else>\n                <@l10n>New <span style=\"${issueTypeStyle}\">issue</span> in project <span style=\"${bold}\">${issue.project.name}</span></@l10n>\n            </#if>\n        <#elseif change.hasEvent(\"RESTORED\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you restored an issue in the <span style=\"${bold}\">${issue.project.name}</span> project.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restored an issue\n                    in the <span style=\"${bold}\">${issue.project.name}</span> project.\n                </@l10n>\n            </#if>\n        <#elseif last_notification?has_content && last_notification>\n            <#if change.hasEvent(\"PROJECT\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you moved an issue to a project in which you don't have permission to read issues.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> moved an issue\n                        to a project in which you don't have permission to read issues.\n                    </@l10n>\n                </#if>\n            <#elseif change.hasEvent(\"PERMITTED\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you restricted the visibility of an issue to a group of users that you don't belong to.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restricted the visibility\n                        of an issue to a group of users that you don't belong to.\n                    </@l10n>\n                </#if>\n            <#elseif change.hasEvent(\"DELETED\")>\n                <#if from==to>\n                    <@l10n>\n                        On ${time}, you deleted an issue in the <span style=\"${bold}\">${issue.project.name}</span> project.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> deleted an issue in the <span style=\"${bold}\">${issue.project.name}</span> project.\n                    </@l10n>\n                </#if>\n            <#else>\n                <@l10n>\n                    On ${time}, <span style=\"${bold}\">${from.getVisibleName()}</span> restricted access to an issue.\n                </@l10n>\n            </#if>\n        <#else>\n            <#if from==to>\n                <#if type?has_content>\n                    <@l10n>\n                        <span style=\"${issueTypeStyle}\">${type}</span> was updated by <span style=\"${bold}\">you</span>\n                        in project ${issue.project.name} at ${time}.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        <span style=\"${issueTypeStyle}\">Issue</span> was updated by <span style=\"${bold}\">you</span>\n                        in project ${issue.project.name} at ${time}.\n                    </@l10n>\n                </#if>\n            <#else>\n                <#if type?has_content>\n                    <@l10n>\n                        <span style=\"${issueTypeStyle}\">${type}</span> was updated by <span style=\"${bold}\">${from.getVisibleName()}</span>\n                        in project ${issue.project.name} at ${time}.\n                    </@l10n>\n                <#else>\n                    <@l10n>\n                        <span style=\"${issueTypeStyle}\">Issue</span> was updated by <span style=\"${bold}\">${from.getVisibleName()}</span>\n                        in project ${issue.project.name} at ${time}.\n                    </@l10n>\n                </#if>\n            </#if>\n        </#if>\n    </div>\n</#escape>",
+                "id": "digest_overview_email",
+                "fileName": "digest_overview_email.ftl",
+                "description": "Overview of the issue update in email notification",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Overview of the issue update in jabber notification\"}>\n<#escape x as x?html>\n<p>\n    <#assign priority = issue.Priority>\n    <#assign isShowStopper = (!priority?is_enumerable && priority == \"Show-stopper\")>\n    <#assign time = change.getWhen()>\n    <#if change.hasEvent(\"CREATED\")>\n        <#if (!priority?is_enumerable && priority == \"Show-stopper\")>\n            <@l10n>New show-stopper was reported by ${issue.reporter.getVisibleName()}:</@l10n>\n        <#else>\n            <@l10n>New issue was reported by ${issue.reporter.getVisibleName()}:</@l10n>\n        </#if>\n    <#elseif change.hasEvent(\"RESTORED\")>\n        <#if from == to>\n            <@l10n>\n                On ${time}, you restored an issue in the ${issue.project.name} project.\n            </@l10n>\n        <#else>\n            <@l10n>\n                On ${time}, ${from.getVisibleName()} restored an issue in the ${issue.project.name} project.\n            </@l10n>\n        </#if>\n    <#elseif last_notification?has_content && last_notification>\n        <#if change.hasEvent(\"PROJECT\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you moved an issue to a project in which you don't have permission to read issues.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} moved an issue to a project in which you don't have permission to read issues.\n                </@l10n>\n            </#if>\n        <#elseif change.hasEvent(\"PERMITTED\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you restricted the visibility of an issue to a group of users that you don't belong to.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} restricted the visibility of an issue to a group of users that you don't belong to.\n                </@l10n>\n            </#if>\n        <#elseif change.hasEvent(\"DELETED\")>\n            <#if from == to>\n                <@l10n>\n                    On ${time}, you deleted an issue in the ${issue.project.name} project.\n                </@l10n>\n            <#else>\n                <@l10n>\n                    On ${time}, ${from.getVisibleName()} deleted an issue in the ${issue.project.name} project.\n                </@l10n>\n            </#if>\n        <#else>\n            <@l10n>\n                On ${time}, ${from.getVisibleName()} restricted access to an issue.\n            </@l10n>\n        </#if>\n    <#else>\n        <#if from == to>\n            <#if isShowStopper>\n                <@l10n>You changed show-stopper:</@l10n>\n            <#else>\n                <@l10n>You changed issue:</@l10n>\n            </#if>\n        <#else>\n            <#if isShowStopper>\n                <@l10n>User ${from.getVisibleName()} changed show-stopper:</@l10n>\n            <#else>\n                <@l10n>User ${from.getVisibleName()} changed issue:</@l10n>\n            </#if>\n        </#if>\n    </#if>\n</p>\n</#escape>",
+                "id": "digest_overview_jabber",
+                "fileName": "digest_overview_jabber.ftl",
+                "description": "Overview of the issue update in jabber notification",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Change of issue attachments\"}>\n<#escape x as x?html>\n    <#assign addedAttachments = event.getAddedValues()>\n    <#assign removedAttachments = event.getRemovedValues()>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <#list removedAttachments as removedAttachment>\n            <td style=\"${styles.event_title}\">\n                <@l10n>Attachment</@l10n>\n            </td>\n            <td style=\"${styles.event_value}\">\n                <#assign removedAttachmentUrl = Utils.getAttachmentUrl(removedAttachment)>\n                <a style=\"${styles.old_value}\"\n                <#if removedAttachmentUrl?has_content>\n                   href=\"${removedAttachmentUrl}\"\n                </#if>\n                <#if Utils.hasVisibilityRestrictions(removedAttachment)>\n                   title=\"<@l10n>Removed by ${removedAttachment.author.fullName}, visible to ${Utils.getVisibilityPresentation(removedAttachment)}</@l10n>\"\n                <#else>\n                   title=\"<@l10n>Removed by ${removedAttachment.author.fullName}</@l10n>\"\n                </#if>>\n                    ${removedAttachment.name}\n                </a>\n            </td>\n\n        </#list>\n        <#list addedAttachments as addedAttachment>\n            <td style=\"${styles.event_title}\">\n                <@l10n>Attachment</@l10n>\n            </td>\n            <td style=\"${styles.event_value}\">\n                <#assign addedAttachmentUrl = Utils.getAttachmentUrl(addedAttachment)>\n                <a style=\"${styles.new_value}\"\n                <#if addedAttachmentUrl?has_content>\n                    href=\"${addedAttachmentUrl}\"\n                </#if>\n                <#if Utils.hasVisibilityRestrictions(addedAttachment)>\n                   title=\"<@l10n>Added by ${addedAttachment.author.fullName}, visible to ${Utils.getVisibilityPresentation(addedAttachment)}</@l10n>\"\n                <#else>\n                   title=\"<@l10n>Added by ${addedAttachment.author.fullName}</@l10n>\"\n                </#if>>\n                    ${addedAttachment.name}\n                </a>\n            </td>\n        </#list>\n    </tr>\n</#escape>\n",
+                "id": "event_attachments",
+                "fileName": "event_attachments.ftl",
+                "description": "Change of issue attachments",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of a change in comments (new comment or comment text update)\"}>\n<#escape x as x?html>\n    <#assign comment = event.comment>\n    <#assign oldCommentText = event.oldValue>\n    <#assign newCommentText  = event.newValue>\n    <#import \"styles.ftl\" as styles>\n    <tr style=\"margin-top: 8px\">\n        <td style=\"${styles.event_title} background:#f0f0f0;\">\n            <img src=\"${Utils.getAvatarUrl(comment.author)}\"\n                 alt=\"${comment.author.getVisibleName()}\"\n                 width=\"32\"\n                 height=\"32\"/>\n        </td>\n        <td style=\"${styles.event_value} background: #f0f0f0;\">\n            <#if !oldCommentText?has_content>\n                <#if newCommentText?has_content>\n                    <@markup>\n                        <#noescape>${newCommentText}</#noescape>\n                    </@markup>\n                </#if>\n                <#assign attachments = comment.attachments>\n                <#if attachments?has_content>\n                    <div style=\"line-height: 22px;\n                                margin-bottom: 8px;\">\n                        <#list attachments as attachment>\n                            <#assign attachmentUrl = Utils.getAttachmentUrl(attachment)>\n                            <div>\n                                <#if attachmentUrl?has_content>\n                                    <a href=\"${attachmentUrl}\" class=\"attachment\"\n                                            <#if Utils.hasVisibilityRestrictions(attachment)>\n                                        title=\"<@l10n>Visible to ${Utils.getVisibilityPresentation(attachment)}</@l10n>\"\n                                            </#if>>${attachment.name}</a>\n                                <#else>\n                                    ${attachment.name}\n                                </#if>\n                            </div>\n                        </#list>\n                    </div>\n                </#if>\n            <#else>\n                <div>\n                    <@diff oldText=oldCommentText\n                           newText=newCommentText\n                           insStyle=\"${styles.new_value}\"\n                           delStyle=\"${styles.old_value}\"/>\n                </div>\n            </#if>\n\n            <#if Utils.hasVisibilityRestrictions(comment)>\n                <div style=\"color: #8c8c8c;\n                            font-size: 85%;\n                            margin-top: 5px;\">\n                    <@l10n>visible to ${Utils.getVisibilityPresentation(comment)}</@l10n>\n                </div>\n            </#if>\n\n            <div style=\"display: inline-block;\n                        font-size: 85%;\n                        margin-top: 8px;\">\n                <a style=\"color: #105CB6;\"\n                   href=\"${comment.url}\"><@l10n>View</@l10n></a>\n                <#assign replyLink = Utils.getCommentReplyUrl(comment)>\n                <#if replyLink?has_content>\n                    <a style=\"color: #105CB6;\n                              margin-left: 5px;\"\n                       href=\"${replyLink}\"><@l10n>Reply</@l10n></a>\n                </#if>\n            </div>\n        </td>\n    </tr>\n</#escape>\n",
+                "id": "event_comment",
+                "fileName": "event_comment.ftl",
+                "description": "Presentation of a change in comments (new comment or comment text update)",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Default presentation of an event from issue change\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <td style=\"${styles.event_title}\">${event.name}</td>\n        <td style=\"${styles.event_value}\">\n            <#if event.isMultiValue()>\n                <#assign removedValues = event.getRemovedValues()>\n                <#assign addedValues = event.getAddedValues()>\n                <#if removedValues?has_content>\n                    <#list removedValues as removedValue>\n                        <span style=\"${styles.old_value}\">${removedValue}</span><#if removedValue_has_next || addedValues?has_content>,</#if>\n                    </#list>\n                </#if>\n                <#if addedValues?has_content>\n                    <#list addedValues as addedValue>\n                        <span style=\"${styles.new_value}\">${addedValue}</span><#if addedValue_has_next>,</#if>\n                    </#list>\n                </#if>\n            <#else>\n                <span>${event.oldValue}</span>\n                <span style=\"margin-left: 5px;\">\n                    &rarr;\n                </span>\n                <span style=\"${styles.new_value}\">${event.newValue}</span>\n            </#if>\n        </td>\n    </tr>\n</#escape>",
+                "id": "event_default_change",
+                "fileName": "event_default_change.ftl",
+                "description": "Default presentation of an event from issue change",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Change of issue links\"}>\n<#escape x as x?html>\n    <#assign linkName = event.name>\n    <#assign linkedIssues = event.getAddedValues()>\n    <#assign unlinkedIssues = event.getRemovedValues()>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <td style=\"${styles.event_title}\">\n            ${linkName}\n        </td>\n        <td style=\"${styles.event_value}\">\n            <#if unlinkedIssues?has_content>\n                <#list unlinkedIssues as unlinked>\n                    <a style=\"${styles.old_value}\" href=\"${Utils.getUrl(unlinked)}\">${unlinked.getId()} ${unlinked.summary}</a>\n                    <#if unlinked_has_next || linkedIssues?has_content><br/></#if>\n                </#list>\n            </#if>\n            <#if linkedIssues?has_content>\n                <#list linkedIssues as linked>\n                    <a style=\"${styles.new_value + \"background:none;\"} \" href=\"${Utils.getUrl(linked)}\">\n                        <span <#if linked.isResolved()>style=\"text-decoration: line-through; color: #888888;\" </#if>>${linked.getId()}</span> ${linked.summary}\n                    </a>\n                    <#if linked_has_next><br/></#if>\n                </#list>\n            </#if>\n        </td>\n    </tr>\n</#escape>",
+                "id": "event_links",
+                "fileName": "event_links.ftl",
+                "description": "Change of issue links",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of an issue with all significant properties: id, description, summary, values of fields etc.\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <td colspan=\"2\" style=\"${styles.event_title}\">\n            <#if Utils.hasVisibilityRestrictions(issue)>\n                <table style=\"${styles.table}\">\n                    <tr>\n                        <td style=\"${styles.event_title}\"><@l10n>Visible to Group</@l10n></td>\n                        <td style=\"${styles.event_value}\">${Utils.getVisibilityPresentation(issue)}</td>\n                    </tr>\n                </table>\n            </#if>\n            <#include \"tags_panel.ftl\">\n            <#include \"links_panel.ftl\">\n            <#assign attachments = issue.attachments>\n            <#include \"attachments_panel.ftl\">\n            <#include \"text_fields_panel.ftl\">\n            <hr style=\"height: 1px;\n                       max-height: 1px;\n                       border: 0;\n                       background: #d9d9d9;\n                       margin: 19px 0 15px;\"/>\n            <#include \"fields_panel.ftl\">\n            <#include \"sprints_panel.ftl\">\n        </td>\n    </tr>\n</#escape>\n",
+                "id": "event_new_issue",
+                "fileName": "event_new_issue.ftl",
+                "description": "Presentation of an issue with all significant properties: id, description, summary, values of fields etc.",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Change of issue sprints\"}>\n<#escape x as x?html>\n<#import \"styles.ftl\" as styles>\n<#list event.getAgilesToSprints() as element>\n    <tr>\n        <td style=\"${styles.event_title}\">${element.agile}</td>\n        <td style=\"${styles.event_value}\">\n                <#assign removedValues = element.getRemovedSprints()>\n                <#assign addedValues = element.getAddedSprints()>\n                <#if removedValues?has_content>\n                    <#list removedValues as removedValue>\n                        <span style=\"${styles.old_value}\">${removedValue}</span><#if removedValue_has_next || addedValues?has_content>,</#if>\n                    </#list>\n                </#if>\n                <#if addedValues?has_content>\n                    <#list addedValues as addedValue>\n                        <span style=\"${styles.new_value}\">${addedValue}</span><#if addedValue_has_next>,</#if>\n                    </#list>\n                </#if>\n        </td>\n    </tr>\n</#list>\n</#escape>",
+                "id": "event_sprint",
+                "fileName": "event_sprint.ftl",
+                "description": "Change of issue sprints",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Change of issue tags\"}>\n\n<#escape x as x?html>\n    <#assign addedTags = event.getAddedValues()>\n    <#assign removedTags = event.getRemovedValues()>\n    <#import \"styles.ftl\" as styles>\n        <tr>\n            <td style=\"${styles.event_title}\">\n                <@l10n>Tags</@l10n>\n            </td>\n            <td style=\"${styles.event_value}\">\n                <#list addedTags as tag>\n                    <a style=\"${styles.tag_bar} ${Utils.getTagStyle(tag)}\"\n                       title=\"${Utils.getFullTagName(tag)}\"\n                       href =\"${Utils.getTaggedIssuesUrl(tag)}\">\n                        ${Utils.getTrimmedTagName(tag)}\n                    </a>&nbsp;\n                </#list>\n                <#list removedTags as tag>\n                    <a style=\"${styles.tag_bar} ${Utils.getTagStyle(tag)} text-decoration:line-through!important;\"\n                       title=\"${Utils.getFullTagName(tag)}\"\n                       href =\"${Utils.getTaggedIssuesUrl(tag)}\">\n                        ${Utils.getTrimmedTagName(tag)}\n                    </a>&nbsp;\n                </#list>\n            </td>\n        </tr>\n</#escape>",
+                "id": "event_tags",
+                "fileName": "event_tags.ftl",
+                "description": "Change of issue tags",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Text update (e.g. change in issue summary or description) \"}>\n<#escape x as x?html>\n    <#assign title = event.name>\n    <#assign oldText = event.oldValue>\n    <#assign newText = event.newValue>\n    <#import \"styles.ftl\" as styles>\n\n<tr>\n    <td style=\"${styles.event_title}\">${title}</td>\n    <td style=\"${styles.event_value}\">\n        <#if oldText?has_content>\n            <@diff oldText=oldText\n                   newText=newText\n                   insStyle=\"${styles.new_value} word-wrap: break-word;\"\n                   delStyle=\"${styles.old_value} word-wrap: break-word;\"/>\n        <#else>\n            <@markup><#noescape>${newText}</#noescape></@markup>\n        </#if>\n    </td>\n</tr>\n</#escape>",
+                "id": "event_text_change",
+                "fileName": "event_text_change.ftl",
+                "description": "Text update (e.g. change in issue summary or description) ",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Update of issue votes \"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <td style=\"${styles.event_title}\"><@l10n>Votes</@l10n></td>\n        <td style=\"${styles.event_value}\">\n            <#list event.getRemovedValues() as unvoter>\n                <#if unvoter == to>\n                    <span style=\"${styles.new_value}\">-1</span> (<@l10n>you</@l10n>).\n                <#else>\n                    <span style=\"${styles.new_value}\">-1</span> (${unvoter.getVisibleName()}).\n                </#if>\n            </#list>\n            <#list event.getAddedValues() as voter>\n                <#if voter == to>\n                    <span style=\"${styles.new_value}\">+1</span> (<@l10n>you</@l10n>).\n                <#else>\n                    <span style=\"${styles.new_value}\">+1</span> (${voter.getVisibleName()}).\n                </#if>\n            </#list>\n            <@l10n>Total votes: ${issue.votes}</@l10n>\n        </td>\n    </tr>\n</#escape>",
+                "id": "event_voters",
+                "fileName": "event_voters.ftl",
+                "description": "Update of issue votes ",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of added time tracking work item\"}>\n<#escape x as x?html>\n    <#assign workItem = event.workItem>\n    <#import \"styles.ftl\" as styles>\n    <tr>\n        <td style=\"${styles.event_title}\">\n            <@l10n>Work item</@l10n>\n        </td>\n        <td style=\"${styles.event_value}\">\n            <div>\n                <#t><span style=\"border-right: 1px solid #dfe5eb;padding-right:8px;font-weight:bold;\">${workItem.duration}</span>\n                <#t><span style=\"border-right: 1px solid #dfe5eb;padding:0 8px 0 8px;\">${workItem.date}</span>\n                <#t><span style=\"border-right: 1px solid #dfe5eb;padding:0 8px 0 8px;display:inline-block;\">\n                  <span style=\"height:0.5em;width:0.5em;background:${workItem.type.backgroundColor};border-radius:50%;display:inline-block;\"></span>\n                  <span>${workItem.type.value}</span>\n                <#t></span>\n                <#t><#if workItem.description?has_content>\n                    <#t><span style=\"padding-left:8px\">\n                    ${workItem.description}\n                    </span>\n                </#if>\n            </div>\n            <#if workItem.attributes?has_content>\n                <div>\n                    <#assign attributes = workItem.attributes>\n                    <#list attributes as attribute>\n                        <div>\n                            <span>${attribute.name}:</span>\n                            <div style=\"height:0.5em;width:0.5em;background:${attribute.backgroundColor};border-radius:50%;display:inline-block;\"></div>\n                            <span>${attribute.value}</span>\n                        </div>\n                    </#list>\n                </div>\n            </#if>\n        </td>\n    </tr>\n</#escape>",
+                "id": "event_work_item",
+                "fileName": "event_work_item.ftl",
+                "description": "Presentation of added time tracking work item",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation for a list of all events included in an issue change \"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <#--list of events-->\n    <table style=\"${styles.table}\">\n        <#list change.events as event>\n                    <#assign category = event.category>\n                    <#if category == \"CREATED\">\n                        <#include \"event_new_issue.ftl\">\n                        <#break>\n                    <#elseif category == \"ARTICLE_CREATED\">\n                        <#break>\n                    <#elseif category == \"PROJECT\" ||\n                             category == \"ARTICLE_PROJECT\" ||\n                             category == \"CUSTOM_FIELD\">\n                        <#include \"event_default_change.ftl\">\n                    <#elseif category == \"SUMMARY\" ||\n                             category == \"DESCRIPTION\" ||\n                             category == \"ARTICLE_SUMMARY\" ||\n                             category == \"ARTICLE_DESCRIPTION\" ||\n                             category == \"TEXT_CUSTOM_FIELD\">\n                        <#include \"event_text_change.ftl\">\n                    <#elseif category == \"COMMENT\" ||\n                             category == \"ARTICLE_COMMENT\" ||\n                             category == \"ARTICLE_INLINE_COMMENT\">\n                        <#include \"event_comment.ftl\">\n                    <#elseif category == \"LINKS\">\n                        <#include \"event_links.ftl\">\n                    <#elseif category == \"TAGS\" ||\n                             category == \"STAR\">\n                        <#include \"event_tags.ftl\">\n                    <#elseif category == \"ATTACHMENTS\" ||\n                             category == \"ARTICLE_ATTACHMENTS\">\n                        <#include \"event_attachments.ftl\">\n                    <#elseif category == \"VOTERS\">\n                        <#include \"event_voters.ftl\">\n                    <#elseif category == \"RESOLVED\">\n                        <#include \"event_resolved.ftl\">\n                    <#elseif category == \"TIME_TRACKING\">\n                        <#include \"event_work_item.ftl\">\n                    <#elseif category == \"SPRINT\">\n                        <#include \"event_sprint.ftl\">\n                    <#elseif category == \"COMMENTS\" ||\n                             category == \"ARTICLE_COMMENTS\" ||\n                             category == \"ARTICLE_INLINE_COMMENTS\">\n                        <#-- changes already shown in COMMENT category -->\n                    <#else>\n                        <#include \"event_default_change.ftl\">\n                    </#if>\n        </#list>\n    </table>\n</#escape>\n",
+                "id": "events",
+                "fileName": "events.ftl",
+                "description": "Presentation for a list of all events included in an issue change ",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of custom field values\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <table>\n    <#list issue.fields as field>\n        <#if !field.usingMarkup>\n            <tr>\n                <td style=\"width: ${styles.title_width}px;\n                           vertical-align: top;\n                           padding: 5px 10px 5px 0;\n                           ${styles.content_font}\n                           color: #000000;\">\n                    ${field.name}\n                </td>\n                <td style=\"vertical-align: top;\n                           padding: 5px;\n                           ${styles.content_font}\">\n                    <#assign background = field.backgroundColor>\n                    <#assign foreground = field.foregroundColor>\n                    <div style=\"padding: 2px 4px;\n                                font-size: 90%;\n                        <#if background?has_content>\n                                background-color: ${background} !important;\n                        </#if>\">\n                        <div style=\"word-wrap: break-word;\n                                    overflow: hidden;\n                            <#if foreground?has_content>\n                                    color: ${foreground} !important;\n                            </#if>\">\n                            ${field.value}\n                        </div>\n                    </div>\n                </td>\n            </tr>\n        </#if>\n    </#list>\n    </table>\n</#escape>\n",
+                "id": "fields_panel",
+                "fileName": "fields_panel.ftl",
+                "description": "Presentation of custom field values",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Default footer which is used in all types of notification\"}>\n<#escape x as x?html>\n    <div style=\"color: #777777;\n                font-size: 11px;\n                font-family: sans-serif;\n                margin: 20px 0;\n                padding: 8px 0;\n                border-top: 1px solid #D4D5D6;\">\n        <#include \"reason_email.ftl\">\n        ${application.name} ${application.version}.${application.build}\n    </div>\n</#escape>\n",
+                "id": "footer",
+                "fileName": "footer.ftl",
+                "description": "Default footer which is used in all types of notification",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Issue id, summary and description with \\\"Star\\\" tag and reporter information\"}>\n<#escape x as x?html>\n    <#include \"issue_short_header.ftl\">\n    <div style=\"margin: 14px 0 14px 28px;\">\n        <#if issue.description?has_content>\n            <@markup><#noescape>${issue.description}</#noescape></@markup>\n         <#else>\n            <span style=\"color: #888888;\">\n                <@l10n>No description</@l10n>\n            </span>\n        </#if>\n    </div>\n</#escape>",
+                "id": "issue_full_header",
+                "fileName": "issue_full_header.ftl",
+                "description": "Issue id, summary and description with \"Star\" tag and reporter information",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Component switching between full and short issue header\"}>\n<#import \"styles.ftl\" as styles>\n<table style=\"${styles.table}\">\n    <tr>\n        <td style=\"padding: 12px 16px; background: #f0f0f0;\">\n            <#assign showFulHeader = init_notification?has_content && init_notification>\n            <#if showFulHeader>\n                <#include \"issue_full_header.ftl\">\n            <#else>\n                <#include \"issue_short_header.ftl\">\n            </#if>\n        </td>\n    </tr>\n</table>\n",
+                "id": "issue_header",
+                "fileName": "issue_header.ftl",
+                "description": "Component switching between full and short issue header",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Issue id and summary with link to the issue in YouTrack\"}>\n<#escape x as x?html>\n    <#assign url = Utils.getUrl(issue)>\n    <a title=\"${issue.project.name}\"\n       style=\"margin-right: 6px;\n              font-size: 15px;\n              <#if issue.isResolved()>\n                  color: #676E75;\n                  text-decoration: line-through;\n              <#else>\n                  color: #1466c6;\n                  text-decoration: none;\n              </#if>\"\n       href=\"${url}\">\n        ${issue.getId()}\n    </a>\n    <a title=\"<#if issue.reporter==to>\n                <@l10n>Issue created by you</@l10n>\n              <#else>\n                <@l10n>Issue created by ${issue.reporter.getVisibleName()}</@l10n>\n              </#if>\"\n       style=\"font-size: 15px;\n              color: #1466c6;\n              text-decoration: none;\"\n       href=\"${url}\">\n        ${issue.summary}\n    </a>\n</#escape>\n",
+                "id": "issue_id_summary",
+                "fileName": "issue_id_summary.ftl",
+                "description": "Issue id and summary with link to the issue in YouTrack",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Issue id and summary with \\\"Star\\\" tag and reporter information\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <table style=\"${styles.table}\">\n        <tr>\n            <td style=\"width: 28px; padding: 0; vertical-align: top;\">\n                <#include \"issue_star.ftl\">\n            </td>\n            <td style=\"padding: 0; vertical-align: top;\">\n                <#include \"issue_id_summary.ftl\">\n            </td>\n            <td style=\"padding-left: 5px;\n                       font-size: 11px;\n                       font-family: sans-serif;\n                       text-align: right;\n                       color: #888888;\">\n                <#if to?has_content && issue.reporter == to>\n                    <@l10n>Created by you</@l10n>\n                <#else>\n                    <@l10n>Created by ${issue.reporter.getVisibleName()}</@l10n>\n                </#if>\n            </td>\n        </tr>\n    </table>\n</#escape>",
+                "id": "issue_short_header",
+                "fileName": "issue_short_header.ftl",
+                "description": "Issue id and summary with \"Star\" tag and reporter information",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Tag \\\"Star\\\" representation with the icon and link to the starred issue\"}>\n<#escape x as x?html>\n    <img style=\"border: 0;\" src=\"${Utils.getStarSrc(issue)}\" width=\"16\" height=\"16\" alt=\"\">\n</#escape>",
+                "id": "issue_star",
+                "fileName": "issue_star.ftl",
+                "description": "Tag \"Star\" representation with the icon and link to the starred issue",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"List of all linked issues sorted by the link name\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <#if Utils.hasLinks(issue)>\n    <ul style=\"margin: 1em 0 0 0 !important;\n               padding: 0 !important;\">\n        <#list Utils.getLinkRoles(issue) as role>\n            <li style=\"display: inline-block;\n                       font-size: 90%;\n                       list-style: none;\n                       padding: 0!important;\n                       margin: 0!important;\">\n                ${role}:\n            </li>\n            <#list Utils.getLinkedIssues(issue, role) as linked_issue>\n                <li style=\"display: inline-block;\n                           font-size: 90%;\n                           list-style: none;\n                           padding: 0!important;\n                           margin: 0!important;\n                           margin-right: 5px!important;\">\n                    <a style=\"\n                        <#if linked_issue.isResolved()>\n                            color: #676E75;\n                            text-decoration: line-through;\n                        <#else>\n                            color: #084b96;\n                            text-decoration: none;\n                        </#if>\"\n                       href=\"${Utils.getUrl(linked_issue)}\">\n                       ${linked_issue.getId()}\n                    </a>\n                </li>\n            </#list>\n        </#list>\n    </ul>\n    </#if>\n</#escape>",
+                "id": "links_panel",
+                "fileName": "links_panel.ftl",
+                "description": "List of all linked issues sorted by the link name",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Detailed reason for sending email notification to user (HTML)\"}>\n<#escape x as x?html>\n    <@l10n>You (<b>${to.login}</b>) received this message because you subscribe to</@l10n>\n    <#assign size = reason.subreasons?size>\n    <#assign pre_last_index = size - 2>\n    <#list reason.subreasons as subreason>\n        <#assign type = subreason.type>\n        <#assign delimiter = subreason?has_next?then((subreason?index == pre_last_index && size == 2)?then('', ','), '.')>\n        <#if type == \"@mention\" && issue?has_content>\n            <@l10n>\n                @mentions in issue descriptions and comments${delimiter}\n            </@l10n>\n        <#elseif type == \"@mention\" && article?has_content>\n            <@l10n>\n                @mentions in article text and comments${delimiter}\n            </@l10n>\n        <#elseif type == \"search\">\n            <@l10n>\n                notification events for the <b>${subreason.name}<#if only_via_duplicate> (${subreason.issueId})</#if></b> saved search${delimiter}\n            </@l10n>\n        <#elseif type == \"tag\">\n            <@l10n>\n                notification events for the <b>${subreason.name}<#if only_via_duplicate> (${subreason.issueId})</#if></b> tag${delimiter}\n            </@l10n>\n        <#elseif type == \"star\">\n            <@l10n>\n                notification events for the <b>${subreason.name}<#if only_via_duplicate> (${subreason.issueId})</#if></b>${delimiter}\n            </@l10n>\n        <#elseif type == \"cluster\">\n            <@l10n>\n                changes in a duplicate cluster${delimiter}\n            </@l10n>\n        <#elseif type == \"ticket assignee\">\n            <@l10n>\n                notification events for <b>Helpdesk tickets | Assigned to me</b>${delimiter}\n            </@l10n>\n        <#elseif type == \"ticket cc\">\n            <@l10n>\n                notification events for <b>Helpdesk tickets | CC'd for me</b>${delimiter}\n            </@l10n>\n        </#if>\n        <#if (subreason?has_next && subreason?index == pre_last_index)>\n            <@l10n>and</@l10n>\n        </#if>\n    </#list>\n\n    <#if (last_notification?has_content && last_notification) || !issue?has_content>\n        <@l10n>\n            To receive fewer messages like this,\n            <a href=\"${Utils.getSettingUrl(to)}\">edit your notification preferences</a>.\n        </@l10n>\n    <#else>\n        <@l10n>\n            To unsubscribe, you can\n            <a href=\"${Utils.getSettingUrlWithMute(to,issue)}\">mute notifications for this issue</a> or\n            <a href=\"${Utils.getSettingUrl(to)}\">edit your notification preferences</a>.\n        </@l10n>\n    </#if>\n</#escape>\n",
+                "id": "reason_email",
+                "fileName": "reason_email.ftl",
+                "description": "Detailed reason for sending email notification to user (HTML)",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Brief reason for sending jabber notification to user (plain text)\"}>\n<#escape x as x?html>\n    <p>\n        <@l10n>\n            You received this message because you subscribe to\n        </@l10n>\n        <#assign multiple_reasons = (reason.subreasons?size gt 1)>\n        <#assign delimiter = multiple_reasons?then('', '.')>\n        <#assign subreason = reason.subreasons[0]>\n        <#assign type = subreason.type>\n        <#if type == \"search\">\n            <@l10n>\n                notification events for the \"${subreason.name}\"<#if only_via_duplicate> (${subreason.issueId})</#if> saved search${delimiter}\n            </@l10n>\n        <#elseif type == \"tag\">\n            <@l10n>\n                notification events for the \"${subreason.name}\"<#if only_via_duplicate> (${subreason.issueId})</#if> tag${delimiter}\n            </@l10n>\n        <#elseif type == \"star\">\n            <@l10n>\n                notification events for the \"${subreason.name}\"<#if only_via_duplicate> (${subreason.issueId})</#if>${delimiter}\n            </@l10n>\n        <#elseif type == \"cluster\">\n            <@l10n>\n                changes in a duplicate cluster${delimiter}\n            </@l10n>\n        <#elseif type == \"@mention\" && issue?has_content>\n            <@l10n>\n                @mentions in issue descriptions and comments${delimiter}\n            </@l10n>\n        <#elseif type == \"@mention\" && article?has_content>\n            <@l10n>\n                @mentions in article text and comments${delimiter}\n            </@l10n>\n        </#if>\n        <#if multiple_reasons>\n            <@l10n>and at least one more event</@l10n>.\n        </#if>\n    </p>\n</#escape>\n",
+                "id": "reason_jabber",
+                "fileName": "reason_jabber.ftl",
+                "description": "Brief reason for sending jabber notification to user (plain text)",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of sprints\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <table>\n    <#list AgileUtils.getAgileFields(issue) as field>\n        <tr>\n            <td style=\"width: ${styles.title_width}px;\n                       vertical-align: top;\n                       padding: 5px 10px 5px 0;\n                       color: #000000;\n                       ${styles.content_font}\">\n                ${field.name}\n            </td>\n            <td style=\"vertical-align: top;\n                       padding: 5px;\n                       ${styles.content_font}\">\n                <div style=\"padding: 2px 4px;\n                            font-size: 90%;\">\n                    <#list field.sprints as sprint>\n                        <div style=\"word-wrap: break-word; overflow: hidden;\">\n                            <a href=\"${AgileUtils.getSprintUrl(sprint)}\">\n                                ${AgileUtils.getSprintPresentation(sprint)}\n                            </a>\n                        </div>\n                    </#list>\n                </div>\n            </td>\n        </tr>\n    </#list>\n    </table>\n</#escape>\n",
+                "id": "sprints_panel",
+                "fileName": "sprints_panel.ftl",
+                "description": "Presentation of sprints",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"List of issue tags (except \\\"Star\\\")\"}>\n<#escape x as x?html>\n    <#assign tags = Utils.getExplicitTags(issue)>\n    <#if tags?has_content>\n\n        <#import \"styles.ftl\" as styles>\n        <div style=\"margin: 13px 0 0 0; padding: 0;\">\n            <#list tags as tag>\n                <a style=\"${styles.tag_bar} ${Utils.getTagStyle(tag)}\"\n                   title=\"${tag.name}\"\n                   href =\"${Utils.getTaggedIssuesUrl(tag)}\">\n                    ${Utils.getTrimmedTagName(tag)}\n                </a>\n            </#list>\n        </div>\n    </#if>\n</#escape>",
+                "id": "tags_panel",
+                "fileName": "tags_panel.ftl",
+                "description": "List of issue tags (except \"Star\")",
+                "$type": "NotificationTemplate"
+            },
+            {
+                "overrided": false,
+                "content": "<#ftl attributes={\"description\":\"Presentation of text custom field values\"}>\n<#escape x as x?html>\n    <#import \"styles.ftl\" as styles>\n    <div>\n        <#list issue.fields as field>\n            <#if field.usingMarkup>\n                <div style=\"line-height: 22px;\n                            color: #000000;\">\n                    <h3>${field.name}</h3>\n                </div>\n                <div>\n                    <#if field.value?has_content>\n                        <@markup><#noescape>${field.value}</#noescape></@markup>\n                    </#if>\n                </div>\n            </#if>\n        </#list>\n    </div>\n</#escape>\n",
+                "id": "text_fields_panel",
+                "fileName": "text_fields_panel.ftl",
+                "description": "Presentation of text custom field values",
+                "$type": "NotificationTemplate"
+            }
+        ],
+        "enabled": true,
+        "title": "Template Components",
+        "name": "components",
+        "id": "4725dcf4-46a3-32f1-873a-8228e42dfa48",
+        "description": "",
+        "$type": "NotificationTemplateGroup"
+    }
+]

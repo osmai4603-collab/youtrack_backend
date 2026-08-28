@@ -1,0 +1,2752 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/fields?$top=-1&fields=aliases,bundle(defaultsUsages(parent(localizedName,name)),id,isUpdateable,name,sorting(desc,property(id))),canBeEmpty,condition(conditionApplied,field(bundle(id),emptyFieldText,field(fieldDefaults(bundle(defaultsUsages(parent(localizedName,name)),id,isUpdateable,name,sorting(desc,property(id))),canBeEmpty,defaultValues($type,archived,assembleDate,avatarUrl,color(id),description,fullName,hasRunningJob,id,isResolved,issueRelatedGroup(icon),localizedName,login,name,ordinal,owner(id,login,ringId),releaseDate,released,ringId,showLocalizedNameInAdmin,startDate,teamForProject(ringId),usersCount),emptyFieldText,id,isPublic,name),fieldType(canBeConvertedTo(from(id,isMultiValue,presentation,valueType),id,localizedName,to(id,isMultiValue,presentation,valueType)),id,isBundleType,isMultiValue,presentation,valueType),id,localizedName,name),id),showForNullValue,values($type,id,localizedName,name)),defaultValues($type,archived,assembleDate,avatarUrl,color(id),description,fullName,hasRunningJob,id,isResolved,issueRelatedGroup(icon),localizedName,login,name,ordinal,owner(id,login,ringId),releaseDate,released,ringId,showLocalizedNameInAdmin,startDate,teamForProject(ringId),usersCount),emptyFieldText,emptyValueEqualsElement,field(aliases,fieldDefaults(bundle(defaultsUsages(parent(localizedName,name)),id,isUpdateable,name,sorting(desc,property(id))),canBeEmpty,defaultValues($type,archived,assembleDate,avatarUrl,color(id),description,fullName,hasRunningJob,id,isResolved,issueRelatedGroup(icon),localizedName,login,name,ordinal,owner(id,login,ringId),releaseDate,released,ringId,showLocalizedNameInAdmin,startDate,teamForProject(ringId),usersCount),emptyFieldText,id,isPublic,name),fieldType(canBeConvertedTo(from(id,isMultiValue,presentation,valueType),id,localizedName,to(id,isMultiValue,presentation,valueType)),id,isBundleType,isMultiValue,presentation,valueType),hasRunningJob,id,instances(id,project(archived,id,name)),isAutoAttached,isDisplayedInIssueList,isUpdateable,localizedName,name,ordinal,usages($type,id,project(archived,id,name))),hasRunningJob,id,isPublic,ordinal,plugins(workflow(dependentStateMachines(id,name,scriptPackage(id),stateMachineField(field(id,localizedName,name))),hasStateMachine,stateMachine(id,name,scriptPackage(id),stateMachineField(field(id,localizedName,name))),valuesWithDependentStateMachines(element(id),machines(id,name,scriptPackage(id),stateMachineField(field(id,localizedName,name)))))),project(id,name),size,updatableBy(id,name,ringId),updatableByGroups(id,name,ringId),valuesCondition(conditions(bundleElement($type,id,localizedName,name),possibleValues($type,id,localizedName,name)),field(bundle(id),emptyFieldText,field(fieldDefaults(bundle(defaultsUsages(parent(localizedName,name)),id,isUpdateable,name,sorting(desc,property(id))),canBeEmpty,defaultValues($type,archived,assembleDate,avatarUrl,color(id),description,fullName,hasRunningJob,id,isResolved,issueRelatedGroup(icon),localizedName,login,name,ordinal,owner(id,login,ringId),releaseDate,released,ringId,showLocalizedNameInAdmin,startDate,teamForProject(ringId),usersCount),emptyFieldText,id,isPublic,name),fieldType(canBeConvertedTo(from(id,isMultiValue,presentation,valueType),id,localizedName,to(id,isMultiValue,presentation,valueType)),id,isBundleType,isMultiValue,presentation,valueType),id,localizedName,name),id)),visibleTo(id,name,ringId),visibleToGroups(id,name,ringId)
+
+[
+    {
+        "defaultValues": [
+            {
+                "showLocalizedNameInAdmin": false,
+                "localizedName": null,
+                "hasRunningJob": false,
+                "archived": false,
+                "ordinal": 3,
+                "description": null,
+                "name": "Normal",
+                "color": {
+                    "id": "17",
+                    "$type": "FieldStyle"
+                },
+                "id": "164-20",
+                "$type": "EnumBundleElement"
+            }
+        ],
+        "valuesCondition": {
+            "conditions": [],
+            "field": {
+                "bundle": {
+                    "id": "165-1",
+                    "$type": "StateBundle"
+                },
+                "emptyFieldText": "No State",
+                "field": {
+                    "fieldDefaults": {
+                        "defaultValues": [
+                            {
+                                "isResolved": false,
+                                "showLocalizedNameInAdmin": false,
+                                "localizedName": null,
+                                "hasRunningJob": false,
+                                "archived": false,
+                                "ordinal": 0,
+                                "description": null,
+                                "name": "Submitted",
+                                "color": {
+                                    "id": "0",
+                                    "$type": "FieldStyle"
+                                },
+                                "id": "166-0",
+                                "$type": "StateBundleElement"
+                            }
+                        ],
+                        "bundle": {
+                            "sorting": null,
+                            "defaultsUsages": [
+                                {
+                                    "parent": {
+                                        "localizedName": null,
+                                        "name": "State",
+                                        "$type": "CustomField"
+                                    },
+                                    "$type": "StateBundleCustomFieldDefaults"
+                                }
+                            ],
+                            "isUpdateable": true,
+                            "name": "States",
+                            "id": "165-0",
+                            "$type": "StateBundle"
+                        },
+                        "emptyFieldText": "No State",
+                        "canBeEmpty": false,
+                        "isPublic": true,
+                        "id": "162-5",
+                        "$type": "StateBundleCustomFieldDefaults"
+                    },
+                    "localizedName": null,
+                    "fieldType": {
+                        "canBeConvertedTo": [
+                            {
+                                "to": {
+                                    "isMultiValue": false,
+                                    "presentation": "build[1]",
+                                    "valueType": "build",
+                                    "id": "build[1]",
+                                    "$type": "FieldType"
+                                },
+                                "id": "state[1]_build[1]",
+                                "from": {
+                                    "isMultiValue": false,
+                                    "presentation": "state[1]",
+                                    "valueType": "state",
+                                    "id": "state[1]",
+                                    "$type": "FieldType"
+                                },
+                                "localizedName": "Convert to build[1]",
+                                "$type": "FieldConverter"
+                            },
+                            {
+                                "to": {
+                                    "isMultiValue": false,
+                                    "presentation": "enum[1]",
+                                    "valueType": "enum",
+                                    "id": "enum[1]",
+                                    "$type": "FieldType"
+                                },
+                                "id": "state[1]_enum[1]",
+                                "from": {
+                                    "isMultiValue": false,
+                                    "presentation": "state[1]",
+                                    "valueType": "state",
+                                    "id": "state[1]",
+                                    "$type": "FieldType"
+                                },
+                                "localizedName": "Convert to enum[1]",
+                                "$type": "FieldConverter"
+                            },
+                            {
+                                "to": {
+                                    "isMultiValue": false,
+                                    "presentation": "ownedField[1]",
+                                    "valueType": "ownedField",
+                                    "id": "ownedField[1]",
+                                    "$type": "FieldType"
+                                },
+                                "id": "state[1]_ownedField[1]",
+                                "from": {
+                                    "isMultiValue": false,
+                                    "presentation": "state[1]",
+                                    "valueType": "state",
+                                    "id": "state[1]",
+                                    "$type": "FieldType"
+                                },
+                                "localizedName": "Convert to ownedField[1]",
+                                "$type": "FieldConverter"
+                            },
+                            {
+                                "to": {
+                                    "isMultiValue": false,
+                                    "presentation": "version[1]",
+                                    "valueType": "version",
+                                    "id": "version[1]",
+                                    "$type": "FieldType"
+                                },
+                                "id": "state[1]_version[1]",
+                                "from": {
+                                    "isMultiValue": false,
+                                    "presentation": "state[1]",
+                                    "valueType": "state",
+                                    "id": "state[1]",
+                                    "$type": "FieldType"
+                                },
+                                "localizedName": "Convert to version[1]",
+                                "$type": "FieldConverter"
+                            },
+                            {
+                                "to": {
+                                    "isMultiValue": false,
+                                    "presentation": "string",
+                                    "valueType": "string",
+                                    "id": "string",
+                                    "$type": "FieldType"
+                                },
+                                "id": "state[1]_string",
+                                "from": {
+                                    "isMultiValue": false,
+                                    "presentation": "state[1]",
+                                    "valueType": "state",
+                                    "id": "state[1]",
+                                    "$type": "FieldType"
+                                },
+                                "localizedName": "Convert to string",
+                                "$type": "FieldConverter"
+                            }
+                        ],
+                        "isBundleType": true,
+                        "isMultiValue": false,
+                        "presentation": "state[1]",
+                        "valueType": "state",
+                        "id": "state[1]",
+                        "$type": "FieldType"
+                    },
+                    "name": "State",
+                    "id": "161-2",
+                    "$type": "CustomField"
+                },
+                "id": "189-2",
+                "$type": "StateProjectCustomField"
+            },
+            "$type": "FieldBasedBundleValuesCondition"
+        },
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "189-0-1785014406401",
+            "id": "163-3",
+            "$type": "EnumBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "No Priority",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [
+                    {
+                        "showLocalizedNameInAdmin": false,
+                        "localizedName": null,
+                        "hasRunningJob": false,
+                        "archived": false,
+                        "ordinal": 3,
+                        "description": null,
+                        "name": "Normal",
+                        "color": {
+                            "id": "17",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "164-3",
+                        "$type": "EnumBundleElement"
+                    }
+                ],
+                "bundle": {
+                    "sorting": null,
+                    "defaultsUsages": [
+                        {
+                            "parent": {
+                                "localizedName": null,
+                                "name": "Priority",
+                                "$type": "CustomField"
+                            },
+                            "$type": "EnumBundleCustomFieldDefaults"
+                        }
+                    ],
+                    "isUpdateable": true,
+                    "name": "Priorities",
+                    "id": "163-0",
+                    "$type": "EnumBundle"
+                },
+                "emptyFieldText": "No Priority",
+                "canBeEmpty": false,
+                "isPublic": true,
+                "id": "162-1",
+                "$type": "EnumBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-0",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "189-7",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-11",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "pringo",
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "id": "189-19",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "189-21",
+                    "$type": "EnumProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 0,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "enum[*]",
+                            "valueType": "enum",
+                            "id": "enum[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "SingleToMultiEnumFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert enum[1] to enum[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_build[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_ownedField[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_state[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to state[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_version[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_string",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CardSettingsAgileUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Priority",
+            "id": "161-0",
+            "$type": "CustomField"
+        },
+        "id": "189-0",
+        "$type": "EnumProjectCustomField"
+    },
+    {
+        "defaultValues": [
+            {
+                "showLocalizedNameInAdmin": false,
+                "localizedName": null,
+                "hasRunningJob": false,
+                "archived": false,
+                "ordinal": 0,
+                "description": null,
+                "name": "Bug",
+                "color": {
+                    "id": "0",
+                    "$type": "FieldStyle"
+                },
+                "id": "164-5",
+                "$type": "EnumBundleElement"
+            }
+        ],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [
+                {
+                    "parent": {
+                        "localizedName": null,
+                        "name": "Type",
+                        "$type": "CustomField"
+                    },
+                    "$type": "EnumBundleCustomFieldDefaults"
+                }
+            ],
+            "isUpdateable": true,
+            "name": "Types",
+            "id": "163-1",
+            "$type": "EnumBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "No Type",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [
+                    {
+                        "showLocalizedNameInAdmin": false,
+                        "localizedName": null,
+                        "hasRunningJob": false,
+                        "archived": false,
+                        "ordinal": 0,
+                        "description": null,
+                        "name": "Bug",
+                        "color": {
+                            "id": "0",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "164-5",
+                        "$type": "EnumBundleElement"
+                    }
+                ],
+                "bundle": {
+                    "sorting": null,
+                    "defaultsUsages": [
+                        {
+                            "parent": {
+                                "localizedName": null,
+                                "name": "Type",
+                                "$type": "CustomField"
+                            },
+                            "$type": "EnumBundleCustomFieldDefaults"
+                        }
+                    ],
+                    "isUpdateable": true,
+                    "name": "Types",
+                    "id": "163-1",
+                    "$type": "EnumBundle"
+                },
+                "emptyFieldText": "No Type",
+                "canBeEmpty": false,
+                "isPublic": true,
+                "id": "162-3",
+                "$type": "EnumBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-1",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "189-10",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-12",
+                    "$type": "EnumProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "189-24",
+                    "$type": "EnumProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 2,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "enum[*]",
+                            "valueType": "enum",
+                            "id": "enum[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "SingleToMultiEnumFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert enum[1] to enum[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_build[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_ownedField[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_state[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to state[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_version[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "enum[1]_string",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "enum[1]",
+                "valueType": "enum",
+                "id": "enum[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "SwimlaneSettingsAgileUsage"
+                },
+                {
+                    "$type": "SwimlaneSettingsAgileUsage"
+                },
+                {
+                    "$type": "SwimlaneSettingsAgileUsage"
+                },
+                {
+                    "$type": "SwimlaneSettingsAgileUsage"
+                },
+                {
+                    "$type": "CardSettingsAgileUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Type",
+            "id": "161-1",
+            "$type": "CustomField"
+        },
+        "id": "189-1",
+        "$type": "EnumProjectCustomField"
+    },
+    {
+        "defaultValues": [
+            {
+                "isResolved": false,
+                "showLocalizedNameInAdmin": false,
+                "localizedName": null,
+                "hasRunningJob": false,
+                "archived": false,
+                "ordinal": 1,
+                "description": null,
+                "name": "To do",
+                "color": {
+                    "id": "30",
+                    "$type": "FieldStyle"
+                },
+                "id": "166-12",
+                "$type": "StateBundleElement"
+            }
+        ],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo projectStatea76cac30-89bb-43da-bfae-eedebb503ba8",
+            "id": "165-1",
+            "$type": "StateBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "No State",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": false,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [
+                    {
+                        "isResolved": false,
+                        "showLocalizedNameInAdmin": false,
+                        "localizedName": null,
+                        "hasRunningJob": false,
+                        "archived": false,
+                        "ordinal": 0,
+                        "description": null,
+                        "name": "Submitted",
+                        "color": {
+                            "id": "0",
+                            "$type": "FieldStyle"
+                        },
+                        "id": "166-0",
+                        "$type": "StateBundleElement"
+                    }
+                ],
+                "bundle": {
+                    "sorting": null,
+                    "defaultsUsages": [
+                        {
+                            "parent": {
+                                "localizedName": null,
+                                "name": "State",
+                                "$type": "CustomField"
+                            },
+                            "$type": "StateBundleCustomFieldDefaults"
+                        }
+                    ],
+                    "isUpdateable": true,
+                    "name": "States",
+                    "id": "165-0",
+                    "$type": "StateBundle"
+                },
+                "emptyFieldText": "No State",
+                "canBeEmpty": false,
+                "isPublic": true,
+                "id": "162-5",
+                "$type": "StateBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-2",
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "189-8",
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-13",
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "pringo",
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "id": "189-20",
+                    "$type": "StateProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "189-22",
+                    "$type": "StateProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 1,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "state[1]_build[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "state[1]_enum[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to enum[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "state[1]_ownedField[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "state[1]_version[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "state[1]_string",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "state[1]",
+                "valueType": "state",
+                "id": "state[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "StateAgileUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "WorkflowCustomFieldUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "State",
+            "id": "161-2",
+            "$type": "CustomField"
+        },
+        "id": "189-2",
+        "$type": "StateProjectCustomField"
+    },
+    {
+        "defaultValues": [],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo project: Subsystem",
+            "id": "191-0",
+            "$type": "OwnedBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "No Subsystem",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": false,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [],
+                "bundle": null,
+                "emptyFieldText": "No Subsystem",
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "162-7",
+                "$type": "OwnedBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-3",
+                    "$type": "OwnedProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-14",
+                    "$type": "OwnedProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 4,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "ownedField[*]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "SingleToMultiOwnedFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert ownedField[1] to ownedField[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "ownedField[1]_build[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "ownedField[1]_enum[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to enum[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "ownedField[1]_state[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to state[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "ownedField[1]_version[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "ownedField[1]_string",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "ownedField[1]",
+                "valueType": "ownedField",
+                "id": "ownedField[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "SwimlaneSettingsAgileUsage"
+                },
+                {
+                    "$type": "CardSettingsAgileUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldReportUsage"
+                }
+            ],
+            "aliases": "in",
+            "name": "Subsystem",
+            "id": "161-4",
+            "$type": "CustomField"
+        },
+        "id": "189-3",
+        "$type": "OwnedProjectCustomField"
+    },
+    {
+        "defaultValues": [],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo project: Versions",
+            "id": "168-1",
+            "$type": "VersionBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "Unscheduled",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [],
+                "bundle": {
+                    "sorting": null,
+                    "defaultsUsages": [
+                        {
+                            "parent": {
+                                "localizedName": null,
+                                "name": "Fix versions",
+                                "$type": "CustomField"
+                            },
+                            "$type": "VersionBundleCustomFieldDefaults"
+                        },
+                        {
+                            "parent": {
+                                "localizedName": null,
+                                "name": "Affected versions",
+                                "$type": "CustomField"
+                            },
+                            "$type": "VersionBundleCustomFieldDefaults"
+                        }
+                    ],
+                    "isUpdateable": true,
+                    "name": "Versions",
+                    "id": "168-0",
+                    "$type": "VersionBundle"
+                },
+                "emptyFieldText": "Unscheduled",
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "162-9",
+                "$type": "VersionBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-4",
+                    "$type": "VersionProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-15",
+                    "$type": "VersionProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 5,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "MultiToSingleVersionFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert version[*] to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "build[*]",
+                            "valueType": "build",
+                            "id": "build[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_build[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "enum[*]",
+                            "valueType": "enum",
+                            "id": "enum[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_enum[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to enum[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "ownedField[*]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_ownedField[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_string",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": "fix for, fixed in, fix version, version",
+            "name": "Fix versions",
+            "id": "161-5",
+            "$type": "CustomField"
+        },
+        "id": "189-4",
+        "$type": "VersionProjectCustomField"
+    },
+    {
+        "defaultValues": [],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo project: Fixed in build",
+            "id": "192-0",
+            "$type": "BuildBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "Next Build",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [],
+                "bundle": null,
+                "emptyFieldText": "Next Build",
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "162-13",
+                "$type": "BuildBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": false,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-6",
+                    "$type": "BuildProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "189-17",
+                    "$type": "BuildProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 7,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "build[*]",
+                            "valueType": "build",
+                            "id": "build[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "SingleToMultiBuildFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert build[1] to build[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "enum[1]",
+                            "valueType": "enum",
+                            "id": "enum[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "build[1]_enum[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to enum[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "ownedField[1]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "build[1]_ownedField[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "state[1]",
+                            "valueType": "state",
+                            "id": "state[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "build[1]_state[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to state[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "build[1]_version[1]",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "build[1]_string",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "build[1]",
+                            "valueType": "build",
+                            "id": "build[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "build[1]",
+                "valueType": "build",
+                "id": "build[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": "fix for, fixed in, build, fix build",
+            "name": "Fixed in build",
+            "id": "161-7",
+            "$type": "CustomField"
+        },
+        "id": "189-6",
+        "$type": "BuildProjectCustomField"
+    },
+    {
+        "defaultValues": [],
+        "valuesCondition": null,
+        "bundle": {
+            "sorting": null,
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo project: Versions",
+            "id": "168-1",
+            "$type": "VersionBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "Unknown",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": [],
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": false,
+            "fieldDefaults": {
+                "defaultValues": [],
+                "bundle": null,
+                "emptyFieldText": "Unscheduled",
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "162-14",
+                "$type": "VersionBundleCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "189-9",
+                    "$type": "VersionProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "189-18",
+                    "$type": "VersionProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "189-23",
+                    "$type": "VersionProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 11,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "version[1]",
+                            "valueType": "version",
+                            "id": "version[1]",
+                            "$type": "FieldType"
+                        },
+                        "id": "MultiToSingleVersionFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert version[*] to version[1]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "build[*]",
+                            "valueType": "build",
+                            "id": "build[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_build[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to build[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "enum[*]",
+                            "valueType": "enum",
+                            "id": "enum[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_enum[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to enum[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "ownedField[*]",
+                            "valueType": "ownedField",
+                            "id": "ownedField[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_ownedField[*]",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to ownedField[*]",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "string",
+                            "valueType": "string",
+                            "id": "string",
+                            "$type": "FieldType"
+                        },
+                        "id": "version[*]_string",
+                        "from": {
+                            "isMultiValue": true,
+                            "presentation": "version[*]",
+                            "valueType": "version",
+                            "id": "version[*]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to string",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": true,
+                "presentation": "version[*]",
+                "valueType": "version",
+                "id": "version[*]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Sprints",
+            "id": "161-11",
+            "$type": "CustomField"
+        },
+        "id": "189-18",
+        "$type": "VersionProjectCustomField"
+    },
+    {
+        "defaultValues": [],
+        "valuesCondition": null,
+        "bundle": {
+            "defaultsUsages": [],
+            "isUpdateable": true,
+            "name": "Demo project: Assignee",
+            "id": "13-0",
+            "$type": "UserBundle"
+        },
+        "emptyValueEqualsElement": false,
+        "emptyFieldText": "Unassigned",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": null,
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": true,
+            "fieldDefaults": {
+                "defaultValues": [],
+                "bundle": null,
+                "emptyFieldText": "Unassigned",
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "167-1",
+                "$type": "UserCustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "190-0",
+                    "$type": "UserProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "190-1",
+                    "$type": "UserProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "190-2",
+                    "$type": "UserProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "pringo",
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "id": "190-3",
+                    "$type": "UserProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "190-4",
+                    "$type": "UserProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 3,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": true,
+                            "presentation": "user[*]",
+                            "valueType": "user",
+                            "id": "user[*]",
+                            "$type": "FieldType"
+                        },
+                        "id": "SingleToMultiUserFieldTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "user[1]",
+                            "valueType": "user",
+                            "id": "user[1]",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert user[1] to user[*]",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": true,
+                "isMultiValue": false,
+                "presentation": "user[1]",
+                "valueType": "user",
+                "id": "user[1]",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CardSettingsAgileUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": "for, assigned to",
+            "name": "Assignee",
+            "id": "161-3",
+            "$type": "CustomField"
+        },
+        "id": "190-0",
+        "$type": "UserProjectCustomField"
+    },
+    {
+        "emptyFieldText": "?",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": null,
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": false,
+            "fieldDefaults": {
+                "emptyFieldText": null,
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "169-2",
+                "$type": "CustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "196-0",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "196-2",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "pringo",
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "id": "196-4",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "196-6",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "196-8",
+                    "$type": "PeriodProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 9,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToFloatConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToFloatConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToIntTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToIntTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Estimation",
+            "id": "161-9",
+            "$type": "CustomField"
+        },
+        "id": "196-0",
+        "$type": "PeriodProjectCustomField"
+    },
+    {
+        "emptyFieldText": "?",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": null,
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": false,
+            "fieldDefaults": {
+                "emptyFieldText": null,
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "169-3",
+                "$type": "CustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "196-1",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "196-3",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "pringo",
+                        "id": "0-3",
+                        "$type": "Project"
+                    },
+                    "id": "196-5",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Test project",
+                        "id": "0-2",
+                        "$type": "Project"
+                    },
+                    "id": "196-7",
+                    "$type": "PeriodProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "196-9",
+                    "$type": "PeriodProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 10,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToFloatConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToFloatConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodDaysToIntTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "id": "periodHoursToIntTypeConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert to hours",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "period",
+                "valueType": "period",
+                "id": "period",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Spent time",
+            "id": "161-10",
+            "$type": "CustomField"
+        },
+        "id": "196-1",
+        "$type": "PeriodProjectCustomField"
+    },
+    {
+        "emptyFieldText": "No ideal days",
+        "visibleToGroups": [],
+        "updatableByGroups": [],
+        "hasRunningJob": false,
+        "canBeEmpty": true,
+        "updatableBy": null,
+        "condition": null,
+        "visibleTo": null,
+        "isPublic": true,
+        "ordinal": 0,
+        "project": {
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "plugins": {
+            "$type": "ProjectCustomFieldPlugins",
+            "workflow": {
+                "stateMachine": null,
+                "hasStateMachine": false,
+                "dependentStateMachines": [],
+                "valuesWithDependentStateMachines": null,
+                "$type": "WorkflowProjectCustomFieldPlugin"
+            }
+        },
+        "field": {
+            "isAutoAttached": false,
+            "fieldDefaults": {
+                "emptyFieldText": null,
+                "canBeEmpty": true,
+                "isPublic": true,
+                "id": "169-4",
+                "$type": "CustomFieldDefaults"
+            },
+            "isDisplayedInIssueList": true,
+            "hasRunningJob": false,
+            "isUpdateable": true,
+            "instances": [
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "fingerprint",
+                        "id": "0-1",
+                        "$type": "Project"
+                    },
+                    "id": "575-0",
+                    "$type": "SimpleProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "Demo project",
+                        "id": "0-0",
+                        "$type": "Project"
+                    },
+                    "id": "575-3",
+                    "$type": "SimpleProjectCustomField"
+                },
+                {
+                    "project": {
+                        "archived": false,
+                        "name": "traint-project-scrum",
+                        "id": "0-4",
+                        "$type": "Project"
+                    },
+                    "id": "575-5",
+                    "$type": "SimpleProjectCustomField"
+                }
+            ],
+            "localizedName": null,
+            "ordinal": 12,
+            "fieldType": {
+                "canBeConvertedTo": [
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "float",
+                            "valueType": "float",
+                            "id": "float",
+                            "$type": "FieldType"
+                        },
+                        "id": "integerToFloatConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert field to float",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "id": "integerDaysToPeriodConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert from days",
+                        "$type": "FieldConverter"
+                    },
+                    {
+                        "to": {
+                            "isMultiValue": false,
+                            "presentation": "period",
+                            "valueType": "period",
+                            "id": "period",
+                            "$type": "FieldType"
+                        },
+                        "id": "integerHoursToPeriodConverter",
+                        "from": {
+                            "isMultiValue": false,
+                            "presentation": "integer",
+                            "valueType": "integer",
+                            "id": "integer",
+                            "$type": "FieldType"
+                        },
+                        "localizedName": "Convert from hours",
+                        "$type": "FieldConverter"
+                    }
+                ],
+                "isBundleType": false,
+                "isMultiValue": false,
+                "presentation": "integer",
+                "valueType": "integer",
+                "id": "integer",
+                "$type": "FieldType"
+            },
+            "usages": [
+                {
+                    "$type": "EstimationAgileUsage"
+                },
+                {
+                    "$type": "EstimationAgileUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                },
+                {
+                    "$type": "CustomFieldProjectUsage"
+                }
+            ],
+            "aliases": null,
+            "name": "Ideal days",
+            "id": "161-12",
+            "$type": "CustomField"
+        },
+        "id": "575-3",
+        "$type": "SimpleProjectCustomField"
+    }
+]

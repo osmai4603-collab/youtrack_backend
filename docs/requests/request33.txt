@@ -1,0 +1,23 @@
+https://osm.youtrack.cloud/api/users/2-1?fields=id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked
+
+{
+    "online": true,
+    "canReadProfile": true,
+    "banBadge": null,
+    "isEmailVerified": true,
+    "userType": {
+        "name": "Standard user",
+        "id": "STANDARD_USER",
+        "$type": "UserType"
+    },
+    "email": "osmflutterdeveloper@gmail.com",
+    "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+    "login": "admin",
+    "guest": false,
+    "banned": false,
+    "name": "admin",
+    "isLocked": false,
+    "fullName": "admin",
+    "id": "2-1",
+    "$type": "User"
+}

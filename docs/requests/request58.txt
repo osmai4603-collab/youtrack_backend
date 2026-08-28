@@ -1,0 +1,124 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/timeTrackingSettings/attributes?fields=id,values(%40values),prototype(id,name,hasRunningJobs,values(%40values),instances(%40instances))%3B%40values%3Aid,name,autoAttach,description,hasRunningJobs,color(id,background,foreground),attributes(%40instances)%3B%40instances%3Aid,timeTrackingSettings(id,project(id))
+
+[
+    {
+        "prototype": {
+            "hasRunningJobs": false,
+            "instances": [
+                {
+                    "timeTrackingSettings": {
+                        "project": {
+                            "id": "0-0",
+                            "$type": "Project"
+                        },
+                        "id": "195-0",
+                        "$type": "ProjectTimeTrackingSettings"
+                    },
+                    "id": "324-0",
+                    "$type": "WorkItemProjectAttribute"
+                },
+                {
+                    "timeTrackingSettings": {
+                        "project": {
+                            "id": "0-2",
+                            "$type": "Project"
+                        },
+                        "id": "195-2",
+                        "$type": "ProjectTimeTrackingSettings"
+                    },
+                    "id": "324-1",
+                    "$type": "WorkItemProjectAttribute"
+                }
+            ],
+            "values": [
+                {
+                    "autoAttach": false,
+                    "hasRunningJobs": false,
+                    "description": null,
+                    "name": "34543",
+                    "attributes": [
+                        {
+                            "timeTrackingSettings": {
+                                "project": {
+                                    "id": "0-0",
+                                    "$type": "Project"
+                                },
+                                "id": "195-0",
+                                "$type": "ProjectTimeTrackingSettings"
+                            },
+                            "id": "324-0",
+                            "$type": "WorkItemProjectAttribute"
+                        },
+                        {
+                            "timeTrackingSettings": {
+                                "project": {
+                                    "id": "0-2",
+                                    "$type": "Project"
+                                },
+                                "id": "195-2",
+                                "$type": "ProjectTimeTrackingSettings"
+                            },
+                            "id": "324-1",
+                            "$type": "WorkItemProjectAttribute"
+                        }
+                    ],
+                    "color": {
+                        "foreground": "#444",
+                        "background": "#fff",
+                        "id": "0",
+                        "$type": "FieldStyle"
+                    },
+                    "id": "527-0",
+                    "$type": "WorkItemAttributeValue"
+                }
+            ],
+            "name": "يسبشسي",
+            "id": "530-0",
+            "$type": "WorkItemAttributePrototype"
+        },
+        "values": [
+            {
+                "autoAttach": false,
+                "hasRunningJobs": false,
+                "description": null,
+                "name": "34543",
+                "attributes": [
+                    {
+                        "timeTrackingSettings": {
+                            "project": {
+                                "id": "0-0",
+                                "$type": "Project"
+                            },
+                            "id": "195-0",
+                            "$type": "ProjectTimeTrackingSettings"
+                        },
+                        "id": "324-0",
+                        "$type": "WorkItemProjectAttribute"
+                    },
+                    {
+                        "timeTrackingSettings": {
+                            "project": {
+                                "id": "0-2",
+                                "$type": "Project"
+                            },
+                            "id": "195-2",
+                            "$type": "ProjectTimeTrackingSettings"
+                        },
+                        "id": "324-1",
+                        "$type": "WorkItemProjectAttribute"
+                    }
+                ],
+                "color": {
+                    "foreground": "#444",
+                    "background": "#fff",
+                    "id": "0",
+                    "$type": "FieldStyle"
+                },
+                "id": "527-0",
+                "$type": "WorkItemAttributeValue"
+            }
+        ],
+        "id": "324-0",
+        "$type": "WorkItemProjectAttribute"
+    }
+]

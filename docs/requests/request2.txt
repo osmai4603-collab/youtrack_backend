@@ -1,0 +1,17 @@
+
+https://youtrack.jetbrains.com/api/admin/timeTrackingSettings/workTimeSettings?fields=minutesADay,minutesADayPresentation,workDays,firstDayOfWeek(),daysAWeek
+
+{
+    "daysAWeek": 5,
+    "minutesADay": 480,
+    "workDays": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "minutesADayPresentation": "8h",
+    "firstDayOfWeek": 0,
+    "$type": "WorkTimeSettings"
+}

@@ -1,0 +1,54 @@
+
+https://osm.youtrack.cloud/hub/api/rest/services?fields=id,key,name,homeUrl,applicationName,vendor,version,trusted
+
+{
+    "type": "ServicesPage",
+    "skip": 0,
+    "top": 100,
+    "total": 4,
+    "services": [
+        {
+            "type": "service",
+            "id": "0-0-0-0-0",
+            "name": "YouTrack Administration",
+            "key": "jetbrains-hub-service",
+            "homeUrl": "https://osm.youtrack.cloud/hub",
+            "applicationName": "Hub",
+            "vendor": "JetBrains",
+            "version": "2026.2.52366",
+            "trusted": true
+        },
+        {
+            "type": "service",
+            "id": "3fabcba6-15ff-405c-a050-ca52717d12eb",
+            "name": "YouTrack",
+            "key": "3fabcba6-15ff-405c-a050-ca52717d12eb",
+            "homeUrl": "https://osm.youtrack.cloud",
+            "applicationName": "YouTrack",
+            "vendor": "JetBrains",
+            "version": "2026.2.18194",
+            "trusted": true
+        },
+        {
+            "type": "service",
+            "id": "db648fea-ba29-4757-899c-fe27c34e9473",
+            "name": "Konnector",
+            "key": "bad65d9b-3588-4e76-8f12-6146a85db8c7",
+            "homeUrl": "https://konnector.services.jetbrains.com",
+            "applicationName": "Konnector",
+            "vendor": "JetBrains",
+            "version": "2026.2.18194",
+            "trusted": true
+        },
+        {
+            "type": "service",
+            "id": "92974ff4-3089-4a94-a38b-f9f3b1ca66f8",
+            "name": "YouTrack Mobile",
+            "key": "a715473a-8148-499e-8fb4-ac21fb464003",
+            "applicationName": "YouTrack Mobile",
+            "vendor": "JetBrains",
+            "version": "2026.2.18194",
+            "trusted": false
+        }
+    ]
+}

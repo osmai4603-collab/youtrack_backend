@@ -1,0 +1,564 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/appConfigurations?sort=asc&$top=51&$skip=0&fields=id,app(id,name,title,canBeAttached,language(id),icon,darkIcon,tags(name),availableUpdateId,availableUpdateVersion,marketplaceId,fromMarketplace,canDeleteContent,canUpdateContent,hasBrokenUsages,hasWidgetOrHttp,permanent,autoAttach,updated,version,updatedBy(id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked),globalConfig(enabled,missingRequiredSettings),vendor(name,url,email),widgets(globalConfig(enabled),id,permissions(key,visibleName),iconPath,indexPath,name,extensionPoint(id,$type)),usages(id,canUpdate)),enabled,isBroken,canUpdate,missingRequiredSettings,projectSettings
+
+[
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-0",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-10",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-13",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-24",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-28",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Assignee Visibility",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-assignee-visibility-group",
+            "version": "0.0.1",
+            "id": "155-21",
+            "$type": "App"
+        },
+        "id": "193-0",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-1",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-14",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Clone Article",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-clone-article",
+            "version": "0.0.1",
+            "id": "155-24",
+            "$type": "App"
+        },
+        "id": "193-1",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-2",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-8",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-15",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-22",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-26",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Clone Issue",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-clone-issue",
+            "version": "0.0.1",
+            "id": "155-25",
+            "$type": "App"
+        },
+        "id": "193-2",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-4",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-9",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-17",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-23",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-27",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "One Vote Comment",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-one-vote-comment",
+            "version": "0.0.1",
+            "id": "155-37",
+            "$type": "App"
+        },
+        "id": "193-4",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-5",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-18",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Subsystem Assignee",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-subsystem-assignee",
+            "version": "0.0.1",
+            "id": "155-49",
+            "$type": "App"
+        },
+        "id": "193-5",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": false,
+        "missingRequiredSettings": false,
+        "enabled": false,
+        "app": {
+            "hasBrokenUsages": false,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-21",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": false,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Subtask Inherit Assignee",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-subtask-inherit-assignee",
+            "version": "0.0.1",
+            "id": "155-50",
+            "$type": "App"
+        },
+        "id": "193-21",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": true,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": true,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-6",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-19",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Subtasks",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-subtasks",
+            "version": "0.0.1",
+            "id": "155-53",
+            "$type": "App"
+        },
+        "id": "193-6",
+        "$type": "ProjectAppConfiguration"
+    },
+    {
+        "projectSettings": "{}",
+        "canUpdate": true,
+        "isBroken": true,
+        "missingRequiredSettings": false,
+        "enabled": true,
+        "app": {
+            "hasBrokenUsages": true,
+            "availableUpdateVersion": null,
+            "marketplaceId": null,
+            "availableUpdateId": null,
+            "canBeAttached": true,
+            "globalConfig": {
+                "missingRequiredSettings": false,
+                "enabled": true,
+                "$type": "AppConfiguration"
+            },
+            "widgets": [],
+            "updated": 1784122885000,
+            "updatedBy": null,
+            "usages": [
+                {
+                    "canUpdate": true,
+                    "id": "193-7",
+                    "$type": "ProjectAppConfiguration"
+                },
+                {
+                    "canUpdate": true,
+                    "id": "193-20",
+                    "$type": "ProjectAppConfiguration"
+                }
+            ],
+            "tags": [
+                {
+                    "name": "Workflow",
+                    "$type": "AppTag"
+                }
+            ],
+            "language": {
+                "id": "JS",
+                "$type": "PackageLanguage"
+            },
+            "fromMarketplace": false,
+            "canUpdateContent": true,
+            "canDeleteContent": true,
+            "darkIcon": null,
+            "permanent": false,
+            "autoAttach": true,
+            "hasWidgetOrHttp": false,
+            "icon": null,
+            "title": "Update Fixed in Build",
+            "vendor": {
+                "name": "JetBrains s.r.o.",
+                "url": "https://jetbrains.com",
+                "email": "support@jetbrains.com",
+                "$type": "AppVendor"
+            },
+            "name": "@jetbrains/youtrack-workflow-update-fix-build",
+            "version": "0.0.1",
+            "id": "155-57",
+            "$type": "App"
+        },
+        "id": "193-7",
+        "$type": "ProjectAppConfiguration"
+    }
+]

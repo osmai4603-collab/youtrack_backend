@@ -1,0 +1,226 @@
+https://osm.youtrack.cloud/api/admin/projects/DEMO?fields=id,name,shortName,projectType(id),pinned,iconUrl,template,archived,restricted,hasArticles,team(id,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable,users(%40leader)),isDemo,sourceTemplate,fieldsSorted,query,issuesUrl,leader(%40leader),creationTime,widgets(id,key,appId,description,appName,appTitle,name,collapsed,configurable,indexPath,extensionPoint,iconPath,guard,appIconPath,appDarkIconPath,defaultHeight,defaultWidth,expectedHeight,expectedWidth,vendorName,vendorEmail,vendorUrl,marketplaceId,showHeader,borderless),plugins(timeTrackingSettings(id,enabled),helpDeskSettings(id,defaultForm(uuid,title)),vcsIntegrationSettings(hasVcsIntegrations),grazie(disabled)),defaultVisibilityGroup(%40relevantVisibilityGroups),relevantVisibilityGroups(%40relevantVisibilityGroups),historicalShortNames,auditTargetId,description,organization(id,key,name,iconUrl,projectsCount),defaultSmtp,fromEmail,fromPersonal,replyToEmail,supportsEmailDelimiter,emailDelimiter,useEmailDelimiter%3B%40leader%3Aid,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked%3B%40relevantVisibilityGroups%3Aid,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable
+
+{
+    "hasArticles": true,
+    "replyToEmail": "osmflutterdeveloper@gmail.com",
+    "useEmailDelimiter": false,
+    "supportsEmailDelimiter": false,
+    "historicalShortNames": [],
+    "relevantVisibilityGroups": [
+        {
+            "isRemovable": false,
+            "teamForProject": null,
+            "allUsersGroup": false,
+            "isUpdatable": true,
+            "icon": null,
+            "auditTargetId": "e233f45d-eecf-4ea3-8994-d2d0467666a2",
+            "description": null,
+            "name": "Registered Users",
+            "id": "6-0",
+            "$type": "RegisteredUsersGroup"
+        },
+        {
+            "isRemovable": false,
+            "allUsersGroup": true,
+            "teamForProject": null,
+            "isUpdatable": true,
+            "icon": null,
+            "auditTargetId": "4c968b6f-11b0-4558-9b96-12713543b261",
+            "description": null,
+            "name": "All Users",
+            "id": "103-0",
+            "$type": "AllUsersGroup"
+        }
+    ],
+    "projectType": {
+        "id": "DEFAULT",
+        "$type": "ProjectType"
+    },
+    "emailDelimiter": "Please enter your reply above this line",
+    "defaultVisibilityGroup": {
+        "isRemovable": true,
+        "teamForProject": null,
+        "allUsersGroup": false,
+        "isUpdatable": true,
+        "icon": null,
+        "auditTargetId": "70c490e1-2496-418a-bd1c-598a33584eae",
+        "description": null,
+        "name": "ahmed group",
+        "id": "4-1",
+        "$type": "NestedGroup"
+    },
+    "sourceTemplate": null,
+    "restricted": false,
+    "isDemo": true,
+    "fromPersonal": "osmai",
+    "leader": {
+        "online": true,
+        "canReadProfile": true,
+        "banBadge": null,
+        "isEmailVerified": true,
+        "userType": {
+            "name": "Standard user",
+            "id": "STANDARD_USER",
+            "$type": "UserType"
+        },
+        "email": "osmflutterdeveloper@gmail.com",
+        "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+        "login": "admin",
+        "guest": false,
+        "banned": false,
+        "name": "admin",
+        "isLocked": false,
+        "fullName": "admin",
+        "id": "2-1",
+        "$type": "User"
+    },
+    "fromEmail": "osmai",
+    "template": false,
+    "shortName": "DEMO",
+    "fieldsSorted": false,
+    "archived": false,
+    "organization": {
+        "iconUrl": null,
+        "projectsCount": 1,
+        "key": "CFSksvCi5N6T06bFUtA8w",
+        "name": "me",
+        "id": "1-0",
+        "$type": "Organization"
+    },
+    "issuesUrl": "/issues/DEMO",
+    "widgets": [],
+    "iconUrl": null,
+    "team": {
+        "teamForProject": {
+            "icon": null,
+            "name": "Demo project",
+            "id": "0-0",
+            "$type": "Project"
+        },
+        "isRemovable": false,
+        "allUsersGroup": false,
+        "isUpdatable": true,
+        "icon": null,
+        "users": [
+            {
+                "online": false,
+                "canReadProfile": true,
+                "banBadge": null,
+                "isEmailVerified": false,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": null,
+                "avatarUrl": "/hub/api/rest/avatar/5dd5893c-e15b-4857-ba25-c37e1f959908?s=48",
+                "login": "guest",
+                "guest": true,
+                "banned": true,
+                "name": "guest",
+                "isLocked": false,
+                "fullName": "guest",
+                "id": "2-0",
+                "$type": "User"
+            },
+            {
+                "online": true,
+                "canReadProfile": true,
+                "banBadge": null,
+                "isEmailVerified": true,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osmflutterdeveloper@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+                "login": "admin",
+                "guest": false,
+                "banned": false,
+                "name": "admin",
+                "isLocked": false,
+                "fullName": "admin",
+                "id": "2-1",
+                "$type": "User"
+            },
+            {
+                "online": false,
+                "canReadProfile": true,
+                "banBadge": null,
+                "isEmailVerified": true,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osmai4603@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/921211c1-9f61-4784-92ad-34250abd94c0?s=48",
+                "login": "osm",
+                "guest": false,
+                "banned": false,
+                "name": "osm",
+                "isLocked": false,
+                "fullName": "osm",
+                "id": "2-3",
+                "$type": "User"
+            },
+            {
+                "online": false,
+                "canReadProfile": true,
+                "banBadge": null,
+                "isEmailVerified": false,
+                "userType": {
+                    "name": "Standard user",
+                    "id": "STANDARD_USER",
+                    "$type": "UserType"
+                },
+                "email": "osminventory@gmail.com",
+                "avatarUrl": "/hub/api/rest/avatar/0df202be-b74d-4a94-b233-2ffea5b4bbe1?s=48",
+                "login": "osminventory",
+                "guest": false,
+                "banned": false,
+                "name": "osminventory",
+                "isLocked": false,
+                "fullName": "osminventory",
+                "id": "2-4",
+                "$type": "User"
+            }
+        ],
+        "auditTargetId": "5-0",
+        "description": null,
+        "name": "Demo project Team",
+        "id": "5-0",
+        "$type": "ProjectTeam"
+    },
+    "auditTargetId": "0-0",
+    "description": null,
+    "plugins": {
+        "$type": "ProjectPlugins",
+        "vcsIntegrationSettings": {
+            "hasVcsIntegrations": false,
+            "$type": "ProjectVcsIntegrationSettings"
+        },
+        "timeTrackingSettings": {
+            "enabled": true,
+            "id": "195-0",
+            "$type": "ProjectTimeTrackingSettings"
+        },
+        "grazie": {
+            "disabled": false,
+            "$type": "ProjectGraziePlugin"
+        },
+        "helpDeskSettings": {
+            "defaultForm": null,
+            "id": "209-0",
+            "$type": "ProjectHelpDeskSettings"
+        }
+    },
+    "defaultSmtp": true,
+    "query": "project: {Demo project}",
+    "creationTime": 1784851998350,
+    "pinned": true,
+    "name": "Demo project",
+    "id": "0-0",
+    "$type": "Project"
+}

@@ -1,0 +1,414 @@
+https://youtrack.jetbrains.com/api/users/me?$top=-1&fields=id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked,issueRelatedGroup(%40permittedGroups),profiles(general(locale(id,community,language,locale,name),timezone(id),semanticSearchForArticles,dateFieldFormat(pattern,datePattern),lastCreatedIssue(project(id,shortName)),searchContext(%40helpdeskContext),helpdeskContext(%40helpdeskContext)),articles(showComments,showInlineComments,showHistory,queryMode,lastVisitedArticle(id,idReadable,reporter(%40permittedUsers),summary,project(id,name,shortName,projectType(id),pinned,iconUrl,template,archived,restricted,team(id)),parentArticle(idReadable),ordinal,visibility($type,implicitPermittedUsers(%40permittedUsers),permittedGroups(%40permittedGroups),permittedUsers(%40permittedUsers)),updatersSettings(permittedGroups(%40permittedGroups),permittedUsers(%40permittedUsers)),hasUnpublishedChanges,isUpdatable,isDeletable,collaborativeDraftId,hasChildren,tags(id,name,color(id,background,foreground),isDeletable,isUpdatable,isUsable),hasStar,updated)),timetracking(periodFormat(id),periodFieldPattern,isTimeTrackingAvailable,ownTimesheets),tips(aiTipsShown,surveyShown,pmfShown,textRecognitionTipsShown,aiPromoShown,inlineCommentPromoShown,textRecognitionPromoShown,changeRuleTypeTipShown,helpdeskPinnedCommentsTipShown,aiWritingAssistantPromoShown,textCompletionPromoShown,appsProjectTabTipShown,delayedDemoModalShown,pricingAdminPopupShown,collapsibleSidebarTipShown,savedSearchesTipShown,searchOptionsTipShown,visibleFieldsTipShown,votesTipShown,visibilityRestrictionsTipShown,issueFieldsTipShown,commandsTipShown,timeTrackingTipShown,activityTypesTipShown,agileBoardBacklogTipShown,agileBoardVisibilityTipShown,agileBoardCardsTipShown,agileBoardSwimlanesTipShown,agileBoardColumnsTipShown,articleSidebarTipShown,articleCommentsTipShown,articleAiAssistantTipShown,articleVisibilityTipShown,articleInlineCommentsTipShown,projectContentTipShown,projectOverviewTipShown,projectSettingsTipShown,projectSettingsPeopleTipShown,projectSettingsFieldsTipShown,projectSettingsVcsTipShown,projectSettingsTimeTrackingTipShown,projectSettingsTeamcityTipShown,projectSettingsWorkflowTipShown,projectSettingsAppsTipShown,issueAiActionsTipShown,issueTextRecognitionTipShown,helpdeskTeamTipShown,helpdeskSlaTipShown,helpdeskChannelsTipShown,helpdeskOverviewTipShown,issueListPageCompleted,issuePageCompleted,agileBoardPageCompleted,articlesPageCompleted,projectOverviewPageCompleted,projectSettingsPageCompleted,helpdeskProjectPageCompleted,onboardingTourState,onboardingTourAIBlockDismissed),appearance(firstDayOfWeek(),showTooltips,showRecentEntities,showSidebarResizerTip,showToolbar,showInlineEditorToolbar,useMarkdownEditor,useSummaryInIssueLinks,showQuickView,lastUsedColor,tableViewColumns,naturalCommentsOrder,showCommentsInActivityStream,showVcsChangesInActivityStream,showWorkItemsInActivityStream,showHistoryInActivityStream,expandChangesInActivityStream,useAbsoluteDates,showSimilarIssues,exceptionsExpanded,knowledgeBaseSidebarWidth,sivSidebarWidth,quickViewSidebarWidth,modalSidebarWidth,issueListSidebarWidth,quickViewWidth,showKnowledgeBaseSidebar,showSIVSidebar,attachmentsCollapsed,showLinksUnderDescription,openCwOnTyping,compactMode,recognizedTextSidebarExpanded,attachmentsSorting,hideEmbeddedAttachments,hideCommentAttachments,attachmentsListLayout,expandNavigation,issuesTableViewMode,sidebarQuickViewMode,dashboardHeaderCollapsed,knowledgeBaseSubarticlesCollapsed,aiLinkSuggestionsCollapsed,onboardingTourPanelWidth),issuesList(sortTextByRelevance,showSidebar,unresolvedIssuesOnly,queryMode,issueListView(treeView,treeViewCollapsed,detailLevel),projectsExpanded,savedSearchesExpanded,tagsExpanded),helpdesk(isAgent,isReporter,agentInProjects(id),reporterInProjects(id),tableViewTicketColumns),ai(disableChat,chatSidebarShow,chatsListShow,chatSidebarWidth,chatFloatingOffsetX,chatFloatingOffsetY,chatFloatingAnchor,chatFloatingWidth,chatFloatingHeight,chatMode),notifications(emailNotificationsEnabled,disabledDirect,disabledSubscription,disabledSystem,showSystem,showUnreadOnly,emailBlocked,emailBlockReason,usePlainTextEmails,notifyOnOwnChanges,mentionNotificationsEnabled,duplicateClusterNotificationsEnabled,mailboxIntegrationNotificationsEnabled,autoWatchOnComment,autoWatchOnCreate,autoWatchOnUpdate,autoWatchOnFieldSet,autoWatchOnVote)),featureFlags(id,enabled),widgets(id,key,appId,description,appName,appTitle,name,collapsed,configurable,indexPath,extensionPoint,iconPath,guard,appIconPath,appDarkIconPath,defaultHeight,defaultWidth,expectedHeight,expectedWidth,vendorName,vendorEmail,vendorUrl,marketplaceId,showHeader,borderless)%3B%40helpdeskContext%3Aid,name,issuesUrl,pinned,pinnedInHelpdesk,owner(%40permittedUsers),$type,query,isUpdatable,shortName%3B%40permittedUsers%3Aid,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked%3B%40permittedGroups%3Aid,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable
+
+{
+    "widgets": [],
+    "featureFlags": [
+        {
+            "id": "jetbrains.youtrack.feature.generateAILinkSuggestions",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.lazyActivityValues",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.grazieSensitiveProjects",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.teamcityLoadBuildParameters",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.requireSpaceVCSBranchMonitoring",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.spaceCommitReverseHashesRefactoringFlag",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.commentReaction",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.showWhosTyping",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.linksWithSummary",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.showFeaturesPromo",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.excludeSuspendedUserRestrictions",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.inlineComments",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.maintenance.prodMetricsBackend",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.textRecognition",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.prod",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.enableMentions",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.sentry",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.showExternalIssueField",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.documentFeatures",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.anonymousDraft",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.searchABExperiment",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.showOnboardingQuestionnaire",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.onboardingSuggestDemo",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.contextTextCompletion",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.enableGoogleAnalytics",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.jetpass.auth.promoteOnLogin",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.onboardingTour",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.showImageNodesOnWhiteboards",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.sendStatisticsToAmplitude",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        },
+        {
+            "id": "jetbrains.youtrack.feature.semanticSearchIndexing",
+            "enabled": true,
+            "$type": "FeatureFlag"
+        }
+    ],
+    "guest": false,
+    "banned": false,
+    "login": "osmflutterdeveloper",
+    "email": "osmflutterdeveloper@gmail.com",
+    "userType": {
+        "name": "Standard user",
+        "id": "STANDARD_USER",
+        "$type": "UserType"
+    },
+    "avatarUrl": "https://hub.jetbrains.com/api/rest/avatar/9d95747f-bfec-4608-9b70-af29d86ffd11?s=48",
+    "online": true,
+    "profiles": {
+        "$type": "UserProfiles",
+        "ai": {
+            "chatsListShow": true,
+            "chatFloatingWidth": 400,
+            "chatMode": "docked",
+            "chatSidebarShow": false,
+            "chatFloatingOffsetY": 100,
+            "chatFloatingOffsetX": 100,
+            "chatFloatingAnchor": "top-right",
+            "chatFloatingHeight": 600,
+            "chatSidebarWidth": 400,
+            "disableChat": false,
+            "$type": "AiUserProfile"
+        },
+        "tips": {
+            "issueListPageCompleted": false,
+            "issuePageCompleted": false,
+            "helpdeskTeamTipShown": false,
+            "projectOverviewTipShown": false,
+            "projectSettingsTipShown": false,
+            "issueAiActionsTipShown": false,
+            "projectContentTipShown": false,
+            "agileBoardCardsTipShown": false,
+            "appsProjectTabTipShown": false,
+            "changeRuleTypeTipShown": false,
+            "agileBoardVisibilityTipShown": false,
+            "agileBoardSwimlanesTipShown": false,
+            "agileBoardColumnsTipShown": false,
+            "articleAiAssistantTipShown": false,
+            "articleVisibilityTipShown": false,
+            "articleInlineCommentsTipShown": false,
+            "projectSettingsPeopleTipShown": false,
+            "projectSettingsFieldsTipShown": false,
+            "projectSettingsVcsTipShown": false,
+            "helpdeskPinnedCommentsTipShown": false,
+            "pricingAdminPopupShown": false,
+            "textCompletionPromoShown": false,
+            "textRecognitionTipsShown": false,
+            "articleSidebarTipShown": false,
+            "articleCommentsTipShown": false,
+            "activityTypesTipShown": false,
+            "issueFieldsTipShown": false,
+            "commandsTipShown": false,
+            "timeTrackingTipShown": false,
+            "visibleFieldsTipShown": false,
+            "surveyShown": false,
+            "votesTipShown": false,
+            "aiPromoShown": false,
+            "collapsibleSidebarTipShown": false,
+            "pmfShown": false,
+            "aiWritingAssistantPromoShown": false,
+            "inlineCommentPromoShown": true,
+            "projectSettingsTimeTrackingTipShown": false,
+            "projectSettingsTeamcityTipShown": false,
+            "projectSettingsWorkflowTipShown": false,
+            "projectSettingsAppsTipShown": false,
+            "issueTextRecognitionTipShown": false,
+            "helpdeskChannelsTipShown": false,
+            "helpdeskOverviewTipShown": false,
+            "projectOverviewPageCompleted": false,
+            "projectSettingsPageCompleted": false,
+            "delayedDemoModalShown": false,
+            "savedSearchesTipShown": false,
+            "searchOptionsTipShown": false,
+            "visibilityRestrictionsTipShown": false,
+            "agileBoardBacklogTipShown": false,
+            "textRecognitionPromoShown": false,
+            "aiTipsShown": false,
+            "agileBoardPageCompleted": false,
+            "articlesPageCompleted": false,
+            "helpdeskSlaTipShown": false,
+            "onboardingTourState": "idle",
+            "helpdeskProjectPageCompleted": false,
+            "onboardingTourAIBlockDismissed": false,
+            "$type": "TipsUserProfile"
+        },
+        "helpdesk": {
+            "isReporter": false,
+            "tableViewTicketColumns": [],
+            "isAgent": false,
+            "agentInProjects": [],
+            "reporterInProjects": [
+                {
+                    "id": "22-770",
+                    "$type": "Project"
+                },
+                {
+                    "id": "22-1491",
+                    "$type": "Project"
+                },
+                {
+                    "id": "22-1726",
+                    "$type": "Project"
+                },
+                {
+                    "id": "22-1790",
+                    "$type": "Project"
+                },
+                {
+                    "id": "22-1922",
+                    "$type": "Project"
+                },
+                {
+                    "id": "22-1961",
+                    "$type": "Project"
+                }
+            ],
+            "$type": "HelpdeskUserProfile"
+        },
+        "timetracking": {
+            "periodFormat": {
+                "id": "FULL",
+                "$type": "PeriodFieldFormat"
+            },
+            "ownTimesheets": false,
+            "periodFieldPattern": "((\\d+w\\s*)?(\\s*)?(\\d+d\\s*)?(\\s*)?(\\d+h\\s*)?(\\s*)?(\\d+m\\s*)?|\\d+)",
+            "isTimeTrackingAvailable": false,
+            "$type": "TimeTrackingUserProfile"
+        },
+        "general": {
+            "timezone": {
+                "id": "Europe/Prague",
+                "$type": "TimeZoneDescriptor"
+            },
+            "dateFieldFormat": {
+                "pattern": "d MMM yyyy HH:mm",
+                "datePattern": "d MMM yyyy",
+                "$type": "DateFormatDescriptor"
+            },
+            "semanticSearchForArticles": false,
+            "lastCreatedIssue": null,
+            "helpdeskContext": null,
+            "searchContext": null,
+            "locale": {
+                "name": "English",
+                "community": false,
+                "locale": "en_US",
+                "id": "en_US",
+                "language": "en",
+                "$type": "LocaleDescriptor"
+            },
+            "$type": "GeneralUserProfile"
+        },
+        "appearance": {
+            "openCwOnTyping": true,
+            "sivSidebarWidth": 240,
+            "showToolbar": true,
+            "showQuickView": true,
+            "showSimilarIssues": true,
+            "showKnowledgeBaseSidebar": true,
+            "showSIVSidebar": false,
+            "dashboardHeaderCollapsed": false,
+            "knowledgeBaseSubarticlesCollapsed": false,
+            "aiLinkSuggestionsCollapsed": false,
+            "showCommentsInActivityStream": true,
+            "knowledgeBaseSidebarWidth": 240,
+            "lastUsedColor": "default",
+            "attachmentsListLayout": false,
+            "showTooltips": true,
+            "expandNavigation": true,
+            "hideCommentAttachments": true,
+            "sidebarQuickViewMode": true,
+            "expandChangesInActivityStream": false,
+            "naturalCommentsOrder": true,
+            "useAbsoluteDates": false,
+            "useMarkdownEditor": false,
+            "showInlineEditorToolbar": true,
+            "showVcsChangesInActivityStream": false,
+            "tableViewColumns": [],
+            "issueListSidebarWidth": 240,
+            "attachmentsCollapsed": false,
+            "useSummaryInIssueLinks": true,
+            "showRecentEntities": true,
+            "exceptionsExpanded": true,
+            "onboardingTourPanelWidth": 400,
+            "showLinksUnderDescription": true,
+            "recognizedTextSidebarExpanded": false,
+            "quickViewSidebarWidth": 240,
+            "modalSidebarWidth": 240,
+            "showSidebarResizerTip": true,
+            "issuesTableViewMode": true,
+            "attachmentsSorting": "default",
+            "hideEmbeddedAttachments": true,
+            "compactMode": false,
+            "quickViewWidth": 0,
+            "showHistoryInActivityStream": false,
+            "showWorkItemsInActivityStream": false,
+            "firstDayOfWeek": 0,
+            "$type": "AppearanceUserProfile"
+        },
+        "issuesList": {
+            "savedSearchesExpanded": true,
+            "unresolvedIssuesOnly": false,
+            "showSidebar": true,
+            "projectsExpanded": true,
+            "sortTextByRelevance": true,
+            "tagsExpanded": true,
+            "queryMode": false,
+            "issueListView": {
+                "detailLevel": 20,
+                "treeView": true,
+                "treeViewCollapsed": false,
+                "$type": "IssueListView"
+            },
+            "$type": "IssuesListUserProfile"
+        },
+        "articles": {
+            "lastVisitedArticle": null,
+            "showHistory": false,
+            "showComments": true,
+            "queryMode": false,
+            "showInlineComments": false,
+            "$type": "ArticlesUserProfile"
+        },
+        "notifications": {
+            "showUnreadOnly": false,
+            "mentionNotificationsEnabled": true,
+            "duplicateClusterNotificationsEnabled": false,
+            "showSystem": false,
+            "notifyOnOwnChanges": false,
+            "autoWatchOnFieldSet": true,
+            "autoWatchOnCreate": true,
+            "autoWatchOnComment": true,
+            "autoWatchOnUpdate": false,
+            "autoWatchOnVote": true,
+            "emailBlocked": false,
+            "emailBlockReason": null,
+            "emailNotificationsEnabled": true,
+            "usePlainTextEmails": false,
+            "disabledDirect": false,
+            "disabledSubscription": false,
+            "disabledSystem": false,
+            "mailboxIntegrationNotificationsEnabled": true,
+            "$type": "NotificationsUserProfile"
+        }
+    },
+    "isEmailVerified": true,
+    "banBadge": null,
+    "issueRelatedGroup": null,
+    "canReadProfile": true,
+    "fullName": "OSM ABASSI",
+    "name": "OSM ABASSI",
+    "isLocked": false,
+    "id": "11-2095841",
+    "$type": "Me"
+}

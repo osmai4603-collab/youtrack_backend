@@ -1,0 +1,14 @@
+https://youtrack.jetbrains.com/api/users/me/profiles/grazie?fields=hasMoreTokens,enabled,excludedIssueTypes,cycleRestart,enableSpellChecker,spellCheckerEnabledInSystem,freeLicense,enableTextCompletion,textCompletionEnabledInSystem
+
+{
+    "excludedIssueTypes": "",
+    "enableSpellChecker": true,
+    "hasMoreTokens": true,
+    "enableTextCompletion": true,
+    "cycleRestart": 1788271206218,
+    "freeLicense": false,
+    "spellCheckerEnabledInSystem": true,
+    "textCompletionEnabledInSystem": true,
+    "enabled": false,
+    "$type": "GrazieUserProfile"
+}

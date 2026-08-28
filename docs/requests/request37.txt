@@ -1,0 +1,25 @@
+https://osm.youtrack.cloud/api/admin/customFieldSettings/bundles/user/13-0/aggregatedUsers?fields=id,$type,icon,name,login,avatarUrl,archived,color(id,background,foreground),isResolved,releaseDate,released,owner(id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked),assembleDate,buildIntegration,buildLink&$top=-1
+
+[
+    {
+        "avatarUrl": "/hub/api/rest/avatar/0d1219ff-dae2-4722-aa17-00381eb6be68?s=48",
+        "login": "admin",
+        "name": "admin",
+        "id": "2-1",
+        "$type": "User"
+    },
+    {
+        "avatarUrl": "/hub/api/rest/avatar/921211c1-9f61-4784-92ad-34250abd94c0?s=48",
+        "login": "osm",
+        "name": "osm",
+        "id": "2-3",
+        "$type": "User"
+    },
+    {
+        "avatarUrl": "/hub/api/rest/avatar/0df202be-b74d-4a94-b233-2ffea5b4bbe1?s=48",
+        "login": "osminventory",
+        "name": "osminventory",
+        "id": "2-4",
+        "$type": "User"
+    }
+]

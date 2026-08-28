@@ -1,0 +1,62 @@
+https://osm.youtrack.cloud/api/admin/projects/0-0/timeTrackingSettings?fields=workItemTypes(id,name,autoAttach,description,hasRunningJobs,color(id,background,foreground),attributes(id,timeTrackingSettings(id,project(id))))&$top=-1
+
+{
+    "workItemTypes": [
+        {
+            "name": "Development",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-0",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Testing",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-1",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Documentation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-2",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Investigation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-3",
+            "$type": "WorkItemType"
+        },
+        {
+            "name": "Implementation",
+            "color": {
+                "foreground": "#444",
+                "background": "#fff",
+                "id": "0",
+                "$type": "FieldStyle"
+            },
+            "id": "187-4",
+            "$type": "WorkItemType"
+        }
+    ],
+    "$type": "ProjectTimeTrackingSettings"
+}
