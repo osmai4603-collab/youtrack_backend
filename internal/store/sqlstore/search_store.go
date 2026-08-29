@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"strconv"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -26,13 +27,13 @@ func (s *SearchStore) GetAssist(ctx context.Context, query string, caret int, tr
 	}
 
 	// 1. جلب الاستجابة الأساسية
+	var responseID int
 	err := s.db.QueryRow(ctx, `
 		SELECT id, ignore_unresolved_setting
 		FROM search_assist_responses
 		WHERE query = $1 AND caret = $2
-		LIMIT 1`, query, caret).Scan(&resp.ID, &resp.IgnoreUnresolvedSetting)
+		LIMIT 1`, query, caret).Scan(&responseID, &resp.IgnoreUnresolvedSetting)
 
-	var responseID int
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) || errors.Is(err, sql.ErrNoRows) {
 			// إذا لم يوجد استجابة مخزنة، نعيد استجابة فارغة افتراضية
@@ -40,7 +41,7 @@ func (s *SearchStore) GetAssist(ctx context.Context, query string, caret int, tr
 		}
 		return nil, err
 	}
-	responseID, _ = strconv.Atoi(resp.ID) // We need internal int ID for relations
+	resp.ID = strconv.Itoa(responseID)
 
 	// Note: IDs in database are SERIAL (int), but model.ID is string.
 	// I'll adjust the scan or the model if needed, but for now I'll handle it carefully.

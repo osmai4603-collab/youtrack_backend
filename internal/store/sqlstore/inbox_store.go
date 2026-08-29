@@ -17,7 +17,7 @@ type InboxStore struct {
 
 // Threads يجلب خيوط الرسائل للمستخدم مع دعم الجلب الانتقائي عبر FieldTree.
 func (s *InboxStore) Threads(ctx context.Context, userID string, top int, skip int, tree *fields.FieldTree) ([]*model.InboxThread, error) {
-	columns, fieldMap := s.getThreadColumns(tree)
+	columns, _ := s.getThreadColumns(tree)
 	selectClause := ""
 	for i, col := range columns {
 		if i > 0 {

@@ -1,0 +1,181 @@
+-- 000003_user_profiles_extended.up.sql
+-- Extended tables for storing individual user profile sub-components
+
+CREATE TABLE IF NOT EXISTS user_profile_tips (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    issue_list_page_completed BOOLEAN DEFAULT FALSE,
+    issue_page_completed BOOLEAN DEFAULT FALSE,
+    helpdesk_team_tip_shown BOOLEAN DEFAULT FALSE,
+    project_overview_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_tip_shown BOOLEAN DEFAULT FALSE,
+    issue_ai_actions_tip_shown BOOLEAN DEFAULT FALSE,
+    project_content_tip_shown BOOLEAN DEFAULT FALSE,
+    agile_board_cards_tip_shown BOOLEAN DEFAULT FALSE,
+    apps_project_tab_tip_shown BOOLEAN DEFAULT FALSE,
+    change_rule_type_tip_shown BOOLEAN DEFAULT FALSE,
+    agile_board_visibility_tip_shown BOOLEAN DEFAULT FALSE,
+    agile_board_swimlanes_tip_shown BOOLEAN DEFAULT FALSE,
+    agile_board_columns_tip_shown BOOLEAN DEFAULT FALSE,
+    article_ai_assistant_tip_shown BOOLEAN DEFAULT FALSE,
+    article_visibility_tip_shown BOOLEAN DEFAULT FALSE,
+    article_inline_comments_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_people_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_fields_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_vcs_tip_shown BOOLEAN DEFAULT FALSE,
+    helpdesk_pinned_comments_tip_shown BOOLEAN DEFAULT FALSE,
+    pricing_admin_popup_shown BOOLEAN DEFAULT FALSE,
+    text_completion_promo_shown BOOLEAN DEFAULT FALSE,
+    text_recognition_tips_shown BOOLEAN DEFAULT FALSE,
+    article_sidebar_tip_shown BOOLEAN DEFAULT FALSE,
+    article_comments_tip_shown BOOLEAN DEFAULT FALSE,
+    activity_types_tip_shown BOOLEAN DEFAULT FALSE,
+    issue_fields_tip_shown BOOLEAN DEFAULT FALSE,
+    commands_tip_shown BOOLEAN DEFAULT FALSE,
+    time_tracking_tip_shown BOOLEAN DEFAULT FALSE,
+    visible_fields_tip_shown BOOLEAN DEFAULT FALSE,
+    survey_shown BOOLEAN DEFAULT FALSE,
+    votes_tip_shown BOOLEAN DEFAULT FALSE,
+    ai_promo_shown BOOLEAN DEFAULT FALSE,
+    collapsible_sidebar_tip_shown BOOLEAN DEFAULT FALSE,
+    pmf_shown BOOLEAN DEFAULT FALSE,
+    ai_writing_assistant_promo_shown BOOLEAN DEFAULT FALSE,
+    inline_comment_promo_shown BOOLEAN DEFAULT TRUE,
+    project_settings_time_tracking_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_teamcity_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_workflow_tip_shown BOOLEAN DEFAULT FALSE,
+    project_settings_apps_tip_shown BOOLEAN DEFAULT FALSE,
+    issue_text_recognition_tip_shown BOOLEAN DEFAULT FALSE,
+    helpdesk_channels_tip_shown BOOLEAN DEFAULT FALSE,
+    helpdesk_overview_tip_shown BOOLEAN DEFAULT FALSE,
+    project_overview_page_completed BOOLEAN DEFAULT FALSE,
+    project_settings_page_completed BOOLEAN DEFAULT FALSE,
+    delayed_demo_modal_shown BOOLEAN DEFAULT FALSE,
+    saved_searches_tip_shown BOOLEAN DEFAULT FALSE,
+    search_options_tip_shown BOOLEAN DEFAULT FALSE,
+    visibility_restrictions_tip_shown BOOLEAN DEFAULT FALSE,
+    agile_board_backlog_tip_shown BOOLEAN DEFAULT FALSE,
+    text_recognition_promo_shown BOOLEAN DEFAULT FALSE,
+    ai_tips_shown BOOLEAN DEFAULT FALSE,
+    agile_board_page_completed BOOLEAN DEFAULT FALSE,
+    articles_page_completed BOOLEAN DEFAULT FALSE,
+    helpdesk_sla_tip_shown BOOLEAN DEFAULT FALSE,
+    onboarding_tour_state VARCHAR(50) DEFAULT 'idle',
+    helpdesk_project_page_completed BOOLEAN DEFAULT FALSE,
+    onboarding_tour_ai_block_dismissed BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_appearance (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    open_cw_on_typing BOOLEAN DEFAULT TRUE,
+    siv_sidebar_width INT DEFAULT 240,
+    show_toolbar BOOLEAN DEFAULT TRUE,
+    show_quick_view BOOLEAN DEFAULT TRUE,
+    show_similar_issues BOOLEAN DEFAULT TRUE,
+    show_knowledge_base_sidebar BOOLEAN DEFAULT TRUE,
+    show_siv_sidebar BOOLEAN DEFAULT FALSE,
+    dashboard_header_collapsed BOOLEAN DEFAULT FALSE,
+    knowledge_base_subarticles_collapsed BOOLEAN DEFAULT FALSE,
+    ai_link_suggestions_collapsed BOOLEAN DEFAULT FALSE,
+    show_comments_in_activity_stream BOOLEAN DEFAULT TRUE,
+    knowledge_base_sidebar_width INT DEFAULT 240,
+    last_used_color VARCHAR(50) DEFAULT 'default',
+    attachments_list_layout BOOLEAN DEFAULT FALSE,
+    show_tooltips BOOLEAN DEFAULT TRUE,
+    expand_navigation BOOLEAN DEFAULT TRUE,
+    hide_comment_attachments BOOLEAN DEFAULT TRUE,
+    sidebar_quick_view_mode BOOLEAN DEFAULT TRUE,
+    expand_changes_in_activity_stream BOOLEAN DEFAULT FALSE,
+    natural_comments_order BOOLEAN DEFAULT TRUE,
+    use_absolute_dates BOOLEAN DEFAULT FALSE,
+    use_markdown_editor BOOLEAN DEFAULT FALSE,
+    show_inline_editor_toolbar BOOLEAN DEFAULT TRUE,
+    show_vcs_changes_in_activity_stream BOOLEAN DEFAULT FALSE,
+    issue_list_sidebar_width INT DEFAULT 240,
+    attachments_collapsed BOOLEAN DEFAULT FALSE,
+    use_summary_in_issue_links BOOLEAN DEFAULT TRUE,
+    show_recent_entities BOOLEAN DEFAULT TRUE,
+    exceptions_expanded BOOLEAN DEFAULT TRUE,
+    onboarding_tour_panel_width INT DEFAULT 400,
+    show_links_under_description BOOLEAN DEFAULT TRUE,
+    recognized_text_sidebar_expanded BOOLEAN DEFAULT FALSE,
+    quick_view_sidebar_width INT DEFAULT 240,
+    modal_sidebar_width INT DEFAULT 240,
+    show_sidebar_resizer_tip BOOLEAN DEFAULT TRUE,
+    issues_table_view_mode BOOLEAN DEFAULT TRUE,
+    attachments_sorting VARCHAR(50) DEFAULT 'default',
+    hide_embedded_attachments BOOLEAN DEFAULT TRUE,
+    compact_mode BOOLEAN DEFAULT FALSE,
+    quick_view_width INT DEFAULT 0,
+    show_history_in_activity_stream BOOLEAN DEFAULT FALSE,
+    show_work_items_in_activity_stream BOOLEAN DEFAULT FALSE,
+    first_day_of_week INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_ai (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    chats_list_show BOOLEAN DEFAULT TRUE,
+    chat_floating_width INT DEFAULT 400,
+    chat_mode VARCHAR(50) DEFAULT 'docked',
+    chat_sidebar_show BOOLEAN DEFAULT FALSE,
+    chat_floating_offset_y INT DEFAULT 100,
+    chat_floating_offset_x INT DEFAULT 100,
+    chat_floating_anchor VARCHAR(50) DEFAULT 'top-right',
+    chat_floating_height INT DEFAULT 600,
+    chat_sidebar_width INT DEFAULT 400,
+    disable_chat BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_notifications (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    show_unread_only BOOLEAN DEFAULT FALSE,
+    mention_notifications_enabled BOOLEAN DEFAULT TRUE,
+    duplicate_cluster_notifications_enabled BOOLEAN DEFAULT FALSE,
+    show_system BOOLEAN DEFAULT FALSE,
+    notify_on_own_changes BOOLEAN DEFAULT FALSE,
+    auto_watch_on_field_set BOOLEAN DEFAULT TRUE,
+    auto_watch_on_create BOOLEAN DEFAULT TRUE,
+    auto_watch_on_comment BOOLEAN DEFAULT TRUE,
+    auto_watch_on_update BOOLEAN DEFAULT FALSE,
+    auto_watch_on_vote BOOLEAN DEFAULT TRUE,
+    email_blocked BOOLEAN DEFAULT FALSE,
+    email_block_reason TEXT,
+    email_notifications_enabled BOOLEAN DEFAULT TRUE,
+    use_plain_text_emails BOOLEAN DEFAULT FALSE,
+    disabled_direct BOOLEAN DEFAULT FALSE,
+    disabled_subscription BOOLEAN DEFAULT FALSE,
+    disabled_system BOOLEAN DEFAULT FALSE,
+    mailbox_integration_notifications_enabled BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_helpdesk (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    is_reporter BOOLEAN DEFAULT FALSE,
+    is_agent BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_helpdesk_projects (
+    user_id VARCHAR(20) REFERENCES users(id) ON DELETE CASCADE,
+    project_id VARCHAR(20) REFERENCES projects(id) ON DELETE CASCADE,
+    role_type VARCHAR(20) NOT NULL, -- 'agent' or 'reporter'
+    PRIMARY KEY (user_id, project_id, role_type)
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_grazie (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    has_more_tokens BOOLEAN DEFAULT TRUE,
+    enabled BOOLEAN DEFAULT FALSE,
+    excluded_issue_types TEXT DEFAULT '',
+    cycle_restart BIGINT DEFAULT 1788271206218,
+    enable_spell_checker BOOLEAN DEFAULT TRUE,
+    spell_checker_enabled_in_system BOOLEAN DEFAULT TRUE,
+    free_license BOOLEAN DEFAULT FALSE,
+    enable_text_completion BOOLEAN DEFAULT TRUE,
+    text_completion_enabled_in_system BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS user_profile_questionnaire (
+    user_id VARCHAR(20) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    show_survey BOOLEAN DEFAULT FALSE,
+    show_pmf_survey BOOLEAN DEFAULT FALSE,
+    demo_eligibility_timestamp BIGINT
+);

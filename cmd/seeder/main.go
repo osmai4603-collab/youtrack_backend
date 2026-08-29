@@ -83,40 +83,43 @@ func main() {
 	// 4. Roles, Permissions & Assigned Roles (request26, request31, request35, request36, request7, request20, request30)
 	scanAndSeedPermissionsAndRoles(db, requestsDir)
 
-	// 5. Custom Fields, Field Types, Bundles & Project Custom Fields (request34, request52, request53, request54)
+	// 5. Cached Permissions (request7, request20, request26)
+	scanAndSeedCachedPermissions(db, requestsDir)
+
+	// 6. Custom Fields, Field Types, Bundles & Project Custom Fields (request34, request52, request53, request54)
 	scanAndSeedCustomFields(db, requestsDir)
 
-	// 6. Work Time Settings & Types (request2, request55, request56, request57, request58)
+	// 7. Work Time Settings & Types (request2, request55, request56, request57, request58)
 	scanAndSeedTimeTracking(db, requestsDir)
 
-	// 7. Feature Flags & Configs (request1, request3, request11, request19, request59, request60)
+	// 8. Feature Flags & Configs (request1, request3, request11, request19, request59, request60)
 	scanAndSeedConfigsAndFeatureFlags(db, requestsDir)
 
-	// 8. Saved Queries & Folders (request15, request16)
+	// 9. Saved Queries & Folders (request15, request16)
 	scanAndSeedSavedQueries(db, requestsDir)
 
-	// 9. Agile Boards, Columns & Sprints (request63, request64, request65)
+	// 10. Agile Boards, Columns & Sprints (request63, request64, request65)
 	scanAndSeedAgile(db, requestsDir)
 
-	// 10. Articles & Knowledge Base (request68)
+	// 11. Articles & Knowledge Base (request68)
 	scanAndSeedArticles(db, requestsDir)
 
-	// 11. VCS Hosting Servers & Integrations (request42)
+	// 12. VCS Hosting Servers & Integrations (request42)
 	scanAndSeedVCS(db, requestsDir)
 
-	// 12. Services (request24)
+	// 13. Services (request24)
 	scanAndSeedServices(db, requestsDir)
 
-	// 13. Dashboard & General Widgets (request6, request10, request13, request23)
+	// 14. Dashboard & General Widgets (request6, request10, request13, request23)
 	scanAndSeedWidgets(db, requestsDir)
 
-	// 14. Inbox Folders (request8, request9, request45)
+	// 15. Inbox Folders (request8, request9, request45)
 	scanAndSeedInbox(db, requestsDir)
 
-	// 15. Apps & Configurations (request50)
+	// 16. Apps & Configurations (request50)
 	scanAndSeedApps(db, requestsDir)
 
-	// 16. Scan and seed all Issues, Comments, Tags & Activities across all files (request7, request12, request14, request15, request17, request28, request39, request41, request44, request47, request48, request67, request69)
+	// 17. Scan and seed all Issues, Comments, Tags & Activities across all files (request7, request12, request14, request15, request17, request28, request39, request41, request44, request47, request48, request67, request69)
 	scanAndSeedAllIssues(db, requestsDir)
 
 	log.Println("ALL 69 files in docs/requests have been fully processed and imported into the database!")
@@ -352,13 +355,13 @@ func scanAndSeedPermissionsAndRoles(db *sql.DB, dir string) {
 			IsUpdatable   bool   `json:"isUpdatable"`
 			Immutable     bool   `json:"immutable"`
 			Permissions   []struct {
-				ID                             string `json:"id"`
-				Name                           string `json:"name"`
-				Description                    string `json:"description"`
-				PermissionEntityType           string `json:"permissionEntityType"`
-				LocalizedPermissionEntityType  string `json:"localizedPermissionEntityType"`
-				Operation                      string `json:"operation"`
-				IsGlobal                       bool   `json:"isGlobal"`
+				ID                            string `json:"id"`
+				Name                          string `json:"name"`
+				Description                   string `json:"description"`
+				PermissionEntityType          string `json:"permissionEntityType"`
+				LocalizedPermissionEntityType string `json:"localizedPermissionEntityType"`
+				Operation                     string `json:"operation"`
+				IsGlobal                      bool   `json:"isGlobal"`
 			} `json:"permissions"`
 		}
 		if err := json.Unmarshal(data, &roles); err == nil {
@@ -412,6 +415,54 @@ func scanAndSeedPermissionsAndRoles(db *sql.DB, dir string) {
 					VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 					ON CONFLICT (id) DO NOTHING
 				`, a.ID, a.Role.ID, a.AuditTargetID, a.Holder.Type, a.Holder.ID, a.Holder.Name, a.Scope.Type, a.Scope.ID)
+			}
+		}
+	}
+}
+
+func scanAndSeedCachedPermissions(db *sql.DB, dir string) {
+	// request7.txt: /api/permissions/cache?fields=id,global,projects(id,projectType(id)),organizations(id)
+	fPath := filepath.Join(dir, "request7.txt")
+	if data, _, err := extractJSON(fPath); err == nil {
+		var list []struct {
+			ID       string `json:"id"`
+			Global   bool   `json:"global"`
+			Projects []struct {
+				ID          string `json:"id"`
+				ProjectType struct {
+					ID string `json:"id"`
+				} `json:"projectType"`
+			} `json:"projects"`
+		}
+		if err := json.Unmarshal(data, &list); err == nil {
+			const userID = "2-1"
+			for _, cp := range list {
+				// ضمان وجود الصلاحية في جدول permissions (مرجع FK)
+				_, _ = db.Exec(`
+					INSERT INTO permissions (id, name)
+					VALUES ($1, $2)
+					ON CONFLICT (id) DO NOTHING
+				`, cp.ID, cp.ID)
+
+				_, _ = db.Exec(`
+					INSERT INTO cached_permissions (id, user_id, is_global)
+					VALUES ($1, $2, $3)
+					ON CONFLICT (id, user_id) DO UPDATE SET is_global = EXCLUDED.is_global
+				`, cp.ID, userID, cp.Global)
+
+				for _, pr := range cp.Projects {
+					_, _ = db.Exec(`
+						INSERT INTO projects (id, name, short_name, project_type_id)
+						VALUES ($1, $2, $3, $4)
+						ON CONFLICT (id) DO NOTHING
+					`, pr.ID, "Project "+pr.ID, pr.ID, pr.ProjectType.ID)
+
+					_, _ = db.Exec(`
+						INSERT INTO cached_permission_projects (permission_id, project_id)
+						VALUES ($1, $2)
+						ON CONFLICT DO NOTHING
+					`, cp.ID, pr.ID)
+				}
 			}
 		}
 	}
@@ -563,17 +614,17 @@ func scanAndSeedConfigsAndFeatureFlags(db *sql.DB, dir string) {
 func scanAndSeedSavedQueries(db *sql.DB, dir string) {
 	if data, _, err := extractJSON(filepath.Join(dir, "request15.txt")); err == nil {
 		var list []struct {
-			ID              string `json:"id"`
-			Name            string `json:"name"`
-			Query           string `json:"query"`
-			IssuesURL       string `json:"issuesUrl"`
-			Pinned          bool   `json:"pinned"`
-			PinnedByDefault bool   `json:"pinnedByDefault"`
-			PinnedInHelpdesk bool  `json:"pinnedInHelpdesk"`
-			IsUpdatable     bool   `json:"isUpdatable"`
-			IsDeletable     bool   `json:"isDeletable"`
-			IsShareable     bool   `json:"isShareable"`
-			Owner           *struct {
+			ID               string `json:"id"`
+			Name             string `json:"name"`
+			Query            string `json:"query"`
+			IssuesURL        string `json:"issuesUrl"`
+			Pinned           bool   `json:"pinned"`
+			PinnedByDefault  bool   `json:"pinnedByDefault"`
+			PinnedInHelpdesk bool   `json:"pinnedInHelpdesk"`
+			IsUpdatable      bool   `json:"isUpdatable"`
+			IsDeletable      bool   `json:"isDeletable"`
+			IsShareable      bool   `json:"isShareable"`
+			Owner            *struct {
 				ID string `json:"id"`
 			} `json:"owner"`
 		}

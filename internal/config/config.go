@@ -1,82 +1,31 @@
 package config
 
 import (
-	"fmt"
 	"os"
+
+	"youtrack_backend/internal/model"
 )
 
-type Config struct {
-	Port       string
-	AppEnv     string
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBSSLMode  string
+// Load يقرأ إعدادات الخادم من متغيرات البيئة ويطبّق القيم الافتراضية.
+// مستوحى من أسلوب Mattermost في استخدام متغيرات البيئة، لكن دون الاعتماد على Viper.
+func Load() *model.ServerConfig {
+	cfg := &model.ServerConfig{
+		ServerPort: getEnv("SERVER_PORT", "8080"),
+		AppEnv:     getEnv("APP_ENV", "development"),
+		DBHost:     getEnv("DB_HOST", "localhost"),
+		DBPort:     getEnv("DB_PORT", "8090"),
+		DBUser:     getEnv("DB_USER", "postgres"),
+		DBPassword: getEnv("DB_PASSWORD", "secret"),
+		DBName:     getEnv("DB_NAME", "youtrack_db"),
+		DBSSLMode:  getEnv("DB_SSLMODE", "disable"),
+		JWTSecret:  getEnv("JWT_SECRET", "default-youtrack-jwt-secret-key-change-in-prod"),
+	}
+	return cfg
 }
 
-func LoadConfig() *Config {
-	port := os.Getenv("SERVER_PORT")
-	if port == "" {
-		port = "8080"
+func getEnv(key, fallback string) string {
+	if v, ok := os.LookupEnv(key); ok && v != "" {
+		return v
 	}
-
-	appEnv := os.Getenv("APP_ENV")
-	if appEnv == "" {
-		appEnv = "development"
-	}
-
-	dbHost := os.Getenv("DB_HOST")
-	if dbHost == "" {
-		dbHost = "localhost"
-	}
-
-	dbPort := os.Getenv("DB_PORT")
-	if dbPort == "" {
-		dbPort = "5432"
-	}
-
-	dbUser := os.Getenv("DB_USER")
-	if dbUser == "" {
-		dbUser = "postgres"
-	}
-
-	dbPassword := os.Getenv("DB_PASSWORD")
-	if dbPassword == "" {
-		dbPassword = "secret"
-	}
-
-	dbName := os.Getenv("DB_NAME")
-	if dbName == "" {
-		dbName = "youtrack_db"
-	}
-
-	dbSSLMode := os.Getenv("DB_SSLMODE")
-	if dbSSLMode == "" {
-		dbSSLMode = "disable"
-	}
-
-	return &Config{
-		Port:       port,
-		AppEnv:     appEnv,
-		DBHost:     dbHost,
-		DBPort:     dbPort,
-		DBUser:     dbUser,
-		DBPassword: dbPassword,
-		DBName:     dbName,
-		DBSSLMode:  dbSSLMode,
-	}
-}
-
-// DSN ينشئ نص الاتصال بقاعدة بيانات PostgreSQL
-func (c *Config) DSN() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
-		c.DBUser,
-		c.DBPassword,
-		c.DBHost,
-		c.DBPort,
-		c.DBName,
-		c.DBSSLMode,
-	)
+	return fallback
 }

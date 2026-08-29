@@ -1,7 +1,7 @@
 .PHONY: all build run test clean tidy fmt
 
 APP_NAME=youtrack_backend
-MAIN_PATH=./cmd/api
+MAIN_PATH=./cmd/server
 
 all: build
 

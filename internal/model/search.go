@@ -2,6 +2,7 @@ package model
 
 // SearchAssistResponse يمثّل الاستجابة لنقطة النهاية api/search/assist.
 type SearchAssistResponse struct {
+	ID                       string               `json:"id,omitempty"`
 	Caret                    int                  `json:"caret"`
 	Query                    string               `json:"query"`
 	StyleRanges              []*SearchStyleRange  `json:"styleRanges,omitempty"`

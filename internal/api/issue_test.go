@@ -39,6 +39,8 @@ func (m *mockFullStore) Projects() store.ProjectStore { return nil }
 func (m *mockFullStore) Issues() store.IssueStore     { return m.issues }
 func (m *mockFullStore) Admin() store.AdminStore      { return nil }
 func (m *mockFullStore) Inbox() store.InboxStore      { return nil }
+func (m *mockFullStore) SavedQueries() store.SavedQueryStore { return nil }
+func (m *mockFullStore) Search() store.SearchStore    { return nil }
 
 func TestGetSortedIssues(t *testing.T) {
 	mockItems := []*model.IssueTreeItem{
