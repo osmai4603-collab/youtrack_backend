@@ -87,10 +87,12 @@ func (s *UserStore) GetProfile(ctx context.Context, userID string) (*model.UserP
 	p := &model.UserProfile{UserID: userID}
 	err := s.db.QueryRow(ctx, `
 		SELECT timezone_id, locale_id, email_notifications_enabled, mention_notifications_enabled,
-		       compact_mode, expand_navigation, is_time_tracking_available
+		       compact_mode, expand_navigation, is_time_tracking_available,
+		       COALESCE(date_pattern,''), COALESCE(date_field_pattern,'')
 		FROM user_profiles WHERE user_id = $1`, userID).
 		Scan(&p.TimezoneID, &p.LocaleID, &p.EmailNotifications, &p.MentionNotifications,
-			&p.CompactMode, &p.ExpandNavigation, &p.IsTimeTrackingAvailable)
+			&p.CompactMode, &p.ExpandNavigation, &p.IsTimeTrackingAvailable,
+			&p.DatePattern, &p.DateFieldPattern)
 	if err != nil {
 		return nil, err
 	}
@@ -556,6 +558,12 @@ func (s *UserStore) GetGeneralProfile(ctx context.Context, userID string) (*mode
 		}
 		if p.LocaleID != "" {
 			gp.Locale.ID = p.LocaleID
+		}
+		if p.DateFieldPattern != "" {
+			gp.DateFormat.Pattern = p.DateFieldPattern
+		}
+		if p.DatePattern != "" {
+			gp.DateFormat.DatePattern = p.DatePattern
 		}
 	}
 	return gp, nil

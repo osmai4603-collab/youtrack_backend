@@ -14,7 +14,7 @@ import (
 )
 
 type mockInboxStore struct {
-	threads []*model.InboxThread
+	threads  []*model.InboxThread
 	lastTree *fields.FieldTree
 }
 
@@ -27,20 +27,21 @@ type mockInboxFullStore struct {
 	inbox *mockInboxStore
 }
 
-func (m *mockInboxFullStore) Users() store.UserStore       { return nil }
-func (m *mockInboxFullStore) Projects() store.ProjectStore { return nil }
-func (m *mockInboxFullStore) Issues() store.IssueStore     { return nil }
-func (m *mockInboxFullStore) Admin() store.AdminStore      { return nil }
-func (m *mockInboxFullStore) Inbox() store.InboxStore      { return m.inbox }
-func (m *mockInboxFullStore) SavedQueries() store.SavedQueryStore { return nil }
-func (m *mockInboxFullStore) Search() store.SearchStore    { return nil }
+func (m *mockInboxFullStore) Users() store.UserStore                 { return nil }
+func (m *mockInboxFullStore) Projects() store.ProjectStore           { return nil }
+func (m *mockInboxFullStore) Issues() store.IssueStore               { return nil }
+func (m *mockInboxFullStore) Admin() store.AdminStore                { return nil }
+func (m *mockInboxFullStore) Inbox() store.InboxStore                { return m.inbox }
+func (m *mockInboxFullStore) SavedQueries() store.SavedQueryStore    { return nil }
+func (m *mockInboxFullStore) Search() store.SearchStore              { return nil }
+func (m *mockInboxFullStore) Subscriptions() store.SubscriptionStore { return nil }
 
 func TestGetInboxThreadsDynamicFields(t *testing.T) {
 	mockData := []*model.InboxThread{
 		{
-			ID:    "thread-1",
-			Read:  true,
-			Type:  "InboxThread",
+			ID:   "thread-1",
+			Read: true,
+			Type: "InboxThread",
 			Subject: &model.InboxSubject{
 				Text: "Sample subject",
 				Type: "InboxSubject",

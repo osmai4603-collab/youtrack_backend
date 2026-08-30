@@ -18,6 +18,7 @@ type UserGroup struct {
 	AuditTargetID string `json:"auditTargetId,omitempty" db:"audit_target_id"`
 	IsUpdatable   bool   `json:"isUpdatable" db:"is_updatable"`
 	IsRemovable   bool   `json:"isRemovable" db:"is_removable"`
+	TeamForProject *ProjectRef `json:"teamForProject,omitempty"`
 	Type          string `json:"$type,omitempty"`
 }
 
@@ -83,6 +84,8 @@ type UserProfile struct {
 	UserID                  string `json:"userId" db:"user_id"`
 	TimezoneID              string `json:"timezoneId,omitempty" db:"timezone_id"`
 	LocaleID                string `json:"localeId,omitempty" db:"locale_id"`
+	DatePattern             string `json:"datePattern,omitempty" db:"date_pattern"`
+	DateFieldPattern        string `json:"dateFieldPattern,omitempty" db:"date_field_pattern"`
 	EmailNotifications      bool   `json:"emailNotificationsEnabled,omitempty" db:"email_notifications_enabled"`
 	MentionNotifications    bool   `json:"mentionNotificationsEnabled,omitempty" db:"mention_notifications_enabled"`
 	CompactMode             bool   `json:"compactMode,omitempty" db:"compact_mode"`

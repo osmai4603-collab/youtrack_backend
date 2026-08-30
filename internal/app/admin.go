@@ -43,14 +43,15 @@ func (a *App) GetPermissions(ctx context.Context) ([]*model.Permission, error) {
 	return perms, nil
 }
 
-// GetPermissionsCache يعيد الصلاحيات المخبأة للمستخدم مع نطاقاتها.
-func (a *App) GetPermissionsCache(ctx context.Context, userID string) ([]*model.CachedPermission, error) {
-	cache, err := a.store.Admin().CachedPermissions(ctx, userID)
+// GetPermissionsCache يعيد الصلاحيات المخبأة للمستخدم مع نطاقاتها عبر المخطط
+// الجديد المستقل PermissionCacheEntry مع الجلب الانتقائي حسب شجرة الحقول.
+func (a *App) GetPermissionsCache(ctx context.Context, userID string, tree *fields.FieldTree) ([]*model.PermissionCacheEntry, error) {
+	cache, err := a.store.Admin().PermissionsCache(ctx, userID, tree)
 	if err != nil {
 		return nil, model.Internal("failed to load permissions cache: %v", err)
 	}
 	if cache == nil {
-		cache = []*model.CachedPermission{}
+		cache = []*model.PermissionCacheEntry{}
 	}
 	return cache, nil
 }
@@ -67,4 +68,22 @@ func (a *App) GetProjectDashboard(ctx context.Context, projectKey string, tree *
 	}
 	dashboard.Normalize()
 	return dashboard, nil
+}
+
+// GetOrganizations يعيد قائمة المنظمات مع الجلب الانتقائي حسب شجرة الحقول
+// والفرز والحدود (مطابق لـ request22.txt و hh.json).
+func (a *App) GetOrganizations(ctx context.Context, tree *fields.FieldTree, top int, skip int, sorting string) ([]*model.Organization, error) {
+	orgs, err := a.store.Admin().Organizations(ctx, tree, top, skip, sorting)
+	if err != nil {
+		return nil, model.Internal("failed to load organizations: %v", err)
+	}
+	if orgs == nil {
+		orgs = []*model.Organization{}
+	}
+	for _, o := range orgs {
+		if o != nil {
+			o.Normalize()
+		}
+	}
+	return orgs, nil
 }

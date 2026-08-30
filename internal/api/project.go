@@ -49,6 +49,18 @@ func (h *ProjectHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	fieldsParam := r.URL.Query().Get("fields")
 	tree := fields.Parse(fieldsParam)
 
+	// الطلب #27 (GET /api/admin/projects/{id}?fields=team(name,users(...)),leader(id))
+	// له مسار كود منفصل يُجلب فقط القائد والفريق مع تقليم الأعمدة، دون لمس بقية النقاط.
+	if isRequest27(tree) {
+		res, err := h.app.GetProjectTeamAndLeader(r.Context(), projectID, tree.Child("leader"), tree.Child("team"))
+		if err != nil {
+			writeError(w, err)
+			return
+		}
+		writeModel(w, project27ToMap(res, tree.Child("leader"), tree.Child("team")))
+		return
+	}
+
 	project, err := h.app.GetProject(r.Context(), projectID, tree)
 	if err != nil {
 		writeError(w, err)

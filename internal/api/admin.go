@@ -47,19 +47,136 @@ func (h *AdminHandler) Permissions(w http.ResponseWriter, r *http.Request) {
 	writeModel(w, PermissionListResponse{Permissions: perms, Count: len(perms)})
 }
 
-// PermissionsCache يعيد الصلاحيات المخبأة للمستخدم الحالي (مطابق لـ request7.txt).
+// PermissionsCache يعيد الصلاحيات المخبأة للمستخدم الحالي مع احترام معامل fields
+// (مطابق لـ request20.txt).
 func (h *AdminHandler) PermissionsCache(w http.ResponseWriter, r *http.Request) {
 	userID, ok := CurrentUserID(r)
 	if !ok {
 		writeError(w, model.Unauthorized("user context missing"))
 		return
 	}
-	cache, err := h.app.GetPermissionsCache(r.Context(), userID)
+	fieldTree := fields.Parse(r.URL.Query().Get("fields"))
+	cache, err := h.app.GetPermissionsCache(r.Context(), userID, fieldTree)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
-	writeModel(w, cache)
+	writeJSON(w, http.StatusOK, permissionsCacheToSlice(cache, fieldTree))
+}
+
+// permissionsCacheToSlice يحوّل الصلاحيات المخبأة إلى مصفوفة خرائط تحترم معامل
+// fields وتضمّن $type على كل مستوى كما في استجابة YouTrack الأصلية.
+func permissionsCacheToSlice(cache []*model.PermissionCacheEntry, tree *fields.FieldTree) []map[string]any {
+	result := make([]map[string]any, 0, len(cache))
+	for _, c := range cache {
+		entry := make(map[string]any)
+		if c == nil {
+			entry["$type"] = "CachedPermission"
+			result = append(result, entry)
+			continue
+		}
+		if tree == nil || tree.IsEmpty() {
+			if c.ID != "" {
+				entry["id"] = c.ID
+			}
+			if c.Global != nil {
+				entry["global"] = *c.Global
+			}
+			entry["projects"] = permissionCacheProjectsToSlice(c.Projects, nil)
+			entry["organizations"] = permissionCacheOrgsToSlice(c.Organizations, nil)
+		} else {
+			if tree.Has("id") {
+				entry["id"] = c.ID
+			}
+			if tree.Has("global") {
+				entry["global"] = *c.Global
+			}
+			if tree.Has("projects") {
+				entry["projects"] = permissionCacheProjectsToSlice(c.Projects, tree.Child("projects"))
+			}
+			if tree.Has("organizations") {
+				entry["organizations"] = permissionCacheOrgsToSlice(c.Organizations, tree.Child("organizations"))
+			}
+			if tree.Has("permission") {
+				entry["permission"] = permissionToMapR26(c, tree.Child("permission"))
+			}
+		}
+		entry["$type"] = "CachedPermission"
+		result = append(result, entry)
+	}
+	if result == nil {
+		result = []map[string]any{}
+	}
+	return result
+}
+
+// permissionToMapR26 يحوّل الصلاحية إلى خريطة تحترم الحقول المتداخلة المطلوبة في Request 26.
+func permissionToMapR26(c *model.PermissionCacheEntry, tree *fields.FieldTree) map[string]any {
+	m := make(map[string]any)
+	if tree == nil || tree.IsEmpty() {
+		m["id"] = c.ID
+		m["key"] = c.ID
+		m["name"] = c.PermissionName
+	} else {
+		if tree.Has("id") {
+			m["id"] = c.ID
+		}
+		if tree.Has("key") {
+			m["key"] = c.ID
+		}
+		if tree.Has("name") {
+			m["name"] = c.PermissionName
+		}
+	}
+	m["$type"] = "Permission"
+	return m
+}
+
+// permissionCacheProjectsToSlice يحوّل مشاريع صلاحية إلى مصفوفة خرائط تحترم
+// شجرة الحقول الفرعية وتضمّن $type.
+func permissionCacheProjectsToSlice(projects []*model.PermissionCacheProject, tree *fields.FieldTree) any {
+	if projects == nil {
+		return nil
+	}
+	wantID := tree == nil || tree.IsEmpty() || tree.Has("id")
+	wantProjectType := tree == nil || tree.IsEmpty() || tree.Has("projectType") || tree.Has("projectType.id")
+
+	out := make([]map[string]any, 0, len(projects))
+	for _, p := range projects {
+		m := make(map[string]any)
+		if wantID && p.ID != "" {
+			m["id"] = p.ID
+		}
+		if wantProjectType && p.ProjectType != nil {
+			pt := make(map[string]any)
+			pt["id"] = p.ProjectType.ID
+			pt["$type"] = "ProjectType"
+			m["projectType"] = pt
+		}
+		m["$type"] = "Project"
+		out = append(out, m)
+	}
+	return out
+}
+
+// permissionCacheOrgsToSlice يحوّل منظمات صلاحية إلى مصفوفة خرائط تحترم شجرة
+// الحقول الفرعية وتضمّن $type (لا يوجد جدول ربط، فهي فارغة غالباً).
+func permissionCacheOrgsToSlice(orgs []*model.PermissionCacheOrganization, tree *fields.FieldTree) any {
+	if orgs == nil {
+		return nil
+	}
+	wantID := tree == nil || tree.IsEmpty() || tree.Has("id")
+
+	out := make([]map[string]any, 0, len(orgs))
+	for _, o := range orgs {
+		m := make(map[string]any)
+		if wantID && o.ID != "" {
+			m["id"] = o.ID
+		}
+		m["$type"] = "Organization"
+		out = append(out, m)
+	}
+	return out
 }
 
 // Widgets يعيد قائمة الودجات العامة بصيغة مصفوفة JSON (مطابق لـ request6.txt).
@@ -302,4 +419,140 @@ func projectDashboardWidgetViewToMap(w *model.DashboardWidget) map[string]any {
 	}
 	result["$type"] = "WidgetView"
 	return result
+}
+
+// Organizations يعيد قائمة المنظمات مع احترام معامل fields و $top و $skip و
+// sorting (مطابق لـ request22.txt و hh.json و hh2.json).
+func (h *AdminHandler) Organizations(w http.ResponseWriter, r *http.Request) {
+	fieldTree := fields.Parse(r.URL.Query().Get("fields"))
+	top, skip := parsePagination(r)
+	if s := r.URL.Query().Get("$top"); s == "-1" {
+		top = -1
+	}
+	sorting := r.URL.Query().Get("sorting")
+	orgs, err := h.app.GetOrganizations(r.Context(), fieldTree, top, skip, sorting)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, organizationsToSlice(orgs, fieldTree))
+}
+
+// organizationsToSlice يحوّل المنظمات إلى مصفوفة خرائط تحترم معامل fields
+// وتضمّن $type على كل مستوى كما في استجابة YouTrack الأصلية.
+func organizationsToSlice(orgs []*model.Organization, tree *fields.FieldTree) []map[string]any {
+	result := make([]map[string]any, 0, len(orgs))
+	for _, o := range orgs {
+		result = append(result, organizationToMap(o, tree))
+	}
+	if result == nil {
+		result = []map[string]any{}
+	}
+	return result
+}
+
+// organizationToMap يحوّل منظمة إلى خريطة تحترم شجرة الحقول الفرعية وتضمّن $type.
+func organizationToMap(o *model.Organization, tree *fields.FieldTree) map[string]any {
+	result := make(map[string]any)
+	if o == nil {
+		o = &model.Organization{}
+	}
+	if tree == nil || tree.IsEmpty() {
+		// بدون معامل fields: نعرض id فقط كما في استجابة request22.txt الحقيقية.
+		result["id"] = o.ID
+	} else {
+		if tree.Has("id") {
+			result["id"] = o.ID
+		}
+		if tree.Has("key") {
+			result["key"] = o.Key
+		}
+		if tree.Has("name") {
+			result["name"] = o.Name
+		}
+		if tree.Has("iconUrl") {
+			if o.IconURL != nil {
+				result["iconUrl"] = *o.IconURL
+			} else {
+				result["iconUrl"] = nil
+			}
+		}
+		if tree.Has("projectsCount") {
+			result["projectsCount"] = o.ProjectsCount
+		}
+		if tree.Has("auditTargetId") {
+			result["auditTargetId"] = o.AuditTargetID
+		}
+		if tree.Has("description") {
+			result["description"] = o.Description
+		}
+		if tree.Has("projects") {
+			result["projects"] = organizationProjectsToSlice(o.Projects, tree.Child("projects"))
+		}
+	}
+	result["$type"] = "Organization"
+	return result
+}
+
+// organizationProjectsToSlice يحوّل مشاريع المنظمة إلى مصفوفة خرائط تحترم شجرة
+// الحقول الفرعية وتضمّن $type على كل مستوى.
+func organizationProjectsToSlice(projects []*model.Project, tree *fields.FieldTree) any {
+	if projects == nil {
+		return nil
+	}
+	out := make([]map[string]any, 0, len(projects))
+	for _, p := range projects {
+		if p == nil {
+			continue
+		}
+		m := make(map[string]any)
+		want := func(name string) bool { return tree == nil || tree.IsEmpty() || tree.Has(name) }
+
+		if want("id") {
+			m["id"] = p.ID
+		}
+		if want("name") {
+			m["name"] = p.Name
+		}
+		if want("shortName") {
+			m["shortName"] = p.ShortName
+		}
+		if want("pinned") {
+			m["pinned"] = p.Pinned
+		}
+		if want("iconUrl") {
+			if p.IconURL != "" {
+				m["iconUrl"] = p.IconURL
+			} else {
+				m["iconUrl"] = nil
+			}
+		}
+		if want("template") {
+			m["template"] = p.Template
+		}
+		if want("archived") {
+			m["archived"] = p.Archived
+		}
+		if want("restricted") {
+			m["restricted"] = p.Restricted
+		}
+		if want("hasArticles") {
+			m["hasArticles"] = p.HasArticles
+		}
+		if want("projectType") && p.ProjectType != nil {
+			pt := make(map[string]any)
+			pt["id"] = p.ProjectType.ID
+			pt["$type"] = "ProjectType"
+			m["projectType"] = pt
+		}
+		if want("team") && p.Team != nil {
+			team := make(map[string]any)
+			team["id"] = p.Team.ID
+			team["$type"] = "ProjectTeam"
+			m["team"] = team
+		}
+		m["$type"] = "Project"
+		out = append(out, m)
+	}
+	return out
 }

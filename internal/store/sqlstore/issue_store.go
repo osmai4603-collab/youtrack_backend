@@ -2,12 +2,17 @@ package sqlstore
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"strings"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"youtrack_backend/internal/api/fields"
 	"youtrack_backend/internal/model"
+	"youtrack_backend/internal/store"
 )
 
 // IssueStore تطبيق عمليات القضايا على PostgreSQL.
@@ -269,4 +274,249 @@ func timeSince(val *int64) int64 {
 	}
 	now := time.Now().UnixMilli()
 	return now - *val
+}
+
+// GetIssueCount يحسب عدد المشاكل ضمن مجلد (project_id أو short_name) مع دعم
+// نص البحث وفلتر غير المحلولة (مطابق لـ request17.txt).
+func (s *IssueStore) GetIssueCount(ctx context.Context, folderID string, query string, unresolvedOnly bool) (*model.IssueCountResponse, error) {
+	var folder *model.IssueFolder
+	if folderID != "" {
+		var id, name, shortName string
+		err := s.db.QueryRow(ctx, `SELECT id, name, short_name FROM projects WHERE id = $1 OR short_name = $1`, folderID).
+			Scan(&id, &name, &shortName)
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, store.ErrFolderNotFound
+		}
+		if err != nil {
+			return nil, err
+		}
+		folder = &model.IssueFolder{ID: id, Name: name, ShortName: shortName, Type: "Project"}
+	}
+
+	args := []any{}
+	argIdx := 0
+	whereClause := ""
+	if folder != nil {
+		argIdx++
+		whereClause += fmt.Sprintf(" WHERE project_id = $%d", argIdx)
+		args = append(args, folder.ID)
+	}
+
+	if query != "" {
+		argIdx++
+		if whereClause == "" {
+			whereClause = " WHERE "
+		} else {
+			whereClause += " AND "
+		}
+		whereClause += fmt.Sprintf("(summary ILIKE $%d OR description ILIKE $%d)", argIdx, argIdx)
+		args = append(args, "%"+query+"%")
+	}
+
+	if unresolvedOnly {
+		if whereClause == "" {
+			whereClause = " WHERE "
+		} else {
+			whereClause += " AND "
+		}
+		whereClause += "resolved IS NULL"
+	}
+
+	var count int64
+	if err := s.db.QueryRow(ctx, `SELECT COUNT(*) FROM issues`+whereClause, args...).Scan(&count); err != nil {
+		return nil, err
+	}
+
+	return &model.IssueCountResponse{Count: count, Folder: folder}, nil
+}
+
+// GetIssuesGetter يجلب المشاكل مع حقولها المخصصة بناءً على المعرّفات أو البحث (مطابق لـ request28.txt).
+func (s *IssueStore) GetIssuesGetter(ctx context.Context, refs []string, query string, top int, skip int, tree *fields.FieldTree) ([]*model.IssueGetterIssue, error) {
+	sql := `SELECT id, id_readable, summary, resolved FROM issues`
+	args := []any{}
+	argIdx := 0
+
+	var whereClauses []string
+	if len(refs) > 0 {
+		argIdx++
+		whereClauses = append(whereClauses, fmt.Sprintf("(id = ANY($%d) OR id_readable = ANY($%d))", argIdx, argIdx))
+		args = append(args, refs)
+	}
+
+	if query != "" {
+		argIdx++
+		whereClauses = append(whereClauses, fmt.Sprintf("(summary ILIKE $%d OR id_readable ILIKE $%d)", argIdx, argIdx))
+		args = append(args, "%"+query+"%")
+	}
+
+	if len(whereClauses) > 0 {
+		sql += " WHERE " + strings.Join(whereClauses, " AND ")
+	}
+
+	sql += " ORDER BY updated DESC"
+
+	if top > 0 {
+		argIdx++
+		sql += fmt.Sprintf(" LIMIT $%d", argIdx)
+		args = append(args, top)
+	} else if top == 0 {
+		sql += " LIMIT 50"
+	}
+
+	if skip > 0 {
+		argIdx++
+		sql += fmt.Sprintf(" OFFSET $%d", argIdx)
+		args = append(args, skip)
+	}
+
+	rows, err := s.db.Query(ctx, sql, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var issues []*model.IssueGetterIssue
+	for rows.Next() {
+		var i model.IssueGetterIssue
+		if err := rows.Scan(&i.ID, &i.IDReadable, &i.Summary, &i.Resolved); err != nil {
+			return nil, err
+		}
+		issues = append(issues, &i)
+	}
+
+	// Fetch fields for each issue
+	for _, i := range issues {
+		flds, err := s.getIssueGetterFields(ctx, i.ID)
+		if err != nil {
+			return nil, err
+		}
+		i.Fields = flds
+		i.Normalize()
+	}
+
+	return issues, nil
+}
+
+func (s *IssueStore) getIssueGetterFields(ctx context.Context, issueID string) ([]*model.IssueCustomField, error) {
+	rows, err := s.db.Query(ctx, `
+		SELECT
+			icfv.id, COALESCE(icfv.name, ''), COALESCE(icfv.field_type, ''),
+			pcf.id, COALESCE(pcf.bundle_id, ''), COALESCE(b.bundle_type, ''),
+			cf.id, cf.name, COALESCE(cf.localized_name, ''),
+			ft.id, ft.value_type,
+			ifev.id, ifev.name, COALESCE(ifev.localized_name, ''),
+			COALESCE(ifev.login, ''), COALESCE(ifev.avatar_url, ''),
+			COALESCE(ifev.presentation, ''), COALESCE(ifev.minutes, 0),
+			COALESCE(fs.id, ''), COALESCE(fs.background, ''), COALESCE(fs.foreground, '')
+		FROM issue_custom_field_values icfv
+		JOIN project_custom_fields pcf ON icfv.project_custom_field_id = pcf.id
+		LEFT JOIN bundles b ON pcf.bundle_id = b.id
+		JOIN custom_fields cf ON pcf.custom_field_id = cf.id
+		JOIN field_types ft ON cf.field_type_id = ft.id
+		LEFT JOIN issue_field_enum_values ifev ON icfv.name = ifev.name
+		LEFT JOIN field_styles fs ON ifev.color_id = fs.id
+		WHERE icfv.issue_id = $1
+		ORDER BY pcf.ordinal, icfv.id
+	`, issueID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	fieldMap := make(map[string]*model.IssueCustomField)
+	var fieldOrder []string
+
+	for rows.Next() {
+		var icfvID, icfvName, icfvFieldType string
+		var pcfID, bundleID, bundleType string
+		var cfID, cfName, cfLocName string
+		var ftID, ftValueType string
+		var valID, valName, valLocName, valLogin, valAvatar, valPres string
+		var valMinutes int
+		var colorID, colorBG, colorFG string
+
+		err := rows.Scan(
+			&icfvID, &icfvName, &icfvFieldType,
+			&pcfID, &bundleID, &bundleType,
+			&cfID, &cfName, &cfLocName,
+			&ftID, &ftValueType,
+			&valID, &valName, &valLocName, &valLogin, &valAvatar, &valPres, &valMinutes,
+			&colorID, &colorBG, &colorFG,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		var value *model.IssueFieldValue
+		if valID != "" {
+			value = &model.IssueFieldValue{
+				ID:            valID,
+				Name:          valName,
+				LocalizedName: valLocName,
+				Login:         valLogin,
+				AvatarURL:     valAvatar,
+				Presentation:  valPres,
+				Minutes:       valMinutes,
+				Type:          bundleType + "Element",
+			}
+			if bundleType == "" {
+				value.Type = "BundleElement"
+			}
+			if colorID != "" {
+				value.Color = &model.FieldColor{
+					ID:         colorID,
+					Background: colorBG,
+					Foreground: colorFG,
+					Type:       "FieldStyle",
+				}
+			}
+		}
+
+		f, exists := fieldMap[pcfID]
+		if !exists {
+			f = &model.IssueCustomField{
+				ID:   pcfID,
+				Type: icfvFieldType,
+				ProjectCustomField: &model.ProjectCustomField{
+					ID: pcfID,
+					Bundle: &model.FieldBundle{
+						ID:   bundleID,
+						Type: bundleType,
+					},
+					Field: &model.CustomFieldMetadata{
+						ID:            cfID,
+						Name:          cfName,
+						LocalizedName: cfLocName,
+						FieldType: &model.FieldType{
+							ID:        ftID,
+							ValueType: ftValueType,
+						},
+					},
+				},
+			}
+			fieldMap[pcfID] = f
+			fieldOrder = append(fieldOrder, pcfID)
+		}
+
+		if value != nil {
+			if f.Value == nil {
+				f.Value = value
+			} else {
+				switch v := f.Value.(type) {
+				case *model.IssueFieldValue:
+					f.Value = []*model.IssueFieldValue{v, value}
+				case []*model.IssueFieldValue:
+					f.Value = append(v, value)
+				}
+			}
+		} else if icfvName != "" && f.Value == nil {
+			f.Value = icfvName
+		}
+	}
+
+	result := make([]*model.IssueCustomField, 0, len(fieldOrder))
+	for _, id := range fieldOrder {
+		result = append(result, fieldMap[id])
+	}
+	return result, nil
 }

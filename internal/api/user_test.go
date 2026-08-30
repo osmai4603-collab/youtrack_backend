@@ -166,7 +166,11 @@ func (m *mockUserStore) GetGeneralProfile(ctx context.Context, userID string) (*
 			Language:  "en",
 			Type:      "LocaleDescriptor",
 		},
-		Type: "GeneralUserProfile",
+		SemanticSearchForArticles: false,
+		LastCreatedIssue:          nil,
+		SearchContext:             nil,
+		HelpdeskContext:           nil,
+		Type:                      "GeneralUserProfile",
 	}, nil
 }
 func (m *mockUserStore) GetQuestionnaireProfile(ctx context.Context, userID string) (*model.QuestionnaireUserProfile, error) {
@@ -199,13 +203,14 @@ type mockFullUserStore struct {
 	userStore *mockUserStore
 }
 
-func (m *mockFullUserStore) Users() store.UserStore       { return m.userStore }
-func (m *mockFullUserStore) Projects() store.ProjectStore { return nil }
-func (m *mockFullUserStore) Issues() store.IssueStore     { return nil }
-func (m *mockFullUserStore) Admin() store.AdminStore      { return nil }
-func (m *mockFullUserStore) Inbox() store.InboxStore      { return nil }
-func (m *mockFullUserStore) SavedQueries() store.SavedQueryStore { return nil }
-func (m *mockFullUserStore) Search() store.SearchStore    { return nil }
+func (m *mockFullUserStore) Users() store.UserStore                 { return m.userStore }
+func (m *mockFullUserStore) Projects() store.ProjectStore           { return nil }
+func (m *mockFullUserStore) Issues() store.IssueStore               { return nil }
+func (m *mockFullUserStore) Admin() store.AdminStore                { return nil }
+func (m *mockFullUserStore) Inbox() store.InboxStore                { return nil }
+func (m *mockFullUserStore) SavedQueries() store.SavedQueryStore    { return nil }
+func (m *mockFullUserStore) Search() store.SearchStore              { return nil }
+func (m *mockFullUserStore) Subscriptions() store.SubscriptionStore { return nil }
 
 func setupTestApp() (*app.App, *model.User) {
 	user := &model.User{
@@ -431,6 +436,108 @@ func TestGetSubProfiles(t *testing.T) {
 		_ = json.Unmarshal(rec.Body.Bytes(), &res)
 		if res["login"] != "osmflutterdeveloper" {
 			t.Errorf("expected login 'osmflutterdeveloper', got %v", res["login"])
+		}
+	}
+}
+
+func TestGetGeneralProfileSelectiveFields(t *testing.T) {
+	a, _ := setupTestApp()
+	handler := NewUserHandler(a)
+
+	// 1. Request only id and dateFieldFormat(pattern,datePattern)
+	{
+		req := httptest.NewRequest("GET", "/api/users/me/profiles/general?fields=id,dateFieldFormat(pattern,datePattern)", nil)
+		req = req.WithContext(withUserID(req.Context(), "11-2095841"))
+		rec := httptest.NewRecorder()
+		handler.GetGeneralProfile(rec, req)
+		if rec.Code != http.StatusOK {
+			t.Fatalf("expected status 200, got %d", rec.Code)
+		}
+
+		var res map[string]any
+		if err := json.Unmarshal(rec.Body.Bytes(), &res); err != nil {
+			t.Fatalf("failed to parse json response: %v", err)
+		}
+
+		if res["$type"] != "GeneralUserProfile" {
+			t.Errorf("expected $type 'GeneralUserProfile', got %v", res["$type"])
+		}
+		if res["id"] != "generalProfile" {
+			t.Errorf("expected id 'generalProfile', got %v", res["id"])
+		}
+		// timezone, locale, semanticSearchForArticles should NOT be present
+		if _, present := res["timezone"]; present {
+			t.Errorf("expected timezone to be absent with fields=id,dateFieldFormat")
+		}
+		if _, present := res["locale"]; present {
+			t.Errorf("expected locale to be absent with fields=id,dateFieldFormat")
+		}
+		if _, present := res["semanticSearchForArticles"]; present {
+			t.Errorf("expected semanticSearchForArticles to be absent with fields=id,dateFieldFormat")
+		}
+
+		// dateFieldFormat should contain only pattern and datePattern
+		dff, ok := res["dateFieldFormat"].(map[string]any)
+		if !ok {
+			t.Fatalf("expected dateFieldFormat to be an object")
+		}
+		if dff["pattern"] != "d MMM yyyy HH:mm" {
+			t.Errorf("expected pattern 'd MMM yyyy HH:mm', got %v", dff["pattern"])
+		}
+		if dff["datePattern"] != "d MMM yyyy" {
+			t.Errorf("expected datePattern 'd MMM yyyy', got %v", dff["datePattern"])
+		}
+	}
+
+	// 2. Request only dateFieldFormat without nested fields -> full dateFieldFormat object
+	{
+		req := httptest.NewRequest("GET", "/api/users/me/profiles/general?fields=dateFieldFormat", nil)
+		req = req.WithContext(withUserID(req.Context(), "11-2095841"))
+		rec := httptest.NewRecorder()
+		handler.GetGeneralProfile(rec, req)
+		if rec.Code != http.StatusOK {
+			t.Fatalf("expected status 200, got %d", rec.Code)
+		}
+
+		var res map[string]any
+		_ = json.Unmarshal(rec.Body.Bytes(), &res)
+
+		dff, ok := res["dateFieldFormat"].(map[string]any)
+		if !ok {
+			t.Fatalf("expected dateFieldFormat to be an object")
+		}
+		if dff["pattern"] != "d MMM yyyy HH:mm" {
+			t.Errorf("expected pattern 'd MMM yyyy HH:mm', got %v", dff["pattern"])
+		}
+		if dff["datePattern"] != "d MMM yyyy" {
+			t.Errorf("expected datePattern 'd MMM yyyy', got %v", dff["datePattern"])
+		}
+	}
+
+	// 3. No fields parameter -> full general profile
+	{
+		req := httptest.NewRequest("GET", "/api/users/me/profiles/general", nil)
+		req = req.WithContext(withUserID(req.Context(), "11-2095841"))
+		rec := httptest.NewRecorder()
+		handler.GetGeneralProfile(rec, req)
+		if rec.Code != http.StatusOK {
+			t.Fatalf("expected status 200, got %d", rec.Code)
+		}
+
+		var res map[string]any
+		_ = json.Unmarshal(rec.Body.Bytes(), &res)
+
+		if res["id"] != "generalProfile" {
+			t.Errorf("expected id 'generalProfile', got %v", res["id"])
+		}
+		if _, present := res["timezone"]; !present {
+			t.Errorf("expected timezone to be present with no fields parameter")
+		}
+		if _, present := res["locale"]; !present {
+			t.Errorf("expected locale to be present with no fields parameter")
+		}
+		if _, present := res["semanticSearchForArticles"]; !present {
+			t.Errorf("expected semanticSearchForArticles to be present with no fields parameter")
 		}
 	}
 }

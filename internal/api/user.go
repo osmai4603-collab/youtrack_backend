@@ -91,7 +91,76 @@ func (h *UserHandler) GetGeneralProfile(w http.ResponseWriter, r *http.Request) 
 		writeError(w, err)
 		return
 	}
-	writeModel(w, gen)
+	fieldTree := fields.Parse(r.URL.Query().Get("fields"))
+	if fieldTree == nil || fieldTree.IsEmpty() {
+		writeModel(w, gen)
+		return
+	}
+	writeModel(w, generalProfileToMap(gen, fieldTree))
+}
+
+// generalProfileToMap يحوّل GeneralUserProfile إلى خريطة تحترم معامل fields
+// وتضمن $type دائماً كما في استجابة YouTrack الأصلية.
+func generalProfileToMap(p *model.GeneralUserProfile, tree *fields.FieldTree) map[string]any {
+	result := make(map[string]any)
+	if p == nil {
+		p = &model.GeneralUserProfile{}
+	}
+	if tree == nil || tree.IsEmpty() {
+		result["id"] = p.ID
+		result["timezone"] = p.Timezone
+		result["dateFieldFormat"] = p.DateFormat
+		result["locale"] = p.Locale
+		result["semanticSearchForArticles"] = p.SemanticSearchForArticles
+		result["lastCreatedIssue"] = p.LastCreatedIssue
+		result["searchContext"] = p.SearchContext
+		result["helpdeskContext"] = p.HelpdeskContext
+	} else {
+		if tree.Has("id") {
+			result["id"] = p.ID
+		}
+		if tree.Has("timezone") {
+			result["timezone"] = p.Timezone
+		}
+		if tree.Has("dateFieldFormat") {
+			dff := tree.Child("dateFieldFormat")
+			if dff != nil && !dff.IsEmpty() {
+				dfMap := make(map[string]any)
+				if p.DateFormat == nil {
+					p.DateFormat = &model.DateFormatDescriptor{}
+				}
+				if dff.Has("pattern") {
+					dfMap["pattern"] = p.DateFormat.Pattern
+				}
+				if dff.Has("datePattern") {
+					dfMap["datePattern"] = p.DateFormat.DatePattern
+				}
+				if dff.Has("$type") {
+					dfMap["$type"] = p.DateFormat.Type
+				}
+				result["dateFieldFormat"] = dfMap
+			} else {
+				result["dateFieldFormat"] = p.DateFormat
+			}
+		}
+		if tree.Has("locale") {
+			result["locale"] = p.Locale
+		}
+		if tree.Has("semanticSearchForArticles") {
+			result["semanticSearchForArticles"] = p.SemanticSearchForArticles
+		}
+		if tree.Has("lastCreatedIssue") {
+			result["lastCreatedIssue"] = p.LastCreatedIssue
+		}
+		if tree.Has("searchContext") {
+			result["searchContext"] = p.SearchContext
+		}
+		if tree.Has("helpdeskContext") {
+			result["helpdeskContext"] = p.HelpdeskContext
+		}
+	}
+	result["$type"] = "GeneralUserProfile"
+	return result
 }
 
 // GetQuestionnaireProfile يعيد إعدادات واستطلاعات الرأي للمستخدم (مطابق لـ request66.txt).

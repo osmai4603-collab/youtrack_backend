@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"youtrack_backend/internal/api/fields"
@@ -136,9 +137,13 @@ func (s *AdminStore) AdminGlobalSettings(ctx context.Context, tree *fields.Field
 
 	g := &model.AdminGlobalSettings{Type: "GlobalSettings"}
 	if tree == nil || tree.Has("restSettings") {
+		allowedOrigins, err := s.globalSettingsAllowedOrigins(ctx, id)
+		if err != nil {
+			return nil, err
+		}
 		g.RestSettings = &model.RestCorsSettings{
 			AllowAllOrigins: allowAllOrigins,
-			AllowedOrigins:  []string{},
+			AllowedOrigins:  allowedOrigins,
 			Type:            "RestCorsSettings",
 		}
 	}
@@ -165,6 +170,33 @@ func (s *AdminStore) AdminGlobalSettings(ctx context.Context, tree *fields.Field
 		}
 	}
 	return g, nil
+}
+
+// globalSettingsAllowedOrigins يعيد قائمة النطاقات المسموح بها (allowedOrigins)
+// من جدول global_settings_allowed_origins للصف المحدد، أو مصفوفة فارغة إن لم توجد
+// (مطابقة لقيمة YouTrack الافتراضية []).
+func (s *AdminStore) globalSettingsAllowedOrigins(ctx context.Context, settingsID int) ([]string, error) {
+	rows, err := s.db.Query(ctx, `
+		SELECT origin FROM global_settings_allowed_origins
+		WHERE settings_id = $1
+		ORDER BY id`, settingsID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	origins := []string{}
+	for rows.Next() {
+		var origin string
+		if err := rows.Scan(&origin); err != nil {
+			return nil, err
+		}
+		origins = append(origins, origin)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return origins, nil
 }
 
 // BannersConfig يعيد إعدادات اللافتات الخاص بـ GET /api/config عبر المخطط الجديد
@@ -378,6 +410,110 @@ func projectDashboardWidgetFields(tree *fields.FieldTree) (fieldIDs, fieldExprs 
 	return fieldIDs, fieldExprs
 }
 
+// Organizations يعيد قائمة المنظمات مع دعم الفرز (sorting) والحدود ($top و $skip)
+// والجلب الانتقائي الدقيق حسب شجرة الحقول FieldTree (مطابق لـ request22.txt و hh.json).
+// عند طلب الحقل projects يتم جلب المشاريع المرتبطة بكل منظمة مع دعم الحقول الفرعية
+// (projectType, team, ...).
+func (s *AdminStore) Organizations(ctx context.Context, tree *fields.FieldTree, top int, skip int, sorting string) ([]*model.Organization, error) {
+	order := "name"
+	switch sorting {
+	case "asc", "natural":
+		order = "name"
+	case "desc":
+		order = "name DESC"
+	}
+
+	query := `SELECT id, COALESCE(key,''), COALESCE(name,''), icon_url, projects_count,
+		COALESCE(audit_target_id,''), COALESCE(description,'')
+		FROM organizations
+		ORDER BY ` + order
+	if top > 0 {
+		query += " LIMIT $1 OFFSET $2"
+	}
+
+	orgs := []*model.Organization{}
+	var err error
+	var rows pgx.Rows
+	if top > 0 {
+		rows, err = s.db.Query(ctx, query, top, skip)
+	} else {
+		rows, err = s.db.Query(ctx, query)
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		o := &model.Organization{Type: "Organization"}
+		var iconURL *string
+		if err := rows.Scan(&o.ID, &o.Key, &o.Name, &iconURL, &o.ProjectsCount, &o.AuditTargetID, &o.Description); err != nil {
+			return nil, err
+		}
+		o.IconURL = iconURL
+		orgs = append(orgs, o)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	// جلب المشاريع المرتبطة فقط عند طلب الحقل projects في شجرة الحقول.
+	if tree != nil && !tree.IsEmpty() && tree.Has("projects") {
+		projectTree := tree.Child("projects")
+		for _, o := range orgs {
+			projects, err := s.organizationProjects(ctx, o.ID, projectTree)
+			if err != nil {
+				return nil, err
+			}
+			o.Projects = projects
+		}
+	}
+
+	return orgs, nil
+}
+
+// organizationProjects يعيد مشاريع منظمة محددة مع دعم الحقول الفرعية حسب شجرة
+// الحقول (projectType, team, ...) وتطبيع $type على كل مستوى.
+func (s *AdminStore) organizationProjects(ctx context.Context, orgID string, tree *fields.FieldTree) ([]*model.Project, error) {
+	wantProjectType := tree == nil || tree.IsEmpty() || tree.Has("projectType") || tree.Has("projectType.id")
+	wantTeam := tree == nil || tree.IsEmpty() || tree.Has("team") || tree.Has("team.id")
+
+	rows, err := s.db.Query(ctx, `
+		SELECT p.id, p.name, p.short_name, p.pinned, COALESCE(p.icon_url, ''), p.template, p.archived,
+		       p.restricted, p.has_articles, COALESCE(pt.id, 'DEFAULT'), COALESCE(p.team_id, '')
+		FROM projects p
+		LEFT JOIN project_types pt ON pt.id = p.project_type_id
+		WHERE p.organization_id = $1
+		ORDER BY p.short_name`, orgID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	projects := []*model.Project{}
+	for rows.Next() {
+		p := &model.Project{}
+		var projectTypeID, teamID string
+		if err := rows.Scan(&p.ID, &p.Name, &p.ShortName, &p.Pinned, &p.IconURL, &p.Template,
+			&p.Archived, &p.Restricted, &p.HasArticles, &projectTypeID, &teamID); err != nil {
+			return nil, err
+		}
+		p.Type = "Project"
+		if wantProjectType {
+			p.ProjectType = &model.ProjectType{ID: projectTypeID, Type: "ProjectType"}
+		}
+		if wantTeam && teamID != "" {
+			p.Team = &model.ProjectTeamDetailed{ID: teamID, Type: "ProjectTeam"}
+		}
+		projects = append(projects, p)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return projects, nil
+}
+
 // CachedPermissions يعيد الصلاحيات المخبأة للمستخدم مع مشاريعها.
 func (s *AdminStore) CachedPermissions(ctx context.Context, userID string) ([]*model.CachedPermission, error) {
 	rows, err := s.db.Query(ctx, `
@@ -449,4 +585,324 @@ func (s *AdminStore) CachedPermissions(ctx context.Context, userID string) ([]*m
 		result = append(result, byID[id])
 	}
 	return result, nil
+}
+
+// PermissionsCache يعيد الصلاحيات المخبأة للمستخدم عبر المخطط الجديد المستقل
+// PermissionCacheEntry مع الجلب الانتقائي الدقيق حسب شجرة الحقول FieldTree
+// (مطابق لـ request20.txt). يُستعلم عن جدول cached_permission_projects وجداول
+// projects و project_types فقط عند طلب الحقل projects (ومشروعه الفرعي المشترك).
+func (s *AdminStore) PermissionsCache(ctx context.Context, userID string, tree *fields.FieldTree) ([]*model.PermissionCacheEntry, error) {
+	wantPermission := tree != nil && tree.Has("permission")
+	var rows pgx.Rows
+	var err error
+
+	if wantPermission {
+		rows, err = s.db.Query(ctx, `
+			SELECT cp.id, cp.is_global, p.name
+			FROM cached_permissions cp
+			LEFT JOIN permissions p ON p.id = cp.id
+			WHERE cp.user_id = $1
+			ORDER BY cp.id`, userID)
+	} else {
+		rows, err = s.db.Query(ctx, `
+			SELECT id, is_global
+			FROM cached_permissions
+			WHERE user_id = $1
+			ORDER BY id`, userID)
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	byID := map[string]*model.PermissionCacheEntry{}
+	var ids []string
+	for rows.Next() {
+		cp := &model.PermissionCacheEntry{Type: "CachedPermission"}
+		var global bool
+		if wantPermission {
+			var name *string
+			if err := rows.Scan(&cp.ID, &global, &name); err != nil {
+				return nil, err
+			}
+			if name != nil {
+				cp.PermissionName = *name
+			}
+		} else {
+			if err := rows.Scan(&cp.ID, &global); err != nil {
+				return nil, err
+			}
+		}
+		cp.Global = &global
+		// الصلاحيات العامة بلا نطاقات، وغير العامة بمصفوفات نطاقات (كما في request20).
+		if global {
+			cp.Projects = nil
+			cp.Organizations = nil
+		} else {
+			cp.Projects = []*model.PermissionCacheProject{}
+			cp.Organizations = []*model.PermissionCacheOrganization{}
+		}
+		byID[cp.ID] = cp
+		ids = append(ids, cp.ID)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	if len(ids) > 0 && (tree == nil || tree.IsEmpty() || tree.Has("projects")) {
+		projectTree := tree.Child("projects")
+		wantProjectType := projectTree == nil || projectTree.IsEmpty() || projectTree.Has("projectType")
+		wantID := projectTree == nil || projectTree.IsEmpty() || projectTree.Has("id")
+
+		var projectExprs []string
+		if wantID {
+			projectExprs = append(projectExprs, "p.id")
+		}
+		if wantProjectType {
+			projectExprs = append(projectExprs, "COALESCE(pt.id, 'DEFAULT')")
+		}
+
+		var query string
+		if wantProjectType {
+			query = `SELECT cpp.permission_id, ` + strings.Join(projectExprs, ", ") + `
+				FROM cached_permission_projects cpp
+				JOIN cached_permissions c ON c.id = cpp.permission_id AND c.user_id = $2
+				JOIN projects p ON p.id = cpp.project_id
+				LEFT JOIN project_types pt ON pt.id = p.project_type_id
+				WHERE cpp.permission_id = ANY($1)
+				ORDER BY cpp.permission_id, p.id`
+		} else {
+			query = `SELECT cpp.permission_id, ` + strings.Join(projectExprs, ", ") + `
+				FROM cached_permission_projects cpp
+				JOIN cached_permissions c ON c.id = cpp.permission_id AND c.user_id = $2
+				JOIN projects p ON p.id = cpp.project_id
+				WHERE cpp.permission_id = ANY($1)
+				ORDER BY cpp.permission_id, p.id`
+		}
+
+		pRows, err := s.db.Query(ctx, query, ids, userID)
+		if err != nil {
+			return nil, err
+		}
+		defer pRows.Close()
+
+		for pRows.Next() {
+			var permID string
+			var projectID string
+			var projectTypeID string
+			dests := []any{&permID}
+			if wantID {
+				dests = append(dests, &projectID)
+			}
+			if wantProjectType {
+				dests = append(dests, &projectTypeID)
+			}
+			if err := pRows.Scan(dests...); err != nil {
+				return nil, err
+			}
+			cp, ok := byID[permID]
+			if !ok {
+				continue
+			}
+			proj := &model.PermissionCacheProject{Type: "Project"}
+			if wantID {
+				proj.ID = projectID
+			}
+			if wantProjectType {
+				proj.ProjectType = &model.ProjectType{ID: projectTypeID, Type: "ProjectType"}
+			}
+			cp.Projects = append(cp.Projects, proj)
+		}
+		if err := pRows.Err(); err != nil {
+			return nil, err
+		}
+	}
+
+	result := make([]*model.PermissionCacheEntry, 0, len(ids))
+	for _, id := range ids {
+		result = append(result, byID[id])
+	}
+	return result, nil
+}
+
+// serviceColumns يختار أعمدة جدول services المطلوبة حسب شجرة الحقول؛ يُرجع
+// معرّفات الأعمدة مع تعبيرات SQL المناظرة (COALESCE للأعمدة النصية القابلة
+// للنول). عندما تكون الشجرة فارغة (أو لم تُحدد) تُرجع كل الحقول.
+func serviceColumns(tree *fields.FieldTree) (fieldIDs, fieldExprs []string) {
+	all := []struct {
+		id   string
+		expr string
+	}{
+		{"id", "id"},
+		{"name", "COALESCE(name, '')"},
+		{"key", "COALESCE(key, '')"},
+		{"home_url", "COALESCE(home_url, '')"},
+		{"application_name", "COALESCE(application_name, '')"},
+		{"vendor", "COALESCE(vendor, '')"},
+		{"version", "COALESCE(version, '')"},
+		{"trusted", "trusted"},
+		{"icon_url", "COALESCE(icon_url, '')"},
+		{"user_uri_pattern", "COALESCE(user_uri_pattern, '')"},
+		{"group_uri_pattern", "COALESCE(group_uri_pattern, '')"},
+		{"audience", "COALESCE(audience, '')"},
+		{"immutable", "immutable"},
+		{"client_credentials_flow_enabled", "client_credentials_flow_enabled"},
+		{"auth_code_flow_enabled", "auth_code_flow_enabled"},
+		{"implicit_flow_enabled", "implicit_flow_enabled"},
+	}
+
+	if tree == nil || tree.IsEmpty() {
+		for _, c := range all {
+			fieldIDs = append(fieldIDs, c.id)
+			fieldExprs = append(fieldExprs, c.expr)
+		}
+		return fieldIDs, fieldExprs
+	}
+
+	jsonToColumn := []struct {
+		json string
+		id   string
+		expr string
+	}{
+		{"id", "id", "id"},
+		{"name", "name", "COALESCE(name, '')"},
+		{"key", "key", "COALESCE(key, '')"},
+		{"homeUrl", "home_url", "COALESCE(home_url, '')"},
+		{"applicationName", "application_name", "COALESCE(application_name, '')"},
+		{"vendor", "vendor", "COALESCE(vendor, '')"},
+		{"version", "version", "COALESCE(version, '')"},
+		{"trusted", "trusted", "trusted"},
+		{"iconUrl", "icon_url", "COALESCE(icon_url, '')"},
+		{"userUriPattern", "user_uri_pattern", "COALESCE(user_uri_pattern, '')"},
+		{"groupUriPattern", "group_uri_pattern", "COALESCE(group_uri_pattern, '')"},
+		{"audience", "audience", "COALESCE(audience, '')"},
+		{"immutable", "immutable", "immutable"},
+		{"clientCredentialsFlowEnabled", "client_credentials_flow_enabled", "client_credentials_flow_enabled"},
+		{"authCodeFlowEnabled", "auth_code_flow_enabled", "auth_code_flow_enabled"},
+		{"implicitFlowEnabled", "implicit_flow_enabled", "implicit_flow_enabled"},
+	}
+
+	for _, c := range jsonToColumn {
+		if tree.Has(c.json) {
+			fieldIDs = append(fieldIDs, c.id)
+			fieldExprs = append(fieldExprs, c.expr)
+		}
+	}
+	// معامل fields لا يطلب أي حقل معروف: نرجع كل الحقول الافتراضية.
+	if len(fieldIDs) == 0 {
+		return serviceColumns(nil)
+	}
+	return fieldIDs, fieldExprs
+}
+
+// Services يعيد صفحة خدمات Hub مع الجلب الانتقائي الدقيق حسب شجرة الحقول
+// FieldTree ودعم $top و $skip (مطابق لـ request24.txt و hh.json و hh2.json).
+// يتم حساب total عبر COUNT(*) وترتيب النتائج حسب المعرّف لثبات الترتيب.
+func (s *AdminStore) Services(ctx context.Context, tree *fields.FieldTree, top int, skip int) (*model.ServicesPage, error) {
+	var total int
+	if err := s.db.QueryRow(ctx, `SELECT COUNT(*) FROM services`).Scan(&total); err != nil {
+		return nil, err
+	}
+
+	fieldIDs, fieldExprs := serviceColumns(tree)
+	query := `SELECT ` + strings.Join(fieldExprs, ", ") + `
+		FROM services
+		ORDER BY id`
+	if top > 0 {
+		query += " LIMIT $1 OFFSET $2"
+	}
+
+	page := &model.ServicesPage{
+		Type:     "ServicesPage",
+		Skip:     skip,
+		Top:      top,
+		Total:    total,
+		Services: []*model.HubService{},
+	}
+
+	var rows pgx.Rows
+	var err error
+	if top > 0 {
+		rows, err = s.db.Query(ctx, query, top, skip)
+	} else {
+		rows, err = s.db.Query(ctx, query)
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	selected := make(map[string]bool, len(fieldIDs))
+	for _, fid := range fieldIDs {
+		selected[fid] = true
+	}
+
+	for rows.Next() {
+		svc := &model.HubService{Type: "service"}
+		dests := make([]any, 0, len(fieldIDs))
+		for _, fid := range fieldIDs {
+			switch fid {
+			case "id":
+				dests = append(dests, &svc.ID)
+			case "name":
+				dests = append(dests, &svc.Name)
+			case "key":
+				dests = append(dests, &svc.Key)
+			case "home_url":
+				dests = append(dests, &svc.HomeURL)
+			case "application_name":
+				dests = append(dests, &svc.ApplicationName)
+			case "vendor":
+				dests = append(dests, &svc.Vendor)
+			case "version":
+				dests = append(dests, &svc.Version)
+			case "trusted":
+				svc.Trusted = new(bool)
+				dests = append(dests, &svc.Trusted)
+			case "icon_url":
+				dests = append(dests, &svc.IconURL)
+			case "user_uri_pattern":
+				dests = append(dests, &svc.UserUriPattern)
+			case "group_uri_pattern":
+				dests = append(dests, &svc.GroupUriPattern)
+			case "audience":
+				dests = append(dests, &svc.Audience)
+			case "immutable":
+				svc.Immutable = new(bool)
+				dests = append(dests, &svc.Immutable)
+			case "client_credentials_flow_enabled":
+				svc.ClientCredentialsFlowEnabled = new(bool)
+				dests = append(dests, &svc.ClientCredentialsFlowEnabled)
+			case "auth_code_flow_enabled":
+				svc.AuthCodeFlowEnabled = new(bool)
+				dests = append(dests, &svc.AuthCodeFlowEnabled)
+			case "implicit_flow_enabled":
+				svc.ImplicitFlowEnabled = new(bool)
+				dests = append(dests, &svc.ImplicitFlowEnabled)
+			}
+		}
+		if err := rows.Scan(dests...); err != nil {
+			return nil, err
+		}
+		if !selected["trusted"] {
+			svc.Trusted = nil
+		}
+		if !selected["immutable"] {
+			svc.Immutable = nil
+		}
+		if !selected["client_credentials_flow_enabled"] {
+			svc.ClientCredentialsFlowEnabled = nil
+		}
+		if !selected["auth_code_flow_enabled"] {
+			svc.AuthCodeFlowEnabled = nil
+		}
+		if !selected["implicit_flow_enabled"] {
+			svc.ImplicitFlowEnabled = nil
+		}
+		page.Services = append(page.Services, svc)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return page, nil
 }

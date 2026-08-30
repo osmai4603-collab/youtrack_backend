@@ -122,7 +122,34 @@ func main() {
 	// 17. Scan and seed all Issues, Comments, Tags & Activities across all files (request7, request12, request14, request15, request17, request28, request39, request41, request44, request47, request48, request67, request69)
 	scanAndSeedAllIssues(db, requestsDir)
 
+	// 18. Seed user profiles date field format (request29.txt)
+	seedUserProfilesDateFormats(db, requestsDir)
+
 	log.Println("ALL 69 files in docs/requests have been fully processed and imported into the database!")
+}
+
+// seedUserProfilesDateFormats يدخل صيغة التاريخ (date_pattern و date_field_pattern) في جدول user_profiles
+// بناءً على استجابة request29.txt (GET /api/users/me/profiles/general).
+func seedUserProfilesDateFormats(db *sql.DB, dir string) {
+	if data, _, err := extractJSON(filepath.Join(dir, "request29.txt")); err == nil {
+		var r struct {
+			ID             string `json:"id"`
+			DateFormatField *struct {
+				DatePattern string `json:"datePattern"`
+				Pattern     string `json:"pattern"`
+			} `json:"dateFieldFormat"`
+		}
+		if err := json.Unmarshal(data, &r); err == nil && r.DateFormatField != nil {
+			// حدّث كل المستخدمين الموجودين بقيم الصيغة من ملف الطلب
+			_, _ = db.Exec(`
+				INSERT INTO user_profiles (user_id, date_pattern, date_field_pattern)
+				SELECT id, $1, $2 FROM users
+				ON CONFLICT (user_id) DO UPDATE SET
+					date_pattern = EXCLUDED.date_pattern,
+					date_field_pattern = EXCLUDED.date_field_pattern
+			`, r.DateFormatField.DatePattern, r.DateFormatField.Pattern)
+		}
+	}
 }
 
 func seedFieldStyles(db *sql.DB) {
@@ -317,7 +344,24 @@ func extractProjectsRecursive(db *sql.DB, node interface{}) {
 				tID, _ := team["id"].(string)
 				tName, _ := team["name"].(string)
 				if tID != "" {
-					_, _ = db.Exec(`INSERT INTO project_teams (id, name, project_id) VALUES ($1, $2, $3) ON CONFLICT (id) DO NOTHING`, tID, tName, idVal)
+					tDesc, _ := team["description"].(string)
+					tIcon, _ := team["icon"].(string)
+					tAudit, _ := team["auditTargetId"].(string)
+					tAllUsers, _ := team["allUsersGroup"].(bool)
+					tUpdatable, _ := team["isUpdatable"].(bool)
+					tRemovable, _ := team["isRemovable"].(bool)
+					_, _ = db.Exec(`
+						INSERT INTO project_teams (id, name, project_id, description, icon, audit_target_id, all_users_group, is_updatable, is_removable)
+						VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+						ON CONFLICT (id) DO UPDATE SET
+							name = EXCLUDED.name,
+							description = EXCLUDED.description,
+							icon = EXCLUDED.icon,
+							audit_target_id = EXCLUDED.audit_target_id,
+							all_users_group = EXCLUDED.all_users_group,
+							is_updatable = EXCLUDED.is_updatable,
+							is_removable = EXCLUDED.is_removable
+					`, tID, tName, idVal, tDesc, tIcon, tAudit, tAllUsers, tUpdatable, tRemovable)
 					_, _ = db.Exec(`UPDATE projects SET team_id = $1 WHERE id = $2`, tID, idVal)
 
 					if users, ok := team["users"].([]interface{}); ok {
@@ -327,6 +371,54 @@ func extractProjectsRecursive(db *sql.DB, node interface{}) {
 									_, _ = db.Exec(`INSERT INTO project_team_members (team_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, tID, uID)
 								}
 							}
+						}
+					}
+				}
+			}
+
+			// Plugins
+			if plugins, ok := val["plugins"].(map[string]interface{}); ok {
+				if tt, ok := plugins["timeTrackingSettings"].(map[string]interface{}); ok {
+					ttID, _ := tt["id"].(string)
+					ttEnabled, _ := tt["enabled"].(bool)
+					if ttID != "" {
+						_, _ = db.Exec(`
+							INSERT INTO project_time_tracking_settings (id, project_id, enabled)
+							VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET enabled = EXCLUDED.enabled
+						`, ttID, idVal, ttEnabled)
+					}
+				}
+				if hd, ok := plugins["helpDeskSettings"].(map[string]interface{}); ok {
+					hdID, _ := hd["id"].(string)
+					uuid := ""
+					title := ""
+					if df, ok := hd["defaultForm"].(map[string]interface{}); ok {
+						uuid, _ = df["uuid"].(string)
+						title, _ = df["title"].(string)
+					}
+					if hdID != "" {
+						_, _ = db.Exec(`
+							INSERT INTO project_helpdesk_settings (id, project_id, default_form_uuid, default_form_title)
+							VALUES ($1, $2, $3, $4)
+							ON CONFLICT (id) DO UPDATE SET default_form_uuid = EXCLUDED.default_form_uuid, default_form_title = EXCLUDED.default_form_title
+						`, hdID, idVal, uuid, title)
+					}
+				}
+				if gz, ok := plugins["grazie"].(map[string]interface{}); ok {
+					disabled, _ := gz["disabled"].(bool)
+					_, _ = db.Exec(`
+						INSERT INTO project_grazie_settings (project_id, disabled)
+						VALUES ($1, $2) ON CONFLICT (project_id) DO UPDATE SET disabled = EXCLUDED.disabled
+					`, idVal, disabled)
+				}
+			}
+
+			// Visibility groups (relevant)
+			if relGroups, ok := val["relevantVisibilityGroups"].([]interface{}); ok {
+				for _, rg := range relGroups {
+					if rm, ok := rg.(map[string]interface{}); ok {
+						if gid, ok := rm["id"].(string); ok && gid != "" {
+							_, _ = db.Exec(`INSERT INTO project_visibility_groups (project_id, group_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, idVal, gid)
 						}
 					}
 				}
@@ -606,6 +698,74 @@ func scanAndSeedConfigsAndFeatureFlags(db *sql.DB, dir string) {
 					VALUES ($1, $2)
 					ON CONFLICT (id) DO UPDATE SET enabled = EXCLUDED.enabled
 				`, ff.ID, ff.Enabled)
+			}
+		}
+	}
+
+	// Seed global_settings + global_settings_allowed_origins from request5.txt
+	// (GET /api/admin/globalSettings, identical shape to request19.txt).
+	if data, _, err := extractJSON(filepath.Join(dir, "request5.txt")); err == nil {
+		var gs struct {
+			RestSettings *struct {
+				AllowAllOrigins bool     `json:"allowAllOrigins"`
+				AllowedOrigins  []string `json:"allowedOrigins"`
+			} `json:"restSettings"`
+			ImageTextRecognitionSettings *struct {
+				Enabled bool `json:"enabled"`
+			} `json:"imageTextRecognitionSettings"`
+			SystemSettings *struct {
+				OcrSupported string `json:"ocrSupported"`
+			} `json:"systemSettings"`
+			NotificationSettings *struct {
+				EmailSettings *struct {
+					IsEnabled bool `json:"isEnabled"`
+					IsDefault bool `json:"isDefault"`
+				} `json:"emailSettings"`
+			} `json:"notificationSettings"`
+		}
+		if err := json.Unmarshal(data, &gs); err == nil {
+			var allowAllOrigins bool
+			var itrEnabled = true
+			var ocrSupported = "true"
+			var emailEnabled = true
+			var emailIsDefault = true
+
+			if gs.RestSettings != nil {
+				allowAllOrigins = gs.RestSettings.AllowAllOrigins
+			}
+			if gs.ImageTextRecognitionSettings != nil {
+				itrEnabled = gs.ImageTextRecognitionSettings.Enabled
+			}
+			if gs.SystemSettings != nil {
+				ocrSupported = gs.SystemSettings.OcrSupported
+			}
+			if gs.NotificationSettings != nil && gs.NotificationSettings.EmailSettings != nil {
+				emailEnabled = gs.NotificationSettings.EmailSettings.IsEnabled
+				emailIsDefault = gs.NotificationSettings.EmailSettings.IsDefault
+			}
+
+			var settingsID int64
+			err := db.QueryRow(`
+				INSERT INTO global_settings (
+					allow_all_origins, image_text_recognition_enabled, ocr_supported,
+					email_settings_enabled, email_settings_is_default, version, build,
+					read_only, statistics_enabled, helpdesk_enabled
+				)
+				VALUES ($1, $2, $3, $4, $5, '2025.1', '0', FALSE, TRUE, FALSE)
+				ON CONFLICT DO NOTHING
+				RETURNING id`, allowAllOrigins, itrEnabled, ocrSupported, emailEnabled, emailIsDefault).Scan(&settingsID)
+			if err != nil {
+				// Fallback: fetch the existing default row id.
+				_ = db.QueryRow(`SELECT id FROM global_settings ORDER BY id LIMIT 1`).Scan(&settingsID)
+			}
+
+			if settingsID > 0 && gs.RestSettings != nil {
+				_, _ = db.Exec(`DELETE FROM global_settings_allowed_origins WHERE settings_id = $1`, settingsID)
+				for _, origin := range gs.RestSettings.AllowedOrigins {
+					_, _ = db.Exec(`
+						INSERT INTO global_settings_allowed_origins (settings_id, origin)
+						VALUES ($1, $2) ON CONFLICT DO NOTHING`, settingsID, origin)
+				}
 			}
 		}
 	}

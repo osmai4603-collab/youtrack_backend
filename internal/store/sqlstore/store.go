@@ -12,14 +12,15 @@ import (
 
 // SqlStore هو التنفيذ الملموس لواجهة store.Store باستخدام pgx.
 type SqlStore struct {
-	db           *pgxpool.Pool
-	users        *UserStore
-	projects     *ProjectStore
-	issues       *IssueStore
-	admin        *AdminStore
-	inbox        *InboxStore
-	savedQueries *SavedQueryStore
-	search       *SearchStore
+	db            *pgxpool.Pool
+	users         *UserStore
+	projects      *ProjectStore
+	issues        *IssueStore
+	admin         *AdminStore
+	inbox         *InboxStore
+	savedQueries  *SavedQueryStore
+	search        *SearchStore
+	subscriptions *SubscriptionStore
 }
 
 // New ينشئ SqlStore ويتحقق من الاتصال بقاعدة البيانات.
@@ -45,6 +46,7 @@ func New(dsn string) (*SqlStore, error) {
 	s.inbox = &InboxStore{db: db}
 	s.savedQueries = &SavedQueryStore{db: db}
 	s.search = &SearchStore{db: db}
+	s.subscriptions = &SubscriptionStore{db: db}
 	return s, nil
 }
 
@@ -53,13 +55,14 @@ func (s *SqlStore) Close() {
 	s.db.Close()
 }
 
-func (s *SqlStore) Users() store.UserStore              { return s.users }
-func (s *SqlStore) Projects() store.ProjectStore        { return s.projects }
-func (s *SqlStore) Issues() store.IssueStore            { return s.issues }
-func (s *SqlStore) Admin() store.AdminStore             { return s.admin }
-func (s *SqlStore) Inbox() store.InboxStore             { return s.inbox }
-func (s *SqlStore) SavedQueries() store.SavedQueryStore { return s.savedQueries }
-func (s *SqlStore) Search() store.SearchStore           { return s.search }
+func (s *SqlStore) Users() store.UserStore                 { return s.users }
+func (s *SqlStore) Projects() store.ProjectStore           { return s.projects }
+func (s *SqlStore) Issues() store.IssueStore               { return s.issues }
+func (s *SqlStore) Admin() store.AdminStore                { return s.admin }
+func (s *SqlStore) Inbox() store.InboxStore                { return s.inbox }
+func (s *SqlStore) SavedQueries() store.SavedQueryStore    { return s.savedQueries }
+func (s *SqlStore) Search() store.SearchStore              { return s.search }
+func (s *SqlStore) Subscriptions() store.SubscriptionStore { return s.subscriptions }
 
 // userColumns يمثّل أسماء أعمدة جدول users (للاستخدام في SELECT).
 const userColumns = `id, login, email, full_name, name, avatar_url, user_type_id,

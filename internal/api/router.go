@@ -21,6 +21,8 @@ func NewRouter(a *app.App, jwtSecret string) http.Handler {
 	feature := NewFeatureHandler(a)
 	savedQueries := NewSavedQueriesHandler(a)
 	search := NewSearchHandler(a)
+	subscription := NewSubscriptionHandler(a)
+	hub := NewHubHandler(a)
 
 	// مسارات عامة (بدون مصادقة)
 	mux.HandleFunc("GET /health", health.Check)
@@ -51,6 +53,12 @@ func NewRouter(a *app.App, jwtSecret string) http.Handler {
 
 	protectedMux.HandleFunc("POST /api/search/assist", search.GetAssist)
 
+	protectedMux.HandleFunc("GET /hub/api/rest/services", hub.GetServices)
+	protectedMux.HandleFunc("GET /api/services", hub.GetServices)
+
+	protectedMux.HandleFunc("GET /api/issueListSubscription", subscription.SubscribeIssueList)
+	protectedMux.HandleFunc("POST /api/issueListSubscription", subscription.SubscribeIssueList)
+
 	protectedMux.HandleFunc("GET /api/projects", project.List)
 	protectedMux.HandleFunc("GET /api/projects/{id}", project.GetByID)
 	protectedMux.HandleFunc("GET /api/admin/projects", project.List)
@@ -59,15 +67,20 @@ func NewRouter(a *app.App, jwtSecret string) http.Handler {
 
 	protectedMux.HandleFunc("GET /api/issues", issue.List)
 	protectedMux.HandleFunc("GET /api/sortedIssues", issue.GetSortedIssues)
-	protectedMux.HandleFunc("POST /api/issues", issue.Create)
+	protectedMux.HandleFunc("GET /api/issuesGetter/count", issue.Count)
+	protectedMux.HandleFunc("GET /api/issuesGetter", issue.Getter)
 	protectedMux.HandleFunc("GET /api/issues/{id}", issue.GetByID)
 	protectedMux.HandleFunc("GET /api/issues/{id}/comments", issue.Comments)
+	protectedMux.HandleFunc("POST /api/issuesGetter/count", issue.Count)
+	protectedMux.HandleFunc("POST /api/issuesGetter", issue.Getter)
+	protectedMux.HandleFunc("POST /api/issues", issue.Create)
 
 	protectedMux.HandleFunc("GET /api/roles", admin.Roles)
 	protectedMux.HandleFunc("GET /api/permissions", admin.Permissions)
 	protectedMux.HandleFunc("GET /api/permissions/cache", admin.PermissionsCache)
 	protectedMux.HandleFunc("GET /api/admin/globalSettings", admin.GlobalSettings)
 	protectedMux.HandleFunc("GET /api/admin/widgets/general", admin.Widgets)
+	protectedMux.HandleFunc("GET /api/admin/organizations", admin.Organizations)
 
 	protectedHandler := protected(protectedMux)
 	mux.Handle("/api/", protectedHandler)

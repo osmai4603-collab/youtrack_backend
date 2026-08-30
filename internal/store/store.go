@@ -2,10 +2,14 @@ package store
 
 import (
 	"context"
+	"errors"
 
 	"youtrack_backend/internal/api/fields"
 	"youtrack_backend/internal/model"
 )
+
+// ErrFolderNotFound يُرجَع عندما لا يُعثر على المجلد (مشروع/استعلام محفوظ/وسم).
+var ErrFolderNotFound = errors.New("folder not found")
 
 // Store يجمّع كل المستودعات الفرعية.
 type Store interface {
@@ -16,6 +20,7 @@ type Store interface {
 	Inbox() InboxStore
 	SavedQueries() SavedQueryStore
 	Search() SearchStore
+	Subscriptions() SubscriptionStore
 }
 
 // SearchStore يحدّد عمليات البحث ومساعد البحث.
@@ -54,6 +59,9 @@ type ProjectStore interface {
 	GetByShortName(ctx context.Context, shortName string) (*model.Project, error)
 	GetDetailed(ctx context.Context, id string, tree *fields.FieldTree) (*model.Project, error)
 	All(ctx context.Context) ([]*model.Project, error)
+	// GetProjectTeamAndLeader يجلب فقط حقول القائد والفريق المطلوبة في الطلب #27
+	// مع تقليم الأعمدة إلى ما طُلب في شجرة الحقول (بدون إرجاع كامل بيانات المشروع).
+	GetProjectTeamAndLeader(ctx context.Context, id string, leaderTree, teamTree *fields.FieldTree) (*model.ProjectTeamAndLeader, error)
 }
 
 // IssueStore يحدّد عمليات القضايا المتاحة.
@@ -69,6 +77,8 @@ type IssueStore interface {
 	Tags(ctx context.Context, issueID string) ([]*model.Tag, error)
 	Links(ctx context.Context, issueID string) ([]*model.IssueLink, error)
 	GetSortedIssues(ctx context.Context, folderID string, query string, top int, skip int) ([]*model.IssueTreeItem, error)
+	GetIssueCount(ctx context.Context, folderID string, query string, unresolvedOnly bool) (*model.IssueCountResponse, error)
+	GetIssuesGetter(ctx context.Context, refs []string, query string, top int, skip int, tree *fields.FieldTree) ([]*model.IssueGetterIssue, error)
 }
 
 // AdminStore يحدّد عمليات الإدارة والميتاداتا.
@@ -80,10 +90,19 @@ type AdminStore interface {
 	BannersConfig(ctx context.Context, tree *fields.FieldTree) (*model.BannersConfig, error)
 	Widgets(ctx context.Context) ([]*model.DashboardWidget, error)
 	CachedPermissions(ctx context.Context, userID string) ([]*model.CachedPermission, error)
+	PermissionsCache(ctx context.Context, userID string, tree *fields.FieldTree) ([]*model.PermissionCacheEntry, error)
 	ProjectDashboard(ctx context.Context, projectKey string, tree *fields.FieldTree) (*model.ProjectDashboard, error)
+	Organizations(ctx context.Context, tree *fields.FieldTree, top int, skip int, sorting string) ([]*model.Organization, error)
+	Services(ctx context.Context, tree *fields.FieldTree, top int, skip int) (*model.ServicesPage, error)
 }
 
 // InboxStore يحدّد عمليات صندوق الوارد.
 type InboxStore interface {
 	Threads(ctx context.Context, userID string, top int, skip int, tree *fields.FieldTree) ([]*model.InboxThread, error)
+}
+
+// SubscriptionStore يحدّد عمليات الاشتراك في قوائم المشاكل (Request #18).
+type SubscriptionStore interface {
+	SubscribeIssueList(ctx context.Context, userID string, req *model.IssueListSubscriptionRequest, tree *fields.FieldTree) (*model.IssueListSubscriptionBean, error)
+	GetIssueListSubscriptionByTicket(ctx context.Context, userID string, ticket string, tree *fields.FieldTree) (*model.IssueListSubscriptionBean, error)
 }

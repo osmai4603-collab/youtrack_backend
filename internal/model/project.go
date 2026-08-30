@@ -65,6 +65,28 @@ func (p *Project) Normalize() {
 	if p.Plugins != nil && p.Plugins.Type == "" {
 		p.Plugins.Type = "ProjectPlugins"
 	}
+	if p.Plugins != nil {
+		if p.Plugins.TimeTrackingSettings != nil && p.Plugins.TimeTrackingSettings.Type == "" {
+			p.Plugins.TimeTrackingSettings.Type = "ProjectTimeTrackingSettings"
+		}
+		if p.Plugins.HelpDeskSettings != nil && p.Plugins.HelpDeskSettings.Type == "" {
+			p.Plugins.HelpDeskSettings.Type = "ProjectHelpDeskSettings"
+		}
+		if p.Plugins.VcsIntegrationSettings != nil && p.Plugins.VcsIntegrationSettings.Type == "" {
+			p.Plugins.VcsIntegrationSettings.Type = "ProjectVcsIntegrationSettings"
+		}
+		if p.Plugins.Grazie != nil && p.Plugins.Grazie.Type == "" {
+			p.Plugins.Grazie.Type = "ProjectGraziePlugin"
+		}
+	}
+	if p.Team != nil {
+		if p.Team.TeamForProject != nil && p.Team.TeamForProject.Type == "" {
+			p.Team.TeamForProject.Type = "Project"
+		}
+		if len(p.Team.Users) == 0 {
+			p.Team.Users = nil
+		}
+	}
 }
 
 // ProjectTeamDetailed يصف فريق المشروع بالتفصيل حسب طلب #12.
@@ -136,10 +158,20 @@ type ProjectTeam struct {
 
 // Organization يصف منظمة (مجموعة مشاريع).
 type Organization struct {
-	ID            string `json:"id" db:"id"`
-	Key           string `json:"key,omitempty" db:"key"`
-	Name          string `json:"name,omitempty" db:"name"`
-	IconURL       string `json:"iconUrl,omitempty" db:"icon_url"`
-	ProjectsCount int    `json:"projectsCount,omitempty" db:"projects_count"`
-	Type          string `json:"$type,omitempty"`
+	ID            string     `json:"id" db:"id"`
+	Key           string     `json:"key,omitempty" db:"key"`
+	Name          string     `json:"name,omitempty" db:"name"`
+	IconURL       *string    `json:"iconUrl,omitempty" db:"icon_url"`
+	ProjectsCount int        `json:"projectsCount,omitempty" db:"projects_count"`
+	AuditTargetID string     `json:"auditTargetId,omitempty" db:"audit_target_id"`
+	Description   string     `json:"description,omitempty" db:"description"`
+	Projects      []*Project `json:"projects,omitempty"`
+	Type          string     `json:"$type,omitempty"`
+}
+
+// Normalize يضبط القيم الافتراضية لكائن المنظمة.
+func (o *Organization) Normalize() {
+	if o.Type == "" {
+		o.Type = "Organization"
+	}
 }

@@ -28,13 +28,14 @@ type mockSavedQueryFullStore struct {
 	savedQueries *mockSavedQueryStore
 }
 
-func (m *mockSavedQueryFullStore) Users() store.UserStore              { return nil }
-func (m *mockSavedQueryFullStore) Projects() store.ProjectStore        { return nil }
-func (m *mockSavedQueryFullStore) Issues() store.IssueStore            { return nil }
-func (m *mockSavedQueryFullStore) Admin() store.AdminStore             { return nil }
-func (m *mockSavedQueryFullStore) Inbox() store.InboxStore             { return nil }
-func (m *mockSavedQueryFullStore) SavedQueries() store.SavedQueryStore { return m.savedQueries }
-func (m *mockSavedQueryFullStore) Search() store.SearchStore           { return nil }
+func (m *mockSavedQueryFullStore) Users() store.UserStore                 { return nil }
+func (m *mockSavedQueryFullStore) Projects() store.ProjectStore           { return nil }
+func (m *mockSavedQueryFullStore) Issues() store.IssueStore               { return nil }
+func (m *mockSavedQueryFullStore) Admin() store.AdminStore                { return nil }
+func (m *mockSavedQueryFullStore) Inbox() store.InboxStore                { return nil }
+func (m *mockSavedQueryFullStore) SavedQueries() store.SavedQueryStore    { return m.savedQueries }
+func (m *mockSavedQueryFullStore) Search() store.SearchStore              { return nil }
+func (m *mockSavedQueryFullStore) Subscriptions() store.SubscriptionStore { return nil }
 
 // sampleSavedQueries يبني بيانات استعلامات محفوظة مشابهة لـ request15.txt.
 func sampleSavedQueries() []*model.SavedQuery {

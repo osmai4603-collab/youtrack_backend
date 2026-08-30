@@ -2,9 +2,11 @@ package app
 
 import (
 	"context"
+	"errors"
 
 	"youtrack_backend/internal/api/fields"
 	"youtrack_backend/internal/model"
+	"youtrack_backend/internal/store"
 )
 
 // ListIssues يعيد قائمة القضايا، مع دعم بحث نصي بسيط.
@@ -93,6 +95,28 @@ func (a *App) GetSortedIssues(ctx context.Context, folderID string, query string
 
 	resp := &model.SortedIssuesResponse{
 		Tree: items,
+	}
+	resp.Normalize()
+	return resp, nil
+}
+
+// GetIssuesGetter يعيد قائمة المشاكل مع حقولها المخصصة (مطابق لـ request28.txt).
+func (a *App) GetIssuesGetter(ctx context.Context, refs []string, query string, top int, skip int, tree *fields.FieldTree) ([]*model.IssueGetterIssue, error) {
+	issues, err := a.store.Issues().GetIssuesGetter(ctx, refs, query, top, skip, tree)
+	if err != nil {
+		return nil, model.Internal("failed to fetch issues getter: %v", err)
+	}
+	return issues, nil
+}
+
+// GetIssueCount يعيد عدد المشاكل ضمن مجلد معيّن (مطابق لـ request17.txt).
+func (a *App) GetIssueCount(ctx context.Context, folderID string, query string, unresolvedOnly bool) (*model.IssueCountResponse, error) {
+	resp, err := a.store.Issues().GetIssueCount(ctx, folderID, query, unresolvedOnly)
+	if errors.Is(err, store.ErrFolderNotFound) {
+		return nil, model.NotFound("folder %q not found", folderID)
+	}
+	if err != nil {
+		return nil, model.Internal("failed to fetch issue count: %v", err)
 	}
 	resp.Normalize()
 	return resp, nil
