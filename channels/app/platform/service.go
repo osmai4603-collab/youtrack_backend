@@ -2,9 +2,8 @@ package platform
 
 import (
 	"youtrack_backend/channels/model"
+	"youtrack_backend/channels/model/shared/mlog"
 	"youtrack_backend/channels/store"
-
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 // YouTrackPlatformService هي الخدمة المسؤولة عن مهام البنية التحتية والمنصة غير المرتبطة مباشرة بالكيانات
@@ -13,7 +12,7 @@ type YouTrackPlatformService struct {
 	store     store.Store
 	config    *model.ServerConfig
 	jwtSecret string
-	logger    mlog.Logger
+	logger    *mlog.Logger
 }
 
 func (ps *YouTrackPlatformService) Logger() *mlog.Logger {

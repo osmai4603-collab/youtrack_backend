@@ -7,10 +7,8 @@ import (
 	"syscall"
 	"youtrack_backend/channels/app/platform"
 	"youtrack_backend/channels/model"
-	"youtrack_backend/channels/request"
+	"youtrack_backend/channels/model/shared/mlog"
 	"youtrack_backend/channels/store"
-
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 // ServerChannels يحتوي وينسّق جميع خدمات نطاق التطبيق (Users, Projects, Issues, Admin, Subscriptions, Search)
@@ -25,7 +23,7 @@ type ServerChannels struct {
 }
 
 func (ch *ServerChannels) Start() error {
-	ctx := request.EmptyContext(ch.srv.Log())
+	// ctx := request.EmptyContext(ch.srv.Log())
 	interruptChan := make(chan os.Signal, 1)
 	signal.Notify(interruptChan, syscall.SIGINT, syscall.SIGTERM)
 	go func() {

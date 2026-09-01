@@ -5,10 +5,10 @@ import (
 
 	"youtrack_backend/channels/app/platform"
 	"youtrack_backend/channels/model"
+	"youtrack_backend/channels/model/shared/mlog"
 	"youtrack_backend/channels/store"
 
 	"github.com/gorilla/mux"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/pkg/errors"
 )
 
