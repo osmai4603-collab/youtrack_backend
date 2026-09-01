@@ -1,6 +1,6 @@
 module youtrack_backend
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
@@ -12,6 +12,12 @@ require (
 )
 
 require (
+	github.com/olekukonko/errors v1.3.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+)
+
+require (
+	github.com/gorilla/mux v1.8.1
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect

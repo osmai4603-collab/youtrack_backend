@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"youtrack_backend/internal/api"
-	"youtrack_backend/internal/app"
-	"youtrack_backend/internal/config"
-	"youtrack_backend/internal/store/sqlstore"
+	"youtrack_backend/channels/api"
+	"youtrack_backend/channels/app"
+	"youtrack_backend/channels/config"
+	"youtrack_backend/channels/model"
+	"youtrack_backend/channels/store/sqlstore"
 )
 
 func main() {
@@ -20,10 +21,14 @@ func main() {
 	}
 	defer store.Close()
 
-	a := app.New(store)
-	router := api.NewRouter(a, cfg.JWTSecret)
+	srv, err := app.NewServer()
+	if err != nil {
+		model.NewInternalError("init server", "", err)
+		return
+	}
+	router := api.NewServerRouter(srv)
 
-	server := &http.Server{
+	httpServer := &http.Server{
 		Addr:         cfg.Port(),
 		Handler:      router,
 		ReadTimeout:  15 * time.Second,
@@ -32,7 +37,7 @@ func main() {
 	}
 
 	log.Printf("Server listening on %s (env: %s)", cfg.Port(), cfg.AppEnv)
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("server failed: %v", err)
 	}
 }
