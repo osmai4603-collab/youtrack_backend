@@ -23,7 +23,7 @@ func NewConfigHandler(a *app.YouTrackApp) *ConfigHandler {
 }
 
 func (api *API) InitConfig() {
-	handler := NewConfigHandler(app.New())
+	handler := NewConfigHandler(api.newApp())
 
 	api.BaseRoutes.APIRoot.Handle("/config", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Get(w, r)

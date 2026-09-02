@@ -19,8 +19,8 @@ func NewSubscriptionHandler(a *app.YouTrackApp) *SubscriptionHandler {
 }
 
 func (api *API) InitSubscription() {
-	handler := NewSubscriptionHandler(app.New())
-	api.BaseRoutes.APIRoot.Handle("/issueListSubscription", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	handler := NewSubscriptionHandler(api.newApp())
+	api.BaseRoutes.APIRoot.Handle("/issueListSubscription", api.APISessionRequiredWithPermission(app.PermissionSubscriptionRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.SubscribeIssueList(w, r)
 	})).Methods("GET", "POST")
 }

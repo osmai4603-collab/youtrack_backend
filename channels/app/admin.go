@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/jackc/pgx/v5"
 
@@ -12,10 +13,20 @@ import (
 
 // GetRoles يعيد قائمة الأدوار.
 func (a *YouTrackApp) GetRoles(c request.CTX) ([]*model.Role, *model.AppError) {
+	service := NewPermissionService()
+	if a == nil || a.channels == nil || a.channels.server == nil || a.channels.server.platform == nil || a.channels.server.platform.Store() == nil {
+		return service.DefaultRoles(), nil
+	}
+	if c == nil {
+		c = request.EmptyContext(nil)
+	}
 	ctx := c.Context()
-	roles, err := a.Store().Admin().Roles(ctx)
+	roles, err := service.LoadRolesFromStore(ctx, a.Store().Admin())
 	if err != nil {
 		return nil, model.NewInternalError("App.GetRoles", "failed to load roles", err)
+	}
+	if roles == nil {
+		return service.DefaultRoles(), nil
 	}
 	return roles, nil
 }
@@ -35,12 +46,56 @@ func (a *YouTrackApp) GetWidgets(c request.CTX) ([]*model.DashboardWidget, *mode
 
 // GetPermissions يعيد قائمة الصلاحيات.
 func (a *YouTrackApp) GetPermissions(c request.CTX) ([]*model.Permission, *model.AppError) {
+	service := NewPermissionService()
+	if a == nil || a.channels == nil || a.channels.server == nil || a.channels.server.platform == nil || a.channels.server.platform.Store() == nil {
+		return service.DefaultPermissions(), nil
+	}
+	if c == nil {
+		c = request.EmptyContext(nil)
+	}
 	ctx := c.Context()
-	perms, err := a.Store().Admin().Permissions(ctx)
+	perms, err := service.LoadPermissionsFromStore(ctx, a.Store().Admin())
 	if err != nil {
 		return nil, model.NewInternalError("App.GetPermissions", "failed to load permissions", err)
 	}
+	if perms == nil {
+		return service.DefaultPermissions(), nil
+	}
 	return perms, nil
+}
+
+// GetRoleByName يعيد الدور حسب الاسم من مجموعة الأدوار الحالية أو الافتراضية.
+func (a *YouTrackApp) GetRoleByName(c request.CTX, name string) (*model.Role, *model.AppError) {
+	if name == "" {
+		return nil, model.NewBadRequestError("App.GetRoleByName", "role name is required")
+	}
+	roles, err := a.GetRoles(c)
+	if err != nil {
+		return nil, err
+	}
+	for _, role := range roles {
+		if role != nil && strings.EqualFold(role.Name, name) {
+			return role, nil
+		}
+	}
+	return nil, model.NewNotFoundError("App.GetRoleByName", "role not found")
+}
+
+// GetPermissionByName يعيد الصلاحية حسب الاسم من مجموعة الصلاحيات الحالية أو الافتراضية.
+func (a *YouTrackApp) GetPermissionByName(c request.CTX, name string) (*model.Permission, *model.AppError) {
+	if name == "" {
+		return nil, model.NewBadRequestError("App.GetPermissionByName", "permission name is required")
+	}
+	perms, err := a.GetPermissions(c)
+	if err != nil {
+		return nil, err
+	}
+	for _, perm := range perms {
+		if perm != nil && strings.EqualFold(perm.Name, name) {
+			return perm, nil
+		}
+	}
+	return nil, model.NewNotFoundError("App.GetPermissionByName", "permission not found")
 }
 
 // GetPermissionsCache يعيد الصلاحيات المخبأة للمستخدم مع نطاقاتها.

@@ -13,7 +13,9 @@ type CTX interface {
 	Path() string
 	UserAgent() string
 	UserID() string
+	UserRoles() []string
 	SessionToken() string
+	Logger() mlog.LoggerIFace
 
 	WithContext(ctx context.Context) CTX
 	WithRequestId(string) CTX
@@ -21,7 +23,9 @@ type CTX interface {
 	WithPath(string) CTX
 	WithUserAgent(string) CTX
 	WithUserID(string) CTX
+	WithUserRoles([]string) CTX
 	WithSessionToken(string) CTX
+	WithLogger(mlog.LoggerIFace) CTX
 }
 
 // Context هو التطبيق الملموس لواجهة CTX.
@@ -32,6 +36,7 @@ type Context struct {
 	path         string
 	userAgent    string
 	userId       string
+	userRoles    []string
 	sessionToken string
 	logger       mlog.LoggerIFace
 }
@@ -94,7 +99,9 @@ func (c *Context) IPAddress() string    { return c.ipAddress }
 func (c *Context) Path() string         { return c.path }
 func (c *Context) UserAgent() string    { return c.userAgent }
 func (c *Context) UserID() string       { return c.userId }
+func (c *Context) UserRoles() []string  { return append([]string(nil), c.userRoles...) }
 func (c *Context) SessionToken() string { return c.sessionToken }
+func (c *Context) Logger() mlog.LoggerIFace { return c.logger }
 
 func (c *Context) WithContext(ctx context.Context) CTX {
 	n := c.clone()
@@ -132,8 +139,20 @@ func (c *Context) WithUserID(uid string) CTX {
 	return n
 }
 
+func (c *Context) WithUserRoles(roles []string) CTX {
+	n := c.clone()
+	n.userRoles = append([]string(nil), roles...)
+	return n
+}
+
 func (c *Context) WithSessionToken(tok string) CTX {
 	n := c.clone()
 	n.sessionToken = tok
+	return n
+}
+
+func (c *Context) WithLogger(logger mlog.LoggerIFace) CTX {
+	n := c.clone()
+	n.logger = logger
 	return n
 }

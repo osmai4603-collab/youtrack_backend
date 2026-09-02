@@ -8,7 +8,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -29,6 +28,7 @@ func (m *mockSubscriptionStore) GetIssueListSubscriptionByTicket(ctx context.Con
 
 // mockSubscriptionFullStore يحقق واجهة store.Store للاختبار.
 type mockSubscriptionFullStore struct {
+	mockStoreBase
 	subscriptions *mockSubscriptionStore
 }
 
@@ -63,9 +63,9 @@ func sampleSubscription() *model.IssueListSubscriptionBean {
 }
 
 func newSubscriptionHandler() *SubscriptionHandler {
-	// sub := sampleSubscription()
-	// full := &mockSubscriptionFullStore{subscriptions: &mockSubscriptionStore{sub: sub}}
-	return NewSubscriptionHandler(app.New())
+	sub := sampleSubscription()
+	full := &mockSubscriptionFullStore{subscriptions: &mockSubscriptionStore{sub: sub}}
+	return NewSubscriptionHandler(newTestApp(full))
 }
 
 // TestIssueListSubscriptionRequest18 يتحقق من استجابة request18.txt:
@@ -208,8 +208,9 @@ func TestIssueListSubscriptionGet(t *testing.T) {
 
 // TestIssueListSubscriptionUnauthorized يتحقق من 401 عبر الراوتر بدون JWT.
 func TestIssueListSubscriptionUnauthorized(t *testing.T) {
-	// full := &mockSubscriptionFullStore{subscriptions: &mockSubscriptionStore{sub: sampleSubscription()}}
-	router := NewRouter(app.New(), "test-secret")
+	sub := sampleSubscription()
+	full := &mockSubscriptionFullStore{subscriptions: &mockSubscriptionStore{sub: sub}}
+	router := NewRouter(newTestApp(full), "test-secret")
 
 	req := httptest.NewRequest("POST", "/api/issueListSubscription", nil)
 	rec := httptest.NewRecorder()

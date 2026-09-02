@@ -11,10 +11,9 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"youtrack_backend/channels/model/shared/mlog"
 
 	"github.com/stretchr/testify/require"
-
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 func TestLoggingBeforeInitialized(t *testing.T) {

@@ -2,6 +2,7 @@ package sqlstore
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -35,6 +36,7 @@ func New(dsn string) (*SqlStore, error) {
 	}
 
 	if err := db.Ping(ctx); err != nil {
+		db.Close()
 		return nil, err
 	}
 	log.Println("Connected to PostgreSQL database successfully")
@@ -52,12 +54,50 @@ func New(dsn string) (*SqlStore, error) {
 	return s, nil
 }
 
-// Close يغلق مجمع الاتصالات.
-func (s *SqlStore) Close() {
-	s.db.Close()
+func (s *SqlStore) Ready(ctx context.Context) error {
+	if s == nil || s.db == nil {
+		return fmt.Errorf("database store is not initialized")
+	}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	return s.db.Ping(ctx)
 }
 
-func (s *SqlStore) Users() store.UserStore                    { return s.users }
+// Close يغلق مجمع الاتصالات.
+func (s *SqlStore) Close() {
+	if s != nil && s.db != nil {
+		s.db.Close()
+	}
+}
+
+func (s *SqlStore) Users() store.UserStore { return s.users }
+
+// GetDbVersion returns the latest applied migration version.
+func (s *SqlStore) GetDbVersion() (string, error) {
+	var version *int64
+	err := s.db.QueryRow(context.Background(), `SELECT MAX(version) FROM schema_migrations`).Scan(&version)
+	if err != nil {
+		return "", err
+	}
+	if version == nil {
+		return "0", nil
+	}
+	return fmt.Sprintf("%d", *version), nil
+}
+
+// GetDiagnostics returns diagnostic information about the database connection.
+func (s *SqlStore) GetDiagnostics(ctx context.Context) (map[string]any, error) {
+	return map[string]any{
+		"type":        "postgres",
+		"connections": s.TotalDbConnections(),
+	}, nil
+}
+
+// TotalDbConnections returns the total number of active connections to the database.
+func (s *SqlStore) TotalDbConnections() int {
+	return int(s.db.Stat().TotalConns())
+}
 func (s *SqlStore) Projects() store.ProjectStore              { return s.projects }
 func (s *SqlStore) Issues() store.IssueStore                  { return s.issues }
 func (s *SqlStore) Admin() store.AdminStore                   { return s.admin }

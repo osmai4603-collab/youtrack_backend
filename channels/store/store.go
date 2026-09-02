@@ -22,6 +22,13 @@ type Store interface {
 	Search() SearchStore
 	Subscriptions() SubscriptionStore
 	SecuritySearch() SecuritySearchStore
+
+	// إدارة قاعدة البيانات
+	Ready(ctx context.Context) error
+	Close()
+	GetDbVersion() (string, error)
+	GetDiagnostics(ctx context.Context) (map[string]any, error)
+	TotalDbConnections() int
 }
 
 // SecuritySearchStore يحدّد عمليات البحث المتعلقة بالأمان.

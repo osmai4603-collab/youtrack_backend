@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -24,6 +23,7 @@ func (m *mockInboxStore) Threads(ctx context.Context, userID string, top int, sk
 }
 
 type mockInboxFullStore struct {
+	mockStoreBase
 	inbox *mockInboxStore
 }
 
@@ -51,7 +51,7 @@ func TestGetInboxThreadsDynamicFields(t *testing.T) {
 	}
 
 	mockStore := &mockInboxStore{threads: mockData}
-	a := app.New()
+	a := newTestApp(&mockInboxFullStore{inbox: mockStore})
 	handler := NewInboxHandler(a)
 
 	t.Run("Fetch specific fields", func(t *testing.T) {

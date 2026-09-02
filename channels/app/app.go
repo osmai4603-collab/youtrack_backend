@@ -7,7 +7,7 @@ import (
 
 // YouTrackApp هو كائن منطق الأعمال المعياري المنشأ لكل طلب، ويحمل مؤشراً إلى Server و Channels.
 type YouTrackApp struct {
-	channels *ServerChannels
+	channels *YouTrackChannels
 }
 
 func New(options ...AppOption) *YouTrackApp {
@@ -20,11 +20,11 @@ func New(options ...AppOption) *YouTrackApp {
 	return app
 }
 
-// Srv يعيد الخادم المرتبط.
-func (a *YouTrackApp) Srv() *YouTrackServer { return a.channels.srv }
+// Server يعيد الخادم المرتبط.
+func (a *YouTrackApp) Server() *YouTrackServer { return a.channels.server }
 
 // Channels يعيد منسق خدمات النطاق.
-func (a *YouTrackApp) Channels() *ServerChannels { return a.channels }
+func (a *YouTrackApp) Channels() *YouTrackChannels { return a.channels }
 
 // Platform يعيد خدمة المنصة.
 func (a *YouTrackApp) Platform() *platform.YouTrackPlatformService {

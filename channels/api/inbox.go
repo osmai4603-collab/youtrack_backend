@@ -17,8 +17,8 @@ func NewInboxHandler(a *app.YouTrackApp) *InboxHandler {
 }
 
 func (api *API) InitInbox() {
-	handler := NewInboxHandler(app.New())
-	api.BaseRoutes.Inbox.Handle("/threads", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	handler := NewInboxHandler(api.newApp())
+	api.BaseRoutes.Inbox.Handle("/threads", api.APISessionRequiredWithPermission(app.PermissionInboxRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetThreads(w, r)
 	})).Methods("GET")
 }

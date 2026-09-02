@@ -3,9 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
-
 	"youtrack_backend/channels/app"
+
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 )
@@ -15,69 +14,76 @@ type GetUserRequest struct {
 	UserID string // من المسار {id}
 }
 
-// UserHandler يعالج طلبات المستخدمين.
 type UserHandler struct {
 	app *app.YouTrackApp
 }
 
-func NewUserHandler(a *app.YouTrackApp) *UserHandler {
-	return &UserHandler{app: a}
+func NewUserHandler(a *app.YouTrackApp) *UserHandler { return &UserHandler{app: a} }
+
+func (h *UserHandler) context(r *http.Request) *Context { return ContextFromRequest(h.app, r) }
+
+func (h *UserHandler) GetMe(w http.ResponseWriter, r *http.Request) {
+	getMe(h.context(r), w, r)
+}
+
+func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
+	getUsers(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetByID(w http.ResponseWriter, r *http.Request) {
+	getUserByID(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetGrazieProfile(w http.ResponseWriter, r *http.Request) {
+	getGrazieProfile(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetGeneralProfile(w http.ResponseWriter, r *http.Request) {
+	getGeneralProfile(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetQuestionnaireProfile(w http.ResponseWriter, r *http.Request) {
+	getQuestionnaireProfile(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetRecentIssues(w http.ResponseWriter, r *http.Request) {
+	getRecentIssues(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetRecentArticles(w http.ResponseWriter, r *http.Request) {
+	getRecentArticles(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetHubMe(w http.ResponseWriter, r *http.Request) {
+	getHubMe(h.context(r), w, r)
+}
+
+func (h *UserHandler) GetInboxFolders(w http.ResponseWriter, r *http.Request) {
+	getInboxFolders(h.context(r), w, r)
 }
 
 func (api *API) InitUser() {
-	handler := NewUserHandler(app.New())
-
-	api.BaseRoutes.Users.Handle("", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.List(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/me", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetMe(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetByID(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/grazie", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetGrazieProfile(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/general", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetGeneralProfile(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/questionnaire", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetQuestionnaireProfile(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentIssues", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetRecentIssues(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentArticles", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetRecentArticles(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/hubMe", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetHubMe(w, r)
-	})).Methods("GET")
-
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/folders", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.GetInboxFolders(w, r)
-	})).Methods("GET")
+	api.BaseRoutes.Users.Handle("", api.APISessionRequiredWithPermission("system.admin", getUsers)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/me", api.APISessionRequiredWithPermission("profile.read", getMe)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("profile.read", getUserByID)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/grazie", api.APISessionRequiredWithPermission("profile.read", getGrazieProfile)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/general", api.APISessionRequiredWithPermission("profile.read", getGeneralProfile)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/questionnaire", api.APISessionRequiredWithPermission("profile.read", getQuestionnaireProfile)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentIssues", api.APISessionRequiredWithPermission("profile.read", getRecentIssues)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentArticles", api.APISessionRequiredWithPermission("profile.read", getRecentArticles)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/hubMe", api.APISessionRequiredWithPermission("profile.read", getHubMe)).Methods("GET")
+	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/folders", api.APISessionRequiredWithPermission("profile.read", getInboxFolders)).Methods("GET")
 }
 
 // GetMe يعيد المستخدم الحالي مع كامل مرفقاته وإعداداته مباشرة في جذر الـ JSON (مطابق لـ request1.txt).
-func (h *UserHandler) GetMe(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getMe(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetMe", "user context missing"))
 		return
 	}
 
 	fieldTree := c.FieldsTree
-	user, err := h.app.GetCurrentUser(c.AppContext, c.UserID(), fieldTree)
+	user, err := c.App.GetCurrentUser(c.AppContext, c.UserID(), fieldTree)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -86,9 +92,8 @@ func (h *UserHandler) GetMe(w http.ResponseWriter, r *http.Request) {
 }
 
 // List يعيد قائمة المستخدمين بصيغة مصفوفة JSON مباشرة (مطابق لـ request32.txt).
-func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
-	users, err := h.app.GetAllUsers(c.AppContext)
+func getUsers(c *Context, w http.ResponseWriter, r *http.Request) {
+	users, err := c.App.GetAllUsers(c.AppContext)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -97,17 +102,13 @@ func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetByID يعيد مستخدمًا بمعرّفه مباشرة في جذر الـ JSON (مطابق لـ request33.txt).
-func (h *UserHandler) GetByID(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
-	userID := mux.Vars(r)["id"]
-	if userID == "" {
-		userID = r.PathValue("id")
-	}
+func getUserByID(c *Context, w http.ResponseWriter, r *http.Request) {
+	userID := c.Params.UserID
 	if userID == "me" {
-		h.GetMe(w, r)
+		getMe(c, w, r)
 		return
 	}
-	user, err := h.app.GetUserByID(c.AppContext, userID)
+	user, err := c.App.GetUserByID(c.AppContext, userID)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -116,13 +117,12 @@ func (h *UserHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetGrazieProfile يعيد إعدادات الذكاء الاصطناعي والتدقيق اللغوي Grazie (مطابق لـ request4.txt).
-func (h *UserHandler) GetGrazieProfile(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getGrazieProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetGrazieProfile", "user context missing"))
 		return
 	}
-	grazie, err := h.app.GetGrazieProfile(c.AppContext, c.UserID())
+	grazie, err := c.App.GetGrazieProfile(c.AppContext, c.UserID())
 	if err != nil {
 		writeError(w, err)
 		return
@@ -131,13 +131,12 @@ func (h *UserHandler) GetGrazieProfile(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetGeneralProfile يعيد الإعدادات العامة لملف المستخدم (مطابق لـ request29.txt).
-func (h *UserHandler) GetGeneralProfile(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getGeneralProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetGeneralProfile", "user context missing"))
 		return
 	}
-	gen, err := h.app.GetGeneralProfile(c.AppContext, c.UserID())
+	gen, err := c.App.GetGeneralProfile(c.AppContext, c.UserID())
 	if err != nil {
 		writeError(w, err)
 		return
@@ -195,13 +194,12 @@ func generalProfileToMap(p *model.GeneralUserProfile, tree *fields.FieldTree) ma
 }
 
 // GetQuestionnaireProfile يعيد إعدادات الاستبيانات للمستخدم.
-func (h *UserHandler) GetQuestionnaireProfile(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getQuestionnaireProfile(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetQuestionnaireProfile", "user context missing"))
 		return
 	}
-	qp, err := h.app.GetQuestionnaireProfile(c.AppContext, c.UserID())
+	qp, err := c.App.GetQuestionnaireProfile(c.AppContext, c.UserID())
 	if err != nil {
 		writeError(w, err)
 		return
@@ -210,14 +208,13 @@ func (h *UserHandler) GetQuestionnaireProfile(w http.ResponseWriter, r *http.Req
 }
 
 // GetRecentIssues يعيد قائمة المشاكل المشاهدة مؤخراً للمستخدم (مطابق لـ request67.txt).
-func (h *UserHandler) GetRecentIssues(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getRecentIssues(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetRecentIssues", "user context missing"))
 		return
 	}
-	top, skip := parsePagination(r)
-	issues, err := h.app.GetRecentIssues(c.AppContext, c.UserID(), top, skip)
+	top, skip := c.Params.Top, c.Params.Skip
+	issues, err := c.App.GetRecentIssues(c.AppContext, c.UserID(), top, skip)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -226,14 +223,13 @@ func (h *UserHandler) GetRecentIssues(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetRecentArticles يعيد قائمة المقالات المشاهدة مؤخراً للمستخدم (مطابق لـ request68.txt).
-func (h *UserHandler) GetRecentArticles(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getRecentArticles(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetRecentArticles", "user context missing"))
 		return
 	}
-	top, skip := parsePagination(r)
-	articles, err := h.app.GetRecentArticles(c.AppContext, c.UserID(), top, skip)
+	top, skip := c.Params.Top, c.Params.Skip
+	articles, err := c.App.GetRecentArticles(c.AppContext, c.UserID(), top, skip)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -242,13 +238,12 @@ func (h *UserHandler) GetRecentArticles(w http.ResponseWriter, r *http.Request) 
 }
 
 // GetHubMe يعيد ملف المستخدم الحالي في خدمة Hub (مطابق لـ request38.txt).
-func (h *UserHandler) GetHubMe(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getHubMe(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetHubMe", "user context missing"))
 		return
 	}
-	hubUser, err := h.app.GetHubCurrentUser(c.AppContext, c.UserID())
+	hubUser, err := c.App.GetHubCurrentUser(c.AppContext, c.UserID())
 	if err != nil {
 		writeError(w, err)
 		return
@@ -257,14 +252,13 @@ func (h *UserHandler) GetHubMe(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetInboxFolders يعيد مجلدات صندوق الوارد للمستخدم مع احترام معامل fields (مطابق لـ request8.txt).
-func (h *UserHandler) GetInboxFolders(w http.ResponseWriter, r *http.Request) {
-	c := ContextFromRequest(h.app, r)
+func getInboxFolders(c *Context, w http.ResponseWriter, r *http.Request) {
 	if c.UserID() == "" {
 		writeError(w, model.NewUnauthorizedError("User.GetInboxFolders", "user context missing"))
 		return
 	}
 	fieldTree := c.FieldsTree
-	folders, err := h.app.GetInboxFolders(c.AppContext, c.UserID())
+	folders, err := c.App.GetInboxFolders(c.AppContext, c.UserID())
 	if err != nil {
 		writeError(w, err)
 		return

@@ -1,6 +1,11 @@
 package platform
 
 import (
+	"context"
+	"errors"
+	"fmt"
+	"sync"
+
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/shared/mlog"
 	"youtrack_backend/channels/store"
@@ -9,10 +14,12 @@ import (
 // YouTrackPlatformService هي الخدمة المسؤولة عن مهام البنية التحتية والمنصة غير المرتبطة مباشرة بالكيانات
 // (مثل الوصول لقاعدة البيانات، الإعدادات، التخزين المؤقت، دورة الحياة) مطابقاً لـ Mattermost YouTrackPlatformService.
 type YouTrackPlatformService struct {
-	store     store.Store
-	config    *model.ServerConfig
-	jwtSecret string
-	logger    *mlog.Logger
+	store       store.Store
+	config      *model.ServerConfig
+	jwtSecret   string
+	logger      *mlog.Logger
+	startOnce   sync.Once
+	shutdownOnce sync.Once
 }
 
 func (ps *YouTrackPlatformService) Logger() *mlog.Logger {
@@ -82,15 +89,60 @@ func (ps *YouTrackPlatformService) SetJWTSecret(secret string) {
 	ps.jwtSecret = secret
 }
 
+func (ps *YouTrackPlatformService) Validate() error {
+	if ps == nil {
+		return errors.New("platform service is nil")
+	}
+	if ps.config == nil {
+		return errors.New("platform config is required")
+	}
+	if ps.config.ServerPort == "" {
+		return errors.New("server port is required")
+	}
+	if ps.config.AppEnv == "" {
+		return errors.New("app env is required")
+	}
+	if ps.jwtSecret == "" {
+		return errors.New("jwt secret is required")
+	}
+	if ps.store != nil {
+		if err := ps.store.Ready(context.Background()); err != nil {
+			return fmt.Errorf("database store is not ready: %w", err)
+		}
+	}
+	return nil
+}
+
 // Start يبدأ أي خدمات خلفية تابعة للمنصة.
 func (ps *YouTrackPlatformService) Start() error {
+	if ps == nil {
+		return nil
+	}
+	if err := ps.Validate(); err != nil {
+		return err
+	}
+	ps.startOnce.Do(func() {
+		if ps.logger == nil {
+			logger, err := mlog.NewLogger()
+			if err == nil {
+				ps.logger = logger
+			}
+		}
+	})
 	return nil
 }
 
 // Shutdown يغلق خدمات وموارد المنصة بأمان.
 func (ps *YouTrackPlatformService) Shutdown() error {
-	if closer, ok := ps.store.(interface{ Close() }); ok {
-		closer.Close()
+	if ps == nil {
+		return nil
 	}
-	return nil
+
+	var shutdownErr error
+	ps.shutdownOnce.Do(func() {
+		if closer, ok := ps.store.(interface{ Close() }); ok {
+			closer.Close()
+		}
+	})
+	return shutdownErr
 }

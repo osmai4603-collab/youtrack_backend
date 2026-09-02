@@ -9,7 +9,6 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -226,6 +225,7 @@ func newMockDemoProject() *model.Project {
 }
 
 type mockProjectStoreHolder struct {
+	mockStoreBase
 	projectStore *mockProjectStore
 }
 
@@ -241,7 +241,7 @@ func (m *mockProjectStoreHolder) SecuritySearch() store.SecuritySearchStore { re
 
 // TestProjectGetByID_Request21 يتحقق من مطابقة البنية الكاملة للاستجابة مع request21.
 func TestProjectGetByID_Request21(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	handler := NewProjectHandler(a)
 
 	fieldsParam := "id,name,shortName,pinned,query,creationTime,auditTargetId,leader(id,login),team(id,name,auditTargetId,users(id,login)),plugins(vcsIntegrationSettings(hasVcsIntegrations),timeTrackingSettings(id,enabled),grazie(disabled),helpDeskSettings(id))"
@@ -321,7 +321,7 @@ func TestProjectGetByID_Request21(t *testing.T) {
 
 // TestProjectGetByID_FieldFiltering يتحقق من حجب الحقول والكائنات غير المطلوبة.
 func TestProjectGetByID_FieldFiltering(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	handler := NewProjectHandler(a)
 
 	// نطلب فقط id و name و widgets
@@ -365,7 +365,7 @@ func TestProjectGetByID_FieldFiltering(t *testing.T) {
 
 // TestProjectGetByID_PluginSubFieldFiltering يتحقق من حجب فرع غير مطلوب داخل plugins.
 func TestProjectGetByID_PluginSubFieldFiltering(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	handler := NewProjectHandler(a)
 
 	// نطلب plugins مع tylko timeTrackingSettings
@@ -403,7 +403,7 @@ func TestProjectGetByID_PluginSubFieldFiltering(t *testing.T) {
 
 // TestProjectGetByID_NotFound يتحقق من إرجاع 404 عند عدم وجود المشروع.
 func TestProjectGetByID_NotFound(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	handler := NewProjectHandler(a)
 
 	req := httptest.NewRequest(http.MethodGet, "/api/admin/projects/missing?fields=id,name", nil)
@@ -420,7 +420,7 @@ func TestProjectGetByID_NotFound(t *testing.T) {
 
 // TestProjectGetByID_Unauthorized يتحقق من حماية المسار عبر JWT عبر الـ router.
 func TestProjectGetByID_Unauthorized(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	router := NewRouter(a, "test-secret")
 
 	// بدون Authorization header
@@ -437,7 +437,7 @@ func TestProjectGetByID_Unauthorized(t *testing.T) {
 // TestProjectGetByID_Request27 يتحقق من مطابقة الاستجابة حرفياً مع request27.txt
 // (لا حقول جذر إضافية، leader، team مع users، email = null للحساب الضيف).
 func TestProjectGetByID_Request27(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockProjectStoreHolder{projectStore: &mockProjectStore{project: newMockDemoProject()}})
 	handler := NewProjectHandler(a)
 
 	fieldsParam := "team(name,users(id,login,name,avatarUrl,email)),leader(id)"

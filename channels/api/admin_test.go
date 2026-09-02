@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v5"
 
 	"youtrack_backend/channels/app"
@@ -221,6 +222,7 @@ func (m *mockAdminStore) Services(ctx context.Context, tree *fields.FieldTree, t
 }
 
 type mockAdminStoreHolder struct {
+	mockStoreBase
 	admin *mockAdminStore
 }
 
@@ -233,9 +235,92 @@ func (m *mockAdminStoreHolder) SavedQueries() store.SavedQueryStore       { retu
 func (m *mockAdminStoreHolder) Search() store.SearchStore                 { return nil }
 func (m *mockAdminStoreHolder) Subscriptions() store.SubscriptionStore    { return nil }
 func (m *mockAdminStoreHolder) SecuritySearch() store.SecuritySearchStore { return nil }
+func (m *mockAdminStoreHolder) Ready(context.Context) error               { return nil }
+
+// newAdminApp يبني App مربوطاً بمخزن إدارة وهمي محدد.
+func newAdminApp(m *mockAdminStore) *app.YouTrackApp {
+	return newTestApp(&mockAdminStoreHolder{admin: m})
+}
+
+// newCachePermissionEntry يبني صلاحية مخبأة بقيم محددة.
+func newCachePermissionEntry(id string, global bool, projects []*model.PermissionCacheProject, orgs []*model.PermissionCacheOrganization, permissionName string) *model.PermissionCacheEntry {
+	g := global
+	return &model.PermissionCacheEntry{
+		ID:             id,
+		Global:         &g,
+		Projects:       projects,
+		Organizations:  orgs,
+		PermissionName: permissionName,
+	}
+}
+
+// sampleOrganizations يعيد منظمتين كعينة للاختبار (1-0 بالحقول الكاملة، 2-0 للتصفح).
+func sampleOrganizations() []*model.Organization {
+	iconURL := "https://osm.youtrack.cloud/icon.png"
+	return []*model.Organization{
+		{
+			ID:            "1-0",
+			Key:           "CFSksvCi5N6T06bFUtA8w",
+			Name:          "me",
+			IconURL:       &iconURL,
+			ProjectsCount: 1,
+			AuditTargetID: "target-1",
+			Description:   "Default organization",
+		},
+		{ID: "2-0", Name: "Second org"},
+	}
+}
+
+func TestRoleAndPermissionByNameEndpoints(t *testing.T) {
+	a := newAdminApp(&mockAdminStore{})
+	h := NewAdminHandler(a)
+
+	roleReq := httptest.NewRequest("GET", "/api/roles/user", nil)
+	roleReq = mux.SetURLVars(roleReq, map[string]string{"name": "user"})
+	roleRec := httptest.NewRecorder()
+	h.RoleByName(roleRec, roleReq)
+	if roleRec.Code != http.StatusOK {
+		t.Fatalf("expected 200 for role lookup, got %d", roleRec.Code)
+	}
+	var role model.Role
+	if err := json.Unmarshal(roleRec.Body.Bytes(), &role); err != nil {
+		t.Fatalf("failed to decode role response: %v", err)
+	}
+	if role.Name != "user" {
+		t.Fatalf("expected role name user, got %q", role.Name)
+	}
+
+	permReq := httptest.NewRequest("GET", "/api/permissions/project.read", nil)
+	permReq = mux.SetURLVars(permReq, map[string]string{"name": "project.read"})
+	permRec := httptest.NewRecorder()
+	h.PermissionByName(permRec, permReq)
+	if permRec.Code != http.StatusOK {
+		t.Fatalf("expected 200 for permission lookup, got %d", permRec.Code)
+	}
+	var perm model.Permission
+	if err := json.Unmarshal(permRec.Body.Bytes(), &perm); err != nil {
+		t.Fatalf("failed to decode permission response: %v", err)
+	}
+	if perm.Name != "project.read" {
+		t.Fatalf("expected permission name project.read, got %q", perm.Name)
+	}
+
+	missingReq := httptest.NewRequest("GET", "/api/roles/not-real-role", nil)
+	missingReq = mux.SetURLVars(missingReq, map[string]string{"name": "not-real-role"})
+	missingRec := httptest.NewRecorder()
+	h.RoleByName(missingRec, missingReq)
+	if missingRec.Code != http.StatusNotFound {
+		t.Fatalf("expected 404 for missing role, got %d", missingRec.Code)
+	}
+}
 
 func TestPermissionsCacheEndpoint(t *testing.T) {
-	a := app.New()
+	a := newAdminApp(&mockAdminStore{cacheEntries: []*model.PermissionCacheEntry{
+		newCachePermissionEntry("jetbrains.jetpass.project-read-basic", false,
+			[]*model.PermissionCacheProject{{ID: "22-59", ProjectType: &model.ProjectType{ID: "DEFAULT"}}},
+			[]*model.PermissionCacheOrganization{}, ""),
+		newCachePermissionEntry("jetbrains.jetpass.profile-updateSelf", true, nil, nil, ""),
+	}})
 	h := NewAdminHandler(a)
 
 	req := httptest.NewRequest("GET", "/api/permissions/cache?fields=id,global,projects(id,projectType(id)),organizations(id)", nil)
@@ -303,7 +388,11 @@ func TestPermissionsCacheEndpoint(t *testing.T) {
 // (مطابق لـ request20.txt): id, global, projects(id,projectType(id)), organizations(id).
 func TestPermissionsCacheFieldFiltering(t *testing.T) {
 
-	a := app.New()
+	a := newAdminApp(&mockAdminStore{cacheEntries: []*model.PermissionCacheEntry{
+		newCachePermissionEntry("jetbrains.jetpass.project-read-basic", false,
+			[]*model.PermissionCacheProject{{ID: "22-59", ProjectType: &model.ProjectType{ID: "DEFAULT"}}},
+			[]*model.PermissionCacheOrganization{}, ""),
+	}})
 	h := NewAdminHandler(a)
 
 	req := httptest.NewRequest("GET", "/api/permissions/cache?fields=id,global,projects(id,projectType(id)),organizations(id)", nil)
@@ -361,7 +450,10 @@ func TestPermissionsCacheFieldFiltering(t *testing.T) {
 // TestPermissionsCachePartialFields يتحقق أن طلب حقول فرعية فقط لا يُرجع حقولاً
 // غير مطلوبة في المشاريع (مثل projectType عند عدم طلبه).
 func TestPermissionsCachePartialFields(t *testing.T) {
-	h := NewAdminHandler(app.New())
+	h := NewAdminHandler(newAdminApp(&mockAdminStore{cacheEntries: []*model.PermissionCacheEntry{
+		newCachePermissionEntry("jetbrains.jetpass.project-read-basic", false,
+			[]*model.PermissionCacheProject{{ID: "22-59"}}, nil, ""),
+	}}))
 
 	req := httptest.NewRequest("GET", "/api/permissions/cache?fields=id,global,projects(id)", nil)
 	req = req.WithContext(withUserID(req.Context(), "2-1"))
@@ -405,7 +497,10 @@ func TestPermissionsCachePartialFields(t *testing.T) {
 // fields=global,permission(id,key,name),projects(id)
 func TestPermissionsCacheRequest26(t *testing.T) {
 
-	h := NewAdminHandler(app.New())
+	h := NewAdminHandler(newAdminApp(&mockAdminStore{cacheEntries: []*model.PermissionCacheEntry{
+		newCachePermissionEntry("jetbrains.jetpass.project-read", false,
+			[]*model.PermissionCacheProject{{ID: "0-0"}}, nil, "Read Project"),
+	}}))
 
 	req := httptest.NewRequest("GET", "/api/permissions/cache?fields=global,permission(id,key,name),projects(id)", nil)
 	req = req.WithContext(withUserID(req.Context(), "2-1"))
@@ -465,7 +560,7 @@ func TestPermissionsCacheRequest26(t *testing.T) {
 
 func TestPermissionsCacheUnauthorized(t *testing.T) {
 
-	h := NewAdminHandler(app.New())
+	h := NewAdminHandler(newAdminApp(&mockAdminStore{}))
 
 	req := httptest.NewRequest("GET", "/api/permissions/cache", nil)
 	rec := httptest.NewRecorder()
@@ -478,7 +573,7 @@ func TestPermissionsCacheUnauthorized(t *testing.T) {
 }
 
 func newGlobalSettingsHandler() *AdminHandler {
-	return NewAdminHandler(app.New())
+	return NewAdminHandler(newAdminApp(&mockAdminStore{}))
 }
 
 func TestGlobalSettingsRequest5(t *testing.T) {
@@ -718,7 +813,7 @@ func TestGlobalSettingsFullSchema(t *testing.T) {
 }
 
 func TestGlobalSettingsUnauthorized(t *testing.T) {
-	router := NewRouter(app.New(), "test-secret")
+	router := NewRouter(newAdminApp(&mockAdminStore{}), "test-secret")
 
 	req := httptest.NewRequest("GET", "/api/admin/globalSettings", nil)
 	rec := httptest.NewRecorder()
@@ -731,7 +826,7 @@ func TestGlobalSettingsUnauthorized(t *testing.T) {
 }
 
 func newConfigHandler() *ConfigHandler {
-	return NewConfigHandler(app.New())
+	return NewConfigHandler(newAdminApp(&mockAdminStore{}))
 }
 
 // TestBannersConfigRequest11 يتحقق من شكل استجابة request11.txt:
@@ -854,7 +949,7 @@ func TestConfigWithoutBannersField(t *testing.T) {
 }
 
 func newProjectDashboardHandler() *AdminHandler {
-	return NewAdminHandler(app.New())
+	return NewAdminHandler(newAdminApp(&mockAdminStore{}))
 }
 
 // TestProjectDashboardRequest13 يتحقق من شكل استجابة request13.txt:
@@ -1022,7 +1117,7 @@ func TestProjectDashboardNotFound(t *testing.T) {
 
 // TestProjectDashboardUnauthorized يتحقق من 401 عند الطلب عبر الراوتر بدون JWT.
 func TestProjectDashboardUnauthorized(t *testing.T) {
-	router := NewRouter(app.New(), "test-secret")
+	router := NewRouter(newAdminApp(&mockAdminStore{}), "test-secret")
 
 	req := httptest.NewRequest("GET", "/api/admin/projects/0-0/dashboard", nil)
 	rec := httptest.NewRecorder()
@@ -1035,7 +1130,7 @@ func TestProjectDashboardUnauthorized(t *testing.T) {
 }
 
 func newOrganizationsHandler() *AdminHandler {
-	return NewAdminHandler(app.New())
+	return NewAdminHandler(newAdminApp(&mockAdminStore{orgs: sampleOrganizations()}))
 }
 
 // TestOrganizationsBasic يتحقق من المطابقة الدقيقة لـ request22.txt:
@@ -1193,9 +1288,12 @@ func TestOrganizationsSkipTop(t *testing.T) {
 
 // TestOrganizationsRoute يتحقق من تسجيل المسار عبر الراوتر مع مصادقة JWT صالحة.
 func TestOrganizationsRoute(t *testing.T) {
-	router := NewRouter(app.New(), "test-secret")
+	router := NewRouter(newAdminApp(&mockAdminStore{orgs: sampleOrganizations()}), "test-secret")
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{"sub": "2-1"})
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":   "2-1",
+		"roles": []string{"system_admin"},
+	})
 	tokenString, err := token.SignedString([]byte("test-secret"))
 	if err != nil {
 		t.Fatalf("failed to sign token: %v", err)

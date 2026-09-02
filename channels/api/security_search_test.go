@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/store"
 )
@@ -35,8 +34,16 @@ func (m *mockGlobalStoreSecurity) SecuritySearch() store.SecuritySearchStore {
 	return m.securitySearch
 }
 
+// sampleSecurityFilterFields يعيد حقول تصفية مشابهة لـ request29.txt.
+func sampleSecurityFilterFields() []*model.SecurityFilterField {
+	return []*model.SecurityFilterField{
+		{ID: "role.scope", Name: "Scope", EntityType: "ProjectPeopleResponse", Type: "SecurityFilterField"},
+		{ID: "role.organization", Name: "Organization", EntityType: "ProjectPeopleResponse", Type: "SecurityFilterField"},
+	}
+}
+
 func TestSecuritySearch_GetFilterFields(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockGlobalStoreSecurity{securitySearch: &mockSecuritySearchStore{fields: sampleSecurityFilterFields()}})
 	handler := NewSecuritySearchHandler(a)
 
 	t.Run("Get ProjectPeopleResponse fields - default", func(t *testing.T) {

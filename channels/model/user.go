@@ -48,6 +48,7 @@ type User struct {
 	IsLocked          bool               `json:"isLocked" db:"is_locked"`
 	RingID            string             `json:"ringId,omitempty" db:"ring_id"`
 	PasswordHash      string             `json:"-" db:"password_hash"`
+	Roles             []string           `json:"roles,omitempty" db:"roles"`
 	IssueRelatedGroup *IssueRelatedGroup `json:"issueRelatedGroup,omitempty"`
 	FeatureFlags      []*FeatureFlag     `json:"featureFlags,omitempty"`
 	Widgets           []*DashboardWidget `json:"widgets,omitempty"`

@@ -55,33 +55,33 @@ func NewIssueHandler(a *app.YouTrackApp) *IssueHandler {
 }
 
 func (api *API) InitIssue() {
-	handler := NewIssueHandler(app.New())
+	handler := NewIssueHandler(api.newApp())
 
-	api.BaseRoutes.Issues.Handle("", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Handle("", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Issues.Handle("", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Handle("", api.APISessionRequiredWithPermission(app.PermissionIssueWrite, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Create(w, r)
 	})).Methods("POST")
 
-	api.BaseRoutes.APIRoot.Handle("/sortedIssues", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/sortedIssues", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetSortedIssues(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.APIRoot.Handle("/issuesGetter/count", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/issuesGetter/count", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Count(w, r)
 	})).Methods("GET", "POST")
 
-	api.BaseRoutes.APIRoot.Handle("/issuesGetter", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/issuesGetter", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Getter(w, r)
 	})).Methods("GET", "POST")
 
-	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}/comments", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}/comments", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Comments(w, r)
 	})).Methods("GET")
 }

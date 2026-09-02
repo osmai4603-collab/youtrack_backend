@@ -35,21 +35,21 @@ func NewProjectHandler(a *app.YouTrackApp) *ProjectHandler {
 }
 
 func (api *API) InitProject() {
-	handler := NewProjectHandler(app.New())
+	handler := NewProjectHandler(api.newApp())
 
-	api.BaseRoutes.Projects.Handle("", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Projects.Handle("", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Projects.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Projects.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/projects", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/projects", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
 	})).Methods("GET")
 }

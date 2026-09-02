@@ -18,8 +18,8 @@ func NewSecuritySearchHandler(a *app.YouTrackApp) *SecuritySearchHandler {
 }
 
 func (api *API) InitSecuritySearch() {
-	handler := NewSecuritySearchHandler(app.New())
-	api.BaseRoutes.APIRoot.Handle("/securitySearch/filterFields", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	handler := NewSecuritySearchHandler(api.newApp())
+	api.BaseRoutes.APIRoot.Handle("/securitySearch/filterFields", api.APISessionRequiredWithPermission(app.PermissionSecuritySearch, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetFilterFields(w, r)
 	})).Methods("GET")
 }

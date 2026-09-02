@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -134,6 +133,7 @@ func (m *mockIssueStoreForGetter) GetIssuesGetter(ctx context.Context, refs []st
 }
 
 type mockFullStore struct {
+	mockStoreBase
 	issues store.IssueStore
 }
 
@@ -149,7 +149,7 @@ func (m *mockFullStore) SecuritySearch() store.SecuritySearchStore { return nil 
 
 func TestGetSortedIssues(t *testing.T) {
 
-	a := app.New()
+	a := newTestApp(&mockFullStore{issues: &mockIssueStoreForSorted{items: []*model.IssueTreeItem{{ID: "issue-1"}}}})
 	handler := NewIssueHandler(a)
 
 	t.Run("Returns correct structure", func(t *testing.T) {
@@ -183,7 +183,19 @@ func TestGetSortedIssues(t *testing.T) {
 
 func TestIssuesGetter(t *testing.T) {
 
-	a := app.New()
+	a := newTestApp(&mockFullStore{issues: &mockIssueStoreForGetter{issues: []*model.IssueGetterIssue{{
+		IDReadable: "DEMO-1",
+		Fields: []*model.IssueCustomField{
+			{
+				ID: "pcf-1",
+				Value: &model.IssueFieldValue{Name: "High"},
+				ProjectCustomField: &model.ProjectCustomField{
+					ID:    "pcf-1",
+					Field: &model.CustomFieldMetadata{Name: "Priority"},
+				},
+			},
+		},
+	}}}})
 	handler := NewIssueHandler(a)
 
 	t.Run("Returns correct structure with fields", func(t *testing.T) {
@@ -238,7 +250,7 @@ func TestIssuesGetter(t *testing.T) {
 }
 
 func TestGetIssueCount(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockFullStore{issues: &mockIssueStoreForCount{countResp: &model.IssueCountResponse{Count: 42, Folder: &model.IssueFolder{ID: "22-59"}}}})
 	handler := NewIssueHandler(a)
 
 	t.Run("fields folder(id),count returns folder $type injected", func(t *testing.T) {
@@ -323,7 +335,7 @@ func TestGetIssueCount(t *testing.T) {
 	})
 
 	t.Run("folder not found returns 404", func(t *testing.T) {
-		a := app.New()
+		a := newTestApp(&mockFullStore{issues: &mockIssueStoreForCount{err: store.ErrFolderNotFound}})
 		handler := NewIssueHandler(a)
 
 		req := httptest.NewRequest("GET", "/api/issuesGetter/count?folderId=missing", nil)

@@ -8,7 +8,6 @@ import (
 	"sort"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -25,6 +24,7 @@ func (m *mockSavedQueryStore) SavedQueries(ctx context.Context, tree *fields.Fie
 
 // mockSavedQueryFullStore يحقق واجهة store.Store للاختبار.
 type mockSavedQueryFullStore struct {
+	mockStoreBase
 	savedQueries *mockSavedQueryStore
 }
 
@@ -134,7 +134,7 @@ func keysOf(m map[string]any) []string {
 const request15Fields = "id,issuesUrl,name,query,pinnedByDefault,pinned,pinnedInHelpdesk,isUpdatable,isDeletable,isShareable,owner(@permittedUsers),readSharingSettings(@updateSharingSettings),updateSharingSettings(@updateSharingSettings),sortOrder(isSortable);@updateSharingSettings:permittedGroups(id,name,$type(),auditTargetId,description,allUsersGroup,icon,teamForProject(id,name,icon),isUpdatable,isRemovable),permittedUsers(@permittedUsers);@permittedUsers:id,login,email,fullName,avatarUrl,userType(id,name),name,isEmailVerified,guest,online,banned,banBadge,canReadProfile,isLocked"
 
 func TestSavedQueriesFullRequestFields(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockSavedQueryFullStore{savedQueries: &mockSavedQueryStore{items: sampleSavedQueries()}})
 	handler := NewSavedQueriesHandler(a)
 
 	req := httptest.NewRequest("GET", "/api/savedQueries?fields="+request15Fields, nil)
@@ -242,7 +242,7 @@ func TestSavedQueriesFullRequestFields(t *testing.T) {
 }
 
 func TestSavedQueriesSubsetFields(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockSavedQueryFullStore{savedQueries: &mockSavedQueryStore{items: sampleSavedQueries()}})
 	handler := NewSavedQueriesHandler(a)
 
 	req := httptest.NewRequest("GET", "/api/savedQueries?fields=id,name", nil)
@@ -276,7 +276,7 @@ func TestSavedQueriesSubsetFields(t *testing.T) {
 }
 
 func TestSavedQueriesDefaultFields(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockSavedQueryFullStore{savedQueries: &mockSavedQueryStore{items: sampleSavedQueries()}})
 	handler := NewSavedQueriesHandler(a)
 
 	req := httptest.NewRequest("GET", "/api/savedQueries", nil)

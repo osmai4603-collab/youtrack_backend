@@ -19,13 +19,13 @@ func NewHubHandler(a *app.YouTrackApp) *HubHandler {
 }
 
 func (api *API) InitHub() {
-	handler := NewHubHandler(app.New())
+	handler := NewHubHandler(api.newApp())
 
-	api.BaseRoutes.HubRoot.Handle("/services", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.HubRoot.Handle("/services", api.APISessionRequiredWithPermission(app.PermissionHubRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetServices(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.APIRoot.Handle("/services", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/services", api.APISessionRequiredWithPermission(app.PermissionHubRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetServices(w, r)
 	})).Methods("GET")
 }

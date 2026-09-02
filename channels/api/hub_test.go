@@ -8,7 +8,6 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 )
 
@@ -72,8 +71,7 @@ func sampleServices() *model.ServicesPage {
 // TestServicesFullRequestFields يتحقق من المطابقة الدقيقة لاستجابة request24.txt:
 // GET /hub/api/rest/services?fields=id,key,name,homeUrl,applicationName,vendor,version,trusted
 func TestServicesFullRequestFields(t *testing.T) {
-	// holder := &mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}}
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	h := NewHubHandler(a)
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?fields=id,key,name,homeUrl,applicationName,vendor,version,trusted", nil)
@@ -149,8 +147,7 @@ func TestServicesFullRequestFields(t *testing.T) {
 // TestServicesFieldSubset يتحقق من أن معامل fields يحدد الحقول الدقيقة فقط
 // مع بقاء type ثابتاً (مثل طلبات hh.json).
 func TestServicesFieldSubset(t *testing.T) {
-	// holder := &mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}}
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	h := NewHubHandler(a)
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?$top=-1&fields=applicationName,homeUrl,iconUrl,id,name,userUriPattern", nil)
@@ -197,7 +194,7 @@ func TestServicesFieldSubset(t *testing.T) {
 
 // TestServicesOnlyID يتحقق من طلب fields=id&$top=1 (مطابق لـ hh.json السطر 36345).
 func TestServicesOnlyID(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	h := NewHubHandler(a)
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?fields=id&$top=1", nil)
@@ -230,7 +227,7 @@ func TestServicesOnlyID(t *testing.T) {
 
 // TestServicesPagination يتحقق من $skip مع $top (التصفح).
 func TestServicesPagination(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	h := NewHubHandler(a)
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?fields=id&$skip=1&$top=1", nil)
@@ -265,7 +262,7 @@ func TestServicesPagination(t *testing.T) {
 
 // TestServicesDefaultTop يتحقق من أن الافتراضي لـ $top هو 100 (كما في request24.txt).
 func TestServicesDefaultTop(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	h := NewHubHandler(a)
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?fields=id", nil)
@@ -288,11 +285,14 @@ func TestServicesDefaultTop(t *testing.T) {
 
 // TestServicesWithRouter يتحقق من تسجيل المسار عبر الراوتر وطبقة المصادقة JWT.
 func TestServicesWithRouter(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	router := NewRouter(a, "test-secret")
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services?fields=id,name", nil)
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{"sub": "2-1"})
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":   "2-1",
+		"roles": []string{"user"},
+	})
 	tokenString, err := token.SignedString([]byte("test-secret"))
 	if err != nil {
 		t.Fatalf("failed to sign token: %v", err)
@@ -321,7 +321,7 @@ func TestServicesWithRouter(t *testing.T) {
 
 // TestServicesUnauthorized يتحقق من رفض الوصول دون توكن.
 func TestServicesUnauthorized(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockAdminStoreHolder{admin: &mockAdminStore{services: sampleServices()}})
 	router := NewRouter(a, "test-secret")
 
 	req := httptest.NewRequest("GET", "/hub/api/rest/services", nil)

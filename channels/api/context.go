@@ -31,6 +31,7 @@ type Context struct {
 	App        *app.YouTrackApp
 	AppContext request.CTX
 	FieldsTree *fields.FieldTree
+	Params     *Params
 	Err        *model.AppError
 }
 
@@ -64,6 +65,7 @@ func ContextFromRequest(a *app.YouTrackApp, r *http.Request) *Context {
 		App:        a,
 		AppContext: appCtx,
 		FieldsTree: tree,
+		Params:     ParamsFromRequest(r),
 	}
 }
 

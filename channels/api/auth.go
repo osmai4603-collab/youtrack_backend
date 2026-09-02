@@ -45,7 +45,7 @@ func NewAuthHandler(a *app.YouTrackApp, jwtSecret string) *AuthHandler {
 }
 
 func (api *API) InitAuth() {
-	handler := NewAuthHandler(app.New(), api.srv.JWTSecret())
+	handler := NewAuthHandler(api.newApp(), api.srv.JWTSecret())
 	api.BaseRoutes.Auth.Handle("/login", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Login(w, r)
 	})).Methods("POST")
@@ -56,9 +56,15 @@ func (api *API) InitAuth() {
 }
 
 func (h *AuthHandler) signToken(user *model.User) (string, error) {
+	roles := user.Roles
+	if len(roles) == 0 {
+		roles = []string{"user"}
+	}
+
 	claims := jwt.MapClaims{
 		"sub":   user.ID,
 		"login": user.Login,
+		"roles": roles,
 		"iat":   time.Now().Unix(),
 		"exp":   time.Now().Add(72 * time.Hour).Unix(),
 	}

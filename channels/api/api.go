@@ -70,10 +70,15 @@ func Init(srv *app.YouTrackServer) *API {
 	return api
 }
 
+// newApp ينشئ كائن App مربوطاً بخادم هذا الـ API (مع Store و Config و JWT).
+func (api *API) newApp() *app.YouTrackApp {
+	return app.New(app.ServerConnector(api.srv.Channels()))
+}
+
 // APIHandler ينشئ مساراً عاماً بدون مصادقة.
 func (api *API) APIHandler(h HandlerFunc) http.Handler {
 	return &Handler{
-		App:            app.New(),
+		App:            app.New(app.ServerConnector(api.srv.Channels())),
 		HandleFunc:     h,
 		RequireSession: false,
 	}
@@ -82,8 +87,33 @@ func (api *API) APIHandler(h HandlerFunc) http.Handler {
 // APISessionRequired ينشئ مساراً محمياً يتطلب جلسة وتوكن صالح.
 func (api *API) APISessionRequired(h HandlerFunc) http.Handler {
 	return &Handler{
-		App:            app.New(),
+		App:            app.New(app.ServerConnector(api.srv.Channels())),
 		HandleFunc:     h,
 		RequireSession: true,
 	}
+}
+
+// APISessionRequiredWithPermission ينشئ مساراً محمياً يتطلب جلسة صالحة وصلاحية محددة.
+func (api *API) APISessionRequiredWithPermission(permission string, h HandlerFunc) http.Handler {
+	return &Handler{
+		App:               app.New(app.ServerConnector(api.srv.Channels())),
+		HandleFunc:        h,
+		RequireSession:    true,
+		RequirePermission: permission,
+	}
+}
+
+// APISessionRequiredTrustRequester keeps the requester identity available to handlers.
+func (api *API) APISessionRequiredTrustRequester(h HandlerFunc) http.Handler {
+	return &Handler{
+		App:            app.New(app.ServerConnector(api.srv.Channels())),
+		HandleFunc:     h,
+		RequireSession: true,
+		TrustRequester: true,
+	}
+}
+
+// APISessionRequiredDisableWhenBusy is reserved for handlers that may be disabled while busy.
+func (api *API) APISessionRequiredDisableWhenBusy(h HandlerFunc) http.Handler {
+	return api.APISessionRequired(h)
 }

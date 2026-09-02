@@ -26,8 +26,8 @@ func NewSearchHandler(a *app.YouTrackApp) *SearchHandler {
 }
 
 func (api *API) InitSearch() {
-	handler := NewSearchHandler(app.New())
-	api.BaseRoutes.APIRoot.Handle("/search/assist", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	handler := NewSearchHandler(api.newApp())
+	api.BaseRoutes.APIRoot.Handle("/search/assist", api.APISessionRequiredWithPermission(app.PermissionSearchRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetAssist(w, r)
 	})).Methods("POST")
 }

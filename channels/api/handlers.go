@@ -20,10 +20,11 @@ type HandlerFunc func(*Context, http.ResponseWriter, *http.Request)
 
 // Handler هو المغلف التنفيذي لخط أنابيب معالجة طلبات HTTP.
 type Handler struct {
-	App            *app.YouTrackApp
-	HandleFunc     HandlerFunc
-	RequireSession bool
-	TrustRequester bool
+	App               *app.YouTrackApp
+	HandleFunc        HandlerFunc
+	RequireSession    bool
+	RequirePermission string
+	TrustRequester    bool
 }
 
 // ServeHTTP ينفذ خط الأنابيب: التحقق، إعداد السياق، الاستدعاء، ومعالجة الأخطاء.
@@ -79,9 +80,30 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				if userID == "" {
 					c.Err = model.NewUnauthorizedError("Handler", "Invalid token claims")
 				} else {
-					c.AppContext = c.AppContext.WithUserID(userID).WithSessionToken(parts[1])
+					var roles []string
+					if rawRoles, ok := claims["roles"]; ok {
+						switch v := rawRoles.(type) {
+						case []any:
+							for _, item := range v {
+								if s, ok := item.(string); ok {
+									roles = append(roles, s)
+								}
+							}
+						case []string:
+							roles = v
+						case string:
+							roles = []string{v}
+						}
+					}
+					c.AppContext = c.AppContext.WithUserID(userID).WithUserRoles(roles).WithSessionToken(parts[1])
 				}
 			}
+		}
+	}
+
+	if c.Err == nil && h.RequirePermission != "" {
+		if !h.App.SessionHasPermission(c.AppContext, h.RequirePermission) {
+			c.Err = model.NewForbiddenError("Handler", "Permission denied")
 		}
 	}
 

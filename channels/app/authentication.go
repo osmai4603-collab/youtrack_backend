@@ -45,6 +45,7 @@ func (a *YouTrackApp) Register(c request.CTX, cred RegisterCredentials) (*model.
 		CanReadProfile:  true,
 		IsEmailVerified: false,
 		PasswordHash:    string(hash),
+		Roles:           []string{"user"},
 	}
 
 	if err := a.Store().Users().Create(ctx, u); err != nil {

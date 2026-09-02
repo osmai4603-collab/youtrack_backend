@@ -8,7 +8,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/model/fields"
 	"youtrack_backend/channels/store"
@@ -43,8 +42,23 @@ func (m *mockGlobalStore) Search() store.SearchStore {
 	return m.search
 }
 
+// sampleSearchAssist يعيد استجابة مساعد بحث مبسطة.
+func sampleSearchAssist() *model.SearchAssistResponse {
+	return &model.SearchAssistResponse{
+		Query:  "project: DEMO",
+		Caret:  13,
+		Type:   "SearchAssistResponse",
+		StyleRanges: []*model.SearchStyleRange{
+			{Length: 13, Start: 0, Style: "CONSTANT", Type: "SearchStyleRange"},
+		},
+		Suggestions: []*model.SearchSuggestion{
+			{Option: "DEMO", Description: "Demo project", Type: "SearchSuggestion"},
+		},
+	}
+}
+
 func TestSearchAssist(t *testing.T) {
-	a := app.New()
+	a := newTestApp(&mockGlobalStore{search: &mockSearchStore{assist: sampleSearchAssist()}})
 	handler := NewSearchHandler(a)
 
 	t.Run("Full fields", func(t *testing.T) {

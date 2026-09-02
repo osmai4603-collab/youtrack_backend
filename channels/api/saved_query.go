@@ -19,8 +19,8 @@ func NewSavedQueriesHandler(a *app.YouTrackApp) *SavedQueriesHandler {
 }
 
 func (api *API) InitSavedQuery() {
-	handler := NewSavedQueriesHandler(app.New())
-	api.BaseRoutes.APIRoot.Handle("/savedQueries", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	handler := NewSavedQueriesHandler(api.newApp())
+	api.BaseRoutes.APIRoot.Handle("/savedQueries", api.APISessionRequiredWithPermission(app.PermissionSavedQueryRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
 	})).Methods("GET")
 }

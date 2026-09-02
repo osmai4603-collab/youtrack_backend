@@ -5,12 +5,10 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"youtrack_backend/channels/app"
 )
 
 func TestFeaturesEndpoint(t *testing.T) {
-	h := NewFeatureHandler(app.New(nil))
+	h := NewFeatureHandler(newTestApp(&mockStoreBase{}))
 
 	req := httptest.NewRequest(http.MethodGet, "/static/features-en_US.json", nil)
 	rec := httptest.NewRecorder()
@@ -51,7 +49,7 @@ func TestFeaturesEndpoint(t *testing.T) {
 }
 
 func TestFeaturesEndpointFieldsFiltering(t *testing.T) {
-	h := NewFeatureHandler(app.New(nil))
+	h := NewFeatureHandler(newTestApp(&mockStoreBase{}))
 
 	req := httptest.NewRequest(http.MethodGet, "/static/features-en_US.json?fields=versions(id,features(header,doc))", nil)
 	rec := httptest.NewRecorder()
@@ -85,7 +83,7 @@ func TestFeaturesEndpointFieldsFiltering(t *testing.T) {
 }
 
 func TestFeaturesEndpointNestedField(t *testing.T) {
-	h := NewFeatureHandler(app.New(nil))
+	h := NewFeatureHandler(newTestApp(&mockStoreBase{}))
 
 	// طلب حقل نسخ فقط (بدون features) -> إخفاء الميزات
 	req := httptest.NewRequest(http.MethodGet, "/static/features-en_US.json?fields=versions(id)", nil)
@@ -107,7 +105,7 @@ func TestFeaturesEndpointNestedField(t *testing.T) {
 }
 
 func TestFeaturesRouteRegistered(t *testing.T) {
-	a := app.New(nil)
+	a := newTestApp(&mockStoreBase{})
 	router := NewRouter(a, "test-secret")
 
 	req := httptest.NewRequest(http.MethodGet, "/static/features-en_US.json", nil)

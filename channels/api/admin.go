@@ -33,33 +33,39 @@ func NewAdminHandler(a *app.YouTrackApp) *AdminHandler {
 }
 
 func (api *API) InitAdmin() {
-	handler := NewAdminHandler(app.New())
+	handler := NewAdminHandler(api.newApp())
 
-	api.BaseRoutes.APIRoot.Handle("/roles", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/roles", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Roles(w, r)
 	})).Methods("GET")
-
-	api.BaseRoutes.APIRoot.Handle("/permissions", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
-		handler.Permissions(w, r)
+	api.BaseRoutes.APIRoot.Handle("/roles/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+		handler.RoleByName(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.APIRoot.Handle("/permissions/cache", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Handle("/permissions", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+		handler.Permissions(w, r)
+	})).Methods("GET")
+	api.BaseRoutes.APIRoot.Handle("/permissions/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+		handler.PermissionByName(w, r)
+	})).Methods("GET")
+
+	api.BaseRoutes.APIRoot.Handle("/permissions/cache", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.PermissionsCache(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/globalSettings", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/globalSettings", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GlobalSettings(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/widgets/general", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/widgets/general", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Widgets(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/organizations", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/organizations", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Organizations(w, r)
 	})).Methods("GET")
 
-	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}/dashboard", api.APISessionRequired(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}/dashboard", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.ProjectDashboard(w, r)
 	})).Methods("GET")
 }
@@ -82,6 +88,28 @@ func (h *AdminHandler) Permissions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeModel(w, PermissionListResponse{Permissions: perms, Count: len(perms)})
+}
+
+func (h *AdminHandler) RoleByName(w http.ResponseWriter, r *http.Request) {
+	c := ContextFromRequest(h.app, r)
+	name := mux.Vars(r)["name"]
+	role, err := h.app.GetRoleByName(c.AppContext, name)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	writeModel(w, role)
+}
+
+func (h *AdminHandler) PermissionByName(w http.ResponseWriter, r *http.Request) {
+	c := ContextFromRequest(h.app, r)
+	name := mux.Vars(r)["name"]
+	perm, err := h.app.GetPermissionByName(c.AppContext, name)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	writeModel(w, perm)
 }
 
 // PermissionsCache يعيد الصلاحيات المخبأة للمستخدم الحالي مع احترام معامل fields.

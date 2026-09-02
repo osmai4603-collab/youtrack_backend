@@ -200,6 +200,7 @@ func (m *mockUserStore) InboxFolders(ctx context.Context, userID string) ([]*mod
 }
 
 type mockFullUserStore struct {
+	mockStoreBase
 	userStore *mockUserStore
 }
 
@@ -234,10 +235,7 @@ func setupTestApp() (*app.YouTrackApp, *model.User) {
 		},
 	}
 	user.NormalizeMe()
-	// mockStore := &mockFullUserStore{
-	// 	userStore: &mockUserStore{user: user},
-	// }
-	a := app.New()
+	a := newTestApp(&mockFullUserStore{userStore: &mockUserStore{user: user}})
 	return a, user
 }
 
