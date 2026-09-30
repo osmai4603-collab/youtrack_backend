@@ -18,9 +18,9 @@ func NewInboxHandler(a *app.YouTrackApp) *InboxHandler {
 
 func (api *API) InitInbox() {
 	handler := NewInboxHandler(api.newApp())
-	api.BaseRoutes.Inbox.Handle("/threads", api.APISessionRequiredWithPermission(app.PermissionInboxRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Inbox.Method("GET", "/threads", api.APISessionRequiredWithPermission(app.PermissionInboxRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetThreads(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // GetThreads يعيد خيوط الرسائل في صندوق الوارد (مطابق لـ request9.txt).

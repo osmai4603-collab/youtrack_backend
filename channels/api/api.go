@@ -3,29 +3,29 @@ package api
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 
 	"youtrack_backend/channels/app"
 )
 
 // Routes يحمل هيكل الموجهات الهرمية الفرعية للنظام، مطابقاً لمعمارية Mattermost api4.Routes.
 type Routes struct {
-	Root    *mux.Router // '/'
-	APIRoot *mux.Router // '/api'
-	HubRoot *mux.Router // '/hub/api/rest'
+	Root    *chi.Mux // '/'
+	APIRoot *chi.Mux // '/api'
+	HubRoot *chi.Mux // '/hub/api/rest'
 
-	Users *mux.Router // '/api/users'
-	User  *mux.Router // '/api/users/{id}'
+	Users *chi.Mux // '/api/users'
+	User  *chi.Mux // '/api/users/{id}'
 
-	Projects *mux.Router // '/api/projects'
-	Project  *mux.Router // '/api/projects/{id}'
+	Projects *chi.Mux // '/api/projects'
+	Project  *chi.Mux // '/api/projects/{id}'
 
-	Issues *mux.Router // '/api/issues'
-	Issue  *mux.Router // '/api/issues/{id}'
+	Issues *chi.Mux // '/api/issues'
+	Issue  *chi.Mux // '/api/issues/{id}'
 
-	Admin *mux.Router // '/api/admin'
-	Auth  *mux.Router // '/api/auth'
-	Inbox *mux.Router // '/api/inbox'
+	Admin *chi.Mux // '/api/admin'
+	Auth  *chi.Mux // '/api/auth'
+	Inbox *chi.Mux // '/api/inbox'
 }
 
 // API يمثل طبقة الـ API المركزية التي تربط الموجهات بالخادم.
@@ -42,15 +42,25 @@ func Init(srv *app.YouTrackServer) *API {
 	}
 
 	api.BaseRoutes.Root = srv.Router
-	api.BaseRoutes.APIRoot = srv.Router.PathPrefix("/api").Subrouter()
-	api.BaseRoutes.HubRoot = srv.Router.PathPrefix("/hub/api/rest").Subrouter()
+	api.BaseRoutes.APIRoot = chi.NewRouter()
+	api.BaseRoutes.HubRoot = chi.NewRouter()
 
-	api.BaseRoutes.Users = api.BaseRoutes.APIRoot.PathPrefix("/users").Subrouter()
-	api.BaseRoutes.Projects = api.BaseRoutes.APIRoot.PathPrefix("/projects").Subrouter()
-	api.BaseRoutes.Issues = api.BaseRoutes.APIRoot.PathPrefix("/issues").Subrouter()
-	api.BaseRoutes.Admin = api.BaseRoutes.APIRoot.PathPrefix("/admin").Subrouter()
-	api.BaseRoutes.Auth = api.BaseRoutes.APIRoot.PathPrefix("/auth").Subrouter()
-	api.BaseRoutes.Inbox = api.BaseRoutes.APIRoot.PathPrefix("/inbox").Subrouter()
+	api.BaseRoutes.Users = chi.NewRouter()
+	api.BaseRoutes.Projects = chi.NewRouter()
+	api.BaseRoutes.Issues = chi.NewRouter()
+	api.BaseRoutes.Admin = chi.NewRouter()
+	api.BaseRoutes.Auth = chi.NewRouter()
+	api.BaseRoutes.Inbox = chi.NewRouter()
+
+	api.BaseRoutes.APIRoot.Mount("/users", api.BaseRoutes.Users)
+	api.BaseRoutes.APIRoot.Mount("/projects", api.BaseRoutes.Projects)
+	api.BaseRoutes.APIRoot.Mount("/issues", api.BaseRoutes.Issues)
+	api.BaseRoutes.APIRoot.Mount("/admin", api.BaseRoutes.Admin)
+	api.BaseRoutes.APIRoot.Mount("/auth", api.BaseRoutes.Auth)
+	api.BaseRoutes.APIRoot.Mount("/inbox", api.BaseRoutes.Inbox)
+
+	srv.Router.Mount("/api", api.BaseRoutes.APIRoot)
+	srv.Router.Mount("/hub/api/rest", api.BaseRoutes.HubRoot)
 
 	api.InitHealth()
 	api.InitConfig()

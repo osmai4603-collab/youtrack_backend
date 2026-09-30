@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 
 	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
@@ -37,21 +37,21 @@ func NewProjectHandler(a *app.YouTrackApp) *ProjectHandler {
 func (api *API) InitProject() {
 	handler := NewProjectHandler(api.newApp())
 
-	api.BaseRoutes.Projects.Handle("", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Projects.Method("GET", "/", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Projects.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Projects.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("project.read", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/projects", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/projects", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/projects/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("system.admin", func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // List يعيد قائمة المشاريع.
@@ -68,7 +68,7 @@ func (h *ProjectHandler) List(w http.ResponseWriter, r *http.Request) {
 // GetByID يعيد مشروعًا بمعرّفه أو رمزه مع دعم جلب الحقول المخصصة.
 func (h *ProjectHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	projectID := mux.Vars(r)["id"]
+	projectID := chi.URLParam(r, "id")
 	if projectID == "" {
 		projectID = r.PathValue("id")
 	}

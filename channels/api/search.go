@@ -27,9 +27,9 @@ func NewSearchHandler(a *app.YouTrackApp) *SearchHandler {
 
 func (api *API) InitSearch() {
 	handler := NewSearchHandler(api.newApp())
-	api.BaseRoutes.APIRoot.Handle("/search/assist", api.APISessionRequiredWithPermission(app.PermissionSearchRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("POST", "/search/assist", api.APISessionRequiredWithPermission(app.PermissionSearchRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetAssist(w, r)
-	})).Methods("POST")
+	}))
 }
 
 // GetAssist يعالج طلب POST /api/search/assist ويجلب اقتراحات البحث وتنسيقه.

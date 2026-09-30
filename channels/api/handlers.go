@@ -53,6 +53,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		App:        h.App,
 		AppContext: appCtx,
 		FieldsTree: tree,
+		Params:     ParamsFromRequest(r),
 	}
 
 	// التحقق من المصادقة إذا كان المسار يتطلب جلسة
@@ -96,6 +97,9 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 					c.AppContext = c.AppContext.WithUserID(userID).WithUserRoles(roles).WithSessionToken(parts[1])
+					// نقل الهوية والأدوار إلى سياق الطلب حتى تصل إلى المعالجات التي
+					// تعيد بناء سياق التطبيق عبر ContextFromRequest.
+					r = r.WithContext(withUserRoles(withUserID(r.Context(), userID), roles))
 				}
 			}
 		}

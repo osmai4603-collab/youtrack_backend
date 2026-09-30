@@ -20,7 +20,10 @@ func TestPermissionGuardRequiresRolePermission(t *testing.T) {
 		t.Fatalf("platform.New() error = %v", err)
 	}
 
-	server := app.NewServerWithOptions(ps)
+	server, err := app.NewServerWithOptions(ps)
+	if err != nil {
+		t.Fatalf("new server error = %v", err)
+	}
 	a := app.New(app.ServerConnector(server.Channels()))
 
 	claims := jwt.MapClaims{
@@ -68,7 +71,10 @@ func TestIssueAndAdminRoutesEnforceRequiredPermissions(t *testing.T) {
 		t.Fatalf("platform.New() error = %v", err)
 	}
 
-	server := app.NewServerWithOptions(ps)
+	server, err := app.NewServerWithOptions(ps)
+	if err != nil {
+		t.Fatalf("new server error = %v", err)
+	}
 	Init(server)
 
 	claims := jwt.MapClaims{

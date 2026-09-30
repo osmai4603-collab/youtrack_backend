@@ -15,6 +15,9 @@ import (
 // userIDKey مفتاح تخزين هوية المستخدم الحالي في الـ context.
 type userIDKey struct{}
 
+// userRolesKey مفتاح تخزين أدوار المستخدم الحالي في الـ context.
+type userRolesKey struct{}
+
 // CurrentUserID يقرأ معرّف المستخدم الحالي من الـ context.
 func CurrentUserID(r *http.Request) (string, bool) {
 	id, ok := r.Context().Value(userIDKey{}).(string)
@@ -24,6 +27,17 @@ func CurrentUserID(r *http.Request) (string, bool) {
 // withUserID يضع معرّف المستخدم في الـ context.
 func withUserID(ctx context.Context, id string) context.Context {
 	return context.WithValue(ctx, userIDKey{}, id)
+}
+
+// CurrentUserRoles يقرأ أدوار المستخدم الحالي من الـ context.
+func CurrentUserRoles(r *http.Request) ([]string, bool) {
+	roles, ok := r.Context().Value(userRolesKey{}).([]string)
+	return roles, ok
+}
+
+// withUserRoles يضع أدوار المستخدم في الـ context.
+func withUserRoles(ctx context.Context, roles []string) context.Context {
+	return context.WithValue(ctx, userRolesKey{}, append([]string(nil), roles...))
 }
 
 // Context يحمل سياق الطلب الموحد لكل دالة معالجة، مستوحى من Mattermost web.Context.
@@ -53,6 +67,12 @@ func ContextFromRequest(a *app.YouTrackApp, r *http.Request) *Context {
 	userID, ok := CurrentUserID(r)
 	if ok && userID != "" {
 		appCtx = appCtx.WithUserID(userID)
+	}
+
+	// الأدوار تُنقل أيضاً إلى سياق التطبيق حتى تتمكن طبقة app من تقييم
+	// الصلاحيات الإدرارية (الوصول غير المقيّد بالمشاريع) من داخل دوالها.
+	if roles, ok := CurrentUserRoles(r); ok && len(roles) > 0 {
+		appCtx = appCtx.WithUserRoles(roles)
 	}
 
 	fieldsStr := r.URL.Query().Get("fields")

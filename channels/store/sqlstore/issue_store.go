@@ -80,6 +80,64 @@ func (s *IssueStore) All(ctx context.Context, query string, limit int) ([]*model
 	return issues, rows.Err()
 }
 
+// AllByUser يعيد قضايا مشاريع المستخدم الحالي فقط (انظر userProjectIDsSQL في project_store.go).
+func (s *IssueStore) AllByUser(ctx context.Context, userID string, query string, limit int) ([]*model.Issue, error) {
+	if userID == "" {
+		return []*model.Issue{}, nil
+	}
+
+	// $1 = معرّف المستخدم (مستخدم داخل الاستعلام الفرعي ثلاث مرات)
+	sql := issueSelect + ` WHERE project_id IN (` + userProjectIDsSQL + `)`
+	args := []any{userID}
+	argIdx := 1
+
+	if query != "" {
+		argIdx++
+		sql += ` AND (summary ILIKE $` + fmt.Sprintf("%d", argIdx) + ` OR id_readable ILIKE $` + fmt.Sprintf("%d", argIdx) + `)`
+		args = append(args, "%"+query+"%")
+	}
+	sql += ` ORDER BY updated DESC`
+	if limit > 0 {
+		argIdx++
+		sql += ` LIMIT $` + fmt.Sprintf("%d", argIdx)
+		args = append(args, limit)
+	}
+
+	rows, err := s.db.Query(ctx, sql, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	issues := []*model.Issue{}
+	for rows.Next() {
+		i, err := scanIssue(rows)
+		if err != nil {
+			return nil, err
+		}
+		issues = append(issues, i)
+	}
+	return issues, rows.Err()
+}
+
+// CanAccessIssue يفحص ما إذا كانت قضية ضمن مشاريع المستخدم الحالي (بمعرّفها أو رمزها المقروء).
+func (s *IssueStore) CanAccessIssue(ctx context.Context, userID string, issueRef string) (bool, error) {
+	if userID == "" || issueRef == "" {
+		return false, nil
+	}
+	var allowed bool
+	err := s.db.QueryRow(ctx, `
+		SELECT EXISTS (
+			SELECT 1 FROM issues i
+			WHERE (i.id = $2 OR i.id_readable = $2)
+			  AND i.project_id IN (`+userProjectIDsSQL+`)
+		)`, userID, issueRef).Scan(&allowed)
+	if err != nil {
+		return false, err
+	}
+	return allowed, nil
+}
+
 func (s *IssueStore) Create(ctx context.Context, i *model.Issue) error {
 	_, err := s.db.Exec(ctx, `
 		INSERT INTO issues (id, id_readable, number_in_project, summary, description, project_id, reporter_id, creator_id, updater_id, created, updated, votes, is_draft)

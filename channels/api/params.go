@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
 // Params يجمّع كل المعاملات المستخرجة من الطلب مركزياً.
@@ -27,18 +27,26 @@ const (
 
 // ParamsFromRequest يستخرج كل المعاملات من الطلب.
 func ParamsFromRequest(r *http.Request) *Params {
-	vars := mux.Vars(r)
-	q := r.URL.Query()
-
-	userID := vars["id"]
+	userID := chi.URLParam(r, "id")
 	if userID == "" {
 		userID = r.PathValue("id")
 	}
 
+	projectID := chi.URLParam(r, "projectId")
+	if projectID == "" {
+		projectID = r.PathValue("projectId")
+	}
+
+	issueID := chi.URLParam(r, "issueId")
+	if issueID == "" {
+		issueID = r.PathValue("issueId")
+	}
+
+	q := r.URL.Query()
 	p := &Params{
 		UserID:    userID,
-		ProjectID: vars["projectId"],
-		IssueID:   vars["issueId"],
+		ProjectID: projectID,
+		IssueID:   issueID,
 		Query:     q.Get("query"),
 		Fields:    q.Get("fields"),
 	}

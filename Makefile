@@ -1,4 +1,4 @@
-.PHONY: all build run test clean tidy fmt
+.PHONY: all build run db-up stop restart test clean tidy fmt
 
 APP_NAME=youtrack_backend
 MAIN_PATH=./cmd/server
@@ -10,8 +10,22 @@ build:
 	@mkdir -p bin
 	@go build -o bin/$(APP_NAME) $(MAIN_PATH)
 
-run:
-	@go run $(MAIN_PATH)
+db-up:
+	@docker compose up -d --wait postgres
+
+stop:
+	@for port in 8099 8080; do \
+		pids=$$( (lsof -t -iTCP:$$port -sTCP:LISTEN 2>/dev/null || ss -ltnp "sport = :$$port" | awk 'NR>1 {print $$NF}' | sed -n 's/.*pid=\([0-9]\+\).*/\1/p' || true) | grep -v "^$$$$" || true ); \
+		if [ -n "$$pids" ]; then \
+			kill -TERM $$pids 2>/dev/null || true; \
+		fi; \
+	done
+
+restart: stop
+	@$(MAKE) run
+
+run: build db-up stop
+	@./bin/$(APP_NAME)
 
 test:
 	@go test -v -race ./...

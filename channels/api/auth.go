@@ -46,13 +46,13 @@ func NewAuthHandler(a *app.YouTrackApp, jwtSecret string) *AuthHandler {
 
 func (api *API) InitAuth() {
 	handler := NewAuthHandler(api.newApp(), api.srv.JWTSecret())
-	api.BaseRoutes.Auth.Handle("/login", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Auth.Method("POST", "/login", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Login(w, r)
-	})).Methods("POST")
+	}))
 
-	api.BaseRoutes.Auth.Handle("/register", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Auth.Method("POST", "/register", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Register(w, r)
-	})).Methods("POST")
+	}))
 }
 
 func (h *AuthHandler) signToken(user *model.User) (string, error) {

@@ -19,9 +19,9 @@ func NewFeatureHandler(a *app.YouTrackApp) *FeatureHandler {
 
 func (api *API) InitFeature() {
 	handler := NewFeatureHandler(api.newApp())
-	api.BaseRoutes.Root.Handle("/static/features-en_US.json", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Root.Method("GET", "/static/features-en_US.json", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Get(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // Get يعيد ملف ميزات YouTrack (en_US).

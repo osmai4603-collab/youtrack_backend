@@ -264,3 +264,10 @@ func (a *YouTrackApp) SessionHasPermission(c request.CTX, permission string) boo
 func (a *YouTrackApp) RequirePermission(c request.CTX, permission string) bool {
 	return a.SessionHasPermission(c, permission)
 }
+
+// HasGlobalProjectAccess يُرجع true عندما تملك الجلسة صلاحية إدارية عامة، فيُسمح لها
+// بالوصول إلى كل المشاريع والقضايا بدل تقييدها بمشاريع المستخدم نفسه.
+// يُستخدم للسماح لمسارات /api/admin برؤية كل شيء بعد اجتياز حارس الصلاحيات.
+func (a *YouTrackApp) HasGlobalProjectAccess(c request.CTX) bool {
+	return a.SessionHasPermission(c, PermissionSystemAdmin)
+}

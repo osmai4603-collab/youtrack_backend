@@ -26,6 +26,12 @@ func (m *mockIssueStoreForSorted) GetByReadableID(ctx context.Context, idReadabl
 func (m *mockIssueStoreForSorted) All(ctx context.Context, query string, limit int) ([]*model.Issue, error) {
 	return nil, nil
 }
+func (m *mockIssueStoreForSorted) AllByUser(ctx context.Context, userID string, query string, limit int) ([]*model.Issue, error) {
+	return nil, nil
+}
+func (m *mockIssueStoreForSorted) CanAccessIssue(ctx context.Context, userID string, issueRef string) (bool, error) {
+	return true, nil
+}
 func (m *mockIssueStoreForSorted) Create(ctx context.Context, i *model.Issue) error { return nil }
 func (m *mockIssueStoreForSorted) Update(ctx context.Context, i *model.Issue) error { return nil }
 func (m *mockIssueStoreForSorted) Delete(ctx context.Context, id string) error      { return nil }
@@ -65,6 +71,12 @@ func (m *mockIssueStoreForCount) GetByReadableID(ctx context.Context, idReadable
 }
 func (m *mockIssueStoreForCount) All(ctx context.Context, query string, limit int) ([]*model.Issue, error) {
 	return nil, nil
+}
+func (m *mockIssueStoreForCount) AllByUser(ctx context.Context, userID string, query string, limit int) ([]*model.Issue, error) {
+	return nil, nil
+}
+func (m *mockIssueStoreForCount) CanAccessIssue(ctx context.Context, userID string, issueRef string) (bool, error) {
+	return true, nil
 }
 func (m *mockIssueStoreForCount) Create(ctx context.Context, i *model.Issue) error { return nil }
 func (m *mockIssueStoreForCount) Update(ctx context.Context, i *model.Issue) error { return nil }
@@ -106,6 +118,12 @@ func (m *mockIssueStoreForGetter) GetByReadableID(ctx context.Context, idReadabl
 }
 func (m *mockIssueStoreForGetter) All(ctx context.Context, query string, limit int) ([]*model.Issue, error) {
 	return nil, nil
+}
+func (m *mockIssueStoreForGetter) AllByUser(ctx context.Context, userID string, query string, limit int) ([]*model.Issue, error) {
+	return nil, nil
+}
+func (m *mockIssueStoreForGetter) CanAccessIssue(ctx context.Context, userID string, issueRef string) (bool, error) {
+	return true, nil
 }
 func (m *mockIssueStoreForGetter) Create(ctx context.Context, i *model.Issue) error { return nil }
 func (m *mockIssueStoreForGetter) Update(ctx context.Context, i *model.Issue) error { return nil }

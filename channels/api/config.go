@@ -25,9 +25,9 @@ func NewConfigHandler(a *app.YouTrackApp) *ConfigHandler {
 func (api *API) InitConfig() {
 	handler := NewConfigHandler(api.newApp())
 
-	api.BaseRoutes.APIRoot.Handle("/config", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/config", api.APIHandler(func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Get(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // Get يعيد إعدادات النظام العامة مباشرة في جذر الـ JSON (مطابق لـ request3.txt و request60.txt)،

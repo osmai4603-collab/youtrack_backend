@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 
 	"youtrack_backend/channels/app"
 )
@@ -18,7 +18,7 @@ func NewRouter(a *app.YouTrackApp, jwtSecret string) http.Handler {
 		srv = app.New().Server()
 	} else {
 		if srv.Router == nil {
-			rootRouter := mux.NewRouter()
+			rootRouter := chi.NewRouter()
 			srv.RootRouter = rootRouter
 			srv.Router = rootRouter
 		}
@@ -34,7 +34,7 @@ func NewRouter(a *app.YouTrackApp, jwtSecret string) http.Handler {
 // NewServerRouter يبني الراوتر مباشرة من كائن Server.
 func NewServerRouter(srv *app.YouTrackServer) http.Handler {
 	if srv.Router == nil {
-		rootRouter := mux.NewRouter()
+		rootRouter := chi.NewRouter()
 		srv.RootRouter = rootRouter
 		srv.Router = rootRouter
 	}
@@ -44,10 +44,11 @@ func NewServerRouter(srv *app.YouTrackServer) http.Handler {
 
 // NewLocalRouter exposes only health checks for local process supervision.
 func NewLocalRouter(srv *app.YouTrackServer) http.Handler {
-	router := mux.NewRouter()
-	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, http.StatusOK, map[string]string{"status": "healthy"})
-	}).Methods("GET")
+	router := chi.NewRouter()
+	health := NewHealthHandler(srv)
+	router.Get("/live", health.Live)
+	router.Get("/ready", health.Check)
+	router.Get("/health", health.Check)
 	if srv != nil {
 		srv.LocalRouter = router
 	}

@@ -3,6 +3,8 @@ package api
 import (
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+
 	"youtrack_backend/channels/app"
 
 	"youtrack_backend/channels/model"
@@ -63,16 +65,16 @@ func (h *UserHandler) GetInboxFolders(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *API) InitUser() {
-	api.BaseRoutes.Users.Handle("", api.APISessionRequiredWithPermission("system.admin", getUsers)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/me", api.APISessionRequiredWithPermission("profile.read", getMe)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("profile.read", getUserByID)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/grazie", api.APISessionRequiredWithPermission("profile.read", getGrazieProfile)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/general", api.APISessionRequiredWithPermission("profile.read", getGeneralProfile)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/questionnaire", api.APISessionRequiredWithPermission("profile.read", getQuestionnaireProfile)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentIssues", api.APISessionRequiredWithPermission("profile.read", getRecentIssues)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/recentArticles", api.APISessionRequiredWithPermission("profile.read", getRecentArticles)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/hubMe", api.APISessionRequiredWithPermission("profile.read", getHubMe)).Methods("GET")
-	api.BaseRoutes.Users.Handle("/{id:[A-Za-z0-9_\\-\\.]+|me}/folders", api.APISessionRequiredWithPermission("profile.read", getInboxFolders)).Methods("GET")
+	api.BaseRoutes.Users.Method("GET", "/", api.APISessionRequiredWithPermission("system.admin", getUsers))
+	api.BaseRoutes.Users.Method("GET", "/me", api.APISessionRequiredWithPermission("profile.read", getMe))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission("profile.read", getUserByID))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/grazie", api.APISessionRequiredWithPermission("profile.read", getGrazieProfile))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/general", api.APISessionRequiredWithPermission("profile.read", getGeneralProfile))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/profiles/questionnaire", api.APISessionRequiredWithPermission("profile.read", getQuestionnaireProfile))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/recentIssues", api.APISessionRequiredWithPermission("profile.read", getRecentIssues))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/recentArticles", api.APISessionRequiredWithPermission("profile.read", getRecentArticles))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/hubMe", api.APISessionRequiredWithPermission("profile.read", getHubMe))
+	api.BaseRoutes.Users.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+|me}/folders", api.APISessionRequiredWithPermission("profile.read", getInboxFolders))
 }
 
 // GetMe يعيد المستخدم الحالي مع كامل مرفقاته وإعداداته مباشرة في جذر الـ JSON (مطابق لـ request1.txt).
@@ -103,7 +105,16 @@ func getUsers(c *Context, w http.ResponseWriter, r *http.Request) {
 
 // GetByID يعيد مستخدمًا بمعرّفه مباشرة في جذر الـ JSON (مطابق لـ request33.txt).
 func getUserByID(c *Context, w http.ResponseWriter, r *http.Request) {
-	userID := c.Params.UserID
+	userID := ""
+	if c.Params != nil {
+		userID = c.Params.UserID
+	}
+	if userID == "" {
+		userID = chi.URLParam(r, "id")
+	}
+	if userID == "" {
+		userID = r.PathValue("id")
+	}
 	if userID == "me" {
 		getMe(c, w, r)
 		return

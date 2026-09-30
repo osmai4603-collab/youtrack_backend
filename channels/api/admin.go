@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 
 	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
@@ -35,39 +35,39 @@ func NewAdminHandler(a *app.YouTrackApp) *AdminHandler {
 func (api *API) InitAdmin() {
 	handler := NewAdminHandler(api.newApp())
 
-	api.BaseRoutes.APIRoot.Handle("/roles", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/roles", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Roles(w, r)
-	})).Methods("GET")
-	api.BaseRoutes.APIRoot.Handle("/roles/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	}))
+	api.BaseRoutes.APIRoot.Method("GET", "/roles/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.RoleByName(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.APIRoot.Handle("/permissions", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/permissions", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Permissions(w, r)
-	})).Methods("GET")
-	api.BaseRoutes.APIRoot.Handle("/permissions/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	}))
+	api.BaseRoutes.APIRoot.Method("GET", "/permissions/{name:[A-Za-z0-9_.\\-]+}", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.PermissionByName(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.APIRoot.Handle("/permissions/cache", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/permissions/cache", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.PermissionsCache(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/globalSettings", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/globalSettings", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GlobalSettings(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/widgets/general", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/widgets/general", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Widgets(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/organizations", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/organizations", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Organizations(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Admin.Handle("/projects/{id:[A-Za-z0-9_\\-\\.]+}/dashboard", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Admin.Method("GET", "/projects/{id:[A-Za-z0-9_\\-\\.]+}/dashboard", api.APISessionRequiredWithPermission(app.PermissionSystemAdmin, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.ProjectDashboard(w, r)
-	})).Methods("GET")
+	}))
 }
 
 func (h *AdminHandler) Roles(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +92,10 @@ func (h *AdminHandler) Permissions(w http.ResponseWriter, r *http.Request) {
 
 func (h *AdminHandler) RoleByName(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	name := mux.Vars(r)["name"]
+	name := chi.URLParam(r, "name")
+	if name == "" {
+		name = r.PathValue("name")
+	}
 	role, err := h.app.GetRoleByName(c.AppContext, name)
 	if err != nil {
 		writeError(w, err)
@@ -103,7 +106,10 @@ func (h *AdminHandler) RoleByName(w http.ResponseWriter, r *http.Request) {
 
 func (h *AdminHandler) PermissionByName(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	name := mux.Vars(r)["name"]
+	name := chi.URLParam(r, "name")
+	if name == "" {
+		name = r.PathValue("name")
+	}
 	perm, err := h.app.GetPermissionByName(c.AppContext, name)
 	if err != nil {
 		writeError(w, err)
@@ -379,7 +385,7 @@ func notificationSettingsToMap(s *model.NotificationSettings, tree *fields.Field
 // ProjectDashboard يعيد لوحة ودجات المشروع المحدد مع احترام معامل fields.
 func (h *AdminHandler) ProjectDashboard(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	projectKey := mux.Vars(r)["id"]
+	projectKey := chi.URLParam(r, "id")
 	if projectKey == "" {
 		projectKey = r.PathValue("id")
 	}

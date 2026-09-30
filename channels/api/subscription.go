@@ -20,9 +20,11 @@ func NewSubscriptionHandler(a *app.YouTrackApp) *SubscriptionHandler {
 
 func (api *API) InitSubscription() {
 	handler := NewSubscriptionHandler(api.newApp())
-	api.BaseRoutes.APIRoot.Handle("/issueListSubscription", api.APISessionRequiredWithPermission(app.PermissionSubscriptionRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	subHandler := api.APISessionRequiredWithPermission(app.PermissionSubscriptionRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.SubscribeIssueList(w, r)
-	})).Methods("GET", "POST")
+	})
+	api.BaseRoutes.APIRoot.Method("GET", "/issueListSubscription", subHandler)
+	api.BaseRoutes.APIRoot.Method("POST", "/issueListSubscription", subHandler)
 }
 
 // SubscribeIssueList يعالج طلبات الاشتراك بقائمة المشاكل.

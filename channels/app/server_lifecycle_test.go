@@ -6,13 +6,14 @@ import (
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
 	"youtrack_backend/channels/app/platform"
 	"youtrack_backend/channels/model"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
 func TestPlatformLifecycle(t *testing.T) {
@@ -50,20 +51,24 @@ func TestServerLifecycle(t *testing.T) {
 		Router:     NewRouter(),
 	}
 	srv.ch = NewChannels(srv)
+	if srv.LifecycleState() != LifecycleCreated {
+		t.Fatalf("expected created state, got %s", srv.LifecycleState())
+	}
 
 	if err := srv.Start(); err != nil {
 		t.Fatalf("server start: %v", err)
 	}
+	if srv.LifecycleState() != LifecycleStarting {
+		t.Fatalf("expected starting state after Start, got %s", srv.LifecycleState())
+	}
 	if err := srv.Shutdown(context.Background()); err != nil {
 		t.Fatalf("server shutdown: %v", err)
 	}
+	if srv.LifecycleState() != LifecycleStopped {
+		t.Fatalf("expected stopped state after shutdown, got %s", srv.LifecycleState())
+	}
 	if err := srv.Shutdown(context.Background()); err != nil {
 		t.Fatalf("second server shutdown should be idempotent: %v", err)
-	}
-
-	select {
-	case <-time.After(100 * time.Millisecond):
-		// ok
 	}
 }
 
@@ -97,6 +102,9 @@ func TestServerStartRejectsInvalidPlatformConfiguration(t *testing.T) {
 	if err := srv.Start(); err == nil {
 		t.Fatal("expected server start to fail when platform configuration is invalid")
 	}
+	if srv.LifecycleState() != LifecycleFailed {
+		t.Fatalf("expected failed state after invalid startup, got %s", srv.LifecycleState())
+	}
 }
 
 func TestServerLifecycleContractIsExplicitlySplit(t *testing.T) {
@@ -120,12 +128,6 @@ func TestServerLifecycleContractIsExplicitlySplit(t *testing.T) {
 		t.Fatalf("expected validation to pass after platform config and secret are set: %v", err)
 	}
 
-	var validator interface{ Validate() error } = srv
-	var starter interface{ Start() error } = srv
-	var readyCheck interface{ IsReady() bool } = srv
-	if validator == nil || starter == nil || readyCheck == nil {
-		t.Fatal("expected server to expose explicit lifecycle contract interfaces")
-	}
 }
 
 func TestServerReadinessLifecycle(t *testing.T) {
@@ -150,14 +152,29 @@ func TestServerReadinessLifecycle(t *testing.T) {
 	if err := srv.Start(); err != nil {
 		t.Fatalf("server start: %v", err)
 	}
+	if srv.IsReady() {
+		t.Fatal("expected server to remain not ready until a listener is bound")
+	}
+	srv.Server = &http.Server{Addr: "127.0.0.1:0", Handler: srv.RootRouter}
+	serverErrCh := make(chan error, 1)
+	go func() {
+		serverErrCh <- srv.Run(context.Background())
+	}()
+	deadline := time.Now().Add(2 * time.Second)
+	for !srv.IsReady() && time.Now().Before(deadline) {
+		time.Sleep(10 * time.Millisecond)
+	}
 	if !srv.IsReady() {
-		t.Fatal("expected server to be ready after start")
+		t.Fatal("expected server to be ready after listener binding")
+	}
+	if srv.LifecycleState() != LifecycleRunning {
+		t.Fatalf("expected running state after listener binding, got %s", srv.LifecycleState())
 	}
 
-	srv.LocalRouter = mux.NewRouter()
-	srv.LocalRouter.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+	srv.LocalRouter = chi.NewRouter()
+	srv.LocalRouter.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-	}).Methods(http.MethodGet)
+	})
 
 	req := httptest.NewRequest(http.MethodGet, "/health", nil)
 	res := httptest.NewRecorder()
@@ -171,6 +188,20 @@ func TestServerReadinessLifecycle(t *testing.T) {
 	}
 	if srv.IsReady() {
 		t.Fatal("expected server to become unready after shutdown")
+	}
+	if srv.listener != nil {
+		t.Fatal("expected main listener ownership to be released after shutdown")
+	}
+	if srv.LifecycleState() != LifecycleStopped {
+		t.Fatalf("expected stopped state after shutdown, got %s", srv.LifecycleState())
+	}
+	select {
+	case err := <-serverErrCh:
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			t.Fatalf("server run error: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("expected server run goroutine to exit after shutdown")
 	}
 }
 
@@ -197,7 +228,7 @@ func TestServerRealHTTPIntegrationLifecycle(t *testing.T) {
 		Router:     NewRouter(),
 		Server:     &http.Server{Addr: addr, Handler: nil},
 	}
-	srv.RootRouter.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+	srv.RootRouter.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		if !srv.IsReady() {
 			w.WriteHeader(http.StatusServiceUnavailable)
 			_, _ = w.Write([]byte(`{"status":"unavailable","ready":false}`))
@@ -205,17 +236,13 @@ func TestServerRealHTTPIntegrationLifecycle(t *testing.T) {
 		}
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{"status":"healthy","ready":true}`))
-	}).Methods(http.MethodGet)
+	})
 	srv.Server.Handler = srv.RootRouter
 	srv.ch = NewChannels(srv)
 
-	if err := srv.Start(); err != nil {
-		t.Fatalf("server start: %v", err)
-	}
-
 	serverErrCh := make(chan error, 1)
 	go func() {
-		serverErrCh <- srv.Server.ListenAndServe()
+		serverErrCh <- srv.Run(context.Background())
 	}()
 
 	deadline := time.Now().Add(3 * time.Second)
@@ -260,6 +287,329 @@ func TestServerRealHTTPIntegrationLifecycle(t *testing.T) {
 		}
 	case <-time.After(2 * time.Second):
 		t.Fatal("expected http server goroutine to exit after shutdown")
+	}
+}
+
+func TestServerRunFailsBeforeReadinessWhenListenerCannotBind(t *testing.T) {
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen on random port: %v", err)
+	}
+	defer listener.Close()
+
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{
+		platform:   ps,
+		RootRouter: NewRouter(),
+		Router:     NewRouter(),
+		Server:     &http.Server{Addr: listener.Addr().String(), Handler: NewRouter()},
+	}
+	srv.ch = NewChannels(srv)
+
+	if err := srv.Run(context.Background()); err == nil {
+		t.Fatal("expected bind failure")
+	}
+	if srv.IsReady() {
+		t.Fatal("expected server to remain unready after bind failure")
+	}
+}
+
+func TestServerUsesInjectedListenerFactory(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	expectedErr := errors.New("injected bind failure")
+	srv, err := NewServer(
+		WithPlatformService(ps),
+		WithListenerFactory(func(network, address string) (net.Listener, error) {
+			if network != "tcp" || address != ":8080" {
+				t.Fatalf("unexpected listener arguments: %s %s", network, address)
+			}
+			return nil, expectedErr
+		}),
+	)
+	if err != nil {
+		t.Fatalf("new server: %v", err)
+	}
+
+	if err := srv.Run(context.Background()); err == nil || !strings.Contains(err.Error(), expectedErr.Error()) {
+		t.Fatalf("expected injected bind error, got %v", err)
+	}
+	if srv.IsReady() {
+		t.Fatal("expected server to remain unready after injected bind failure")
+	}
+}
+
+func TestServerBindFailureRollsBackPlatformWorkers(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	expectedErr := errors.New("injected bind failure")
+	workerFinished := make(chan struct{})
+	var srv *YouTrackServer
+	srv, err = NewServer(
+		WithPlatformService(ps),
+		WithListenerFactory(func(network, address string) (net.Listener, error) {
+			if !srv.Channels().StartWorker(func(ctx context.Context) {
+				<-ctx.Done()
+				close(workerFinished)
+			}) {
+				t.Fatal("expected rollback worker to start")
+			}
+			return nil, expectedErr
+		}),
+	)
+	if err != nil {
+		t.Fatalf("new server: %v", err)
+	}
+
+	err = srv.Run(context.Background())
+	if !errors.Is(err, expectedErr) {
+		t.Fatalf("expected bind error to be preserved, got %v", err)
+	}
+	select {
+	case <-workerFinished:
+	case <-time.After(time.Second):
+		t.Fatal("expected startup rollback to cancel platform workers")
+	}
+}
+
+func TestServerRunRejectsConcurrentRun(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{
+		platform:   ps,
+		RootRouter: NewRouter(),
+		Router:     NewRouter(),
+		Server:     &http.Server{Addr: "127.0.0.1:0", Handler: NewRouter()},
+	}
+	srv.ch = NewChannels(srv)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	firstErr := make(chan error, 1)
+	go func() { firstErr <- srv.Run(ctx) }()
+
+	deadline := time.Now().Add(2 * time.Second)
+	for !srv.IsReady() && time.Now().Before(deadline) {
+		time.Sleep(10 * time.Millisecond)
+	}
+	if !srv.IsReady() {
+		t.Fatal("expected first run to become ready")
+	}
+	if err := srv.Run(context.Background()); err == nil || !strings.Contains(err.Error(), "run has already started") {
+		t.Fatalf("expected concurrent run to be rejected, got %v", err)
+	}
+	cancel()
+	if err := <-firstErr; err != nil {
+		t.Fatalf("first run after cancellation: %v", err)
+	}
+}
+
+func TestSetHTTPServerRequiresCreatedState(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{platform: ps, RootRouter: NewRouter(), Router: NewRouter()}
+	srv.ch = NewChannels(srv)
+	if err := srv.SetHTTPServer(&http.Server{Handler: srv.RootRouter}); err != nil {
+		t.Fatalf("set HTTP server: %v", err)
+	}
+	if err := srv.Start(); err != nil {
+		t.Fatalf("server start: %v", err)
+	}
+	if err := srv.SetHTTPServer(&http.Server{}); err == nil {
+		t.Fatal("expected HTTP server replacement after startup to fail")
+	}
+	if err := srv.Shutdown(context.Background()); err != nil {
+		t.Fatalf("server shutdown: %v", err)
+	}
+}
+
+func TestServerRunStopsWhenContextIsCanceled(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	srv := &YouTrackServer{
+		platform:   ps,
+		RootRouter: NewRouter(),
+		Router:     NewRouter(),
+		Server:     &http.Server{Addr: "127.0.0.1:0", Handler: NewRouter()},
+	}
+	srv.ch = NewChannels(srv)
+	runErrCh := make(chan error, 1)
+	go func() {
+		runErrCh <- srv.Run(ctx)
+	}()
+
+	deadline := time.Now().Add(2 * time.Second)
+	for !srv.IsReady() && time.Now().Before(deadline) {
+		time.Sleep(10 * time.Millisecond)
+	}
+	if !srv.IsReady() {
+		t.Fatal("expected server to become ready")
+	}
+	cancel()
+
+	select {
+	case err := <-runErrCh:
+		if err != nil {
+			t.Fatalf("run after context cancellation: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("expected Run to stop after context cancellation")
+	}
+	if srv.IsReady() {
+		t.Fatal("expected server to become unready after context cancellation")
+	}
+}
+
+func TestServerShutdownIsSafeWhenCalledConcurrently(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{platform: ps, RootRouter: NewRouter(), Router: NewRouter()}
+	srv.ch = NewChannels(srv)
+	if err := srv.Start(); err != nil {
+		t.Fatalf("server start: %v", err)
+	}
+
+	errs := make(chan error, 8)
+	for range 8 {
+		go func() {
+			errs <- srv.Shutdown(context.Background())
+		}()
+	}
+	for range 8 {
+		if err := <-errs; err != nil {
+			t.Fatalf("concurrent shutdown: %v", err)
+		}
+	}
+	if srv.LifecycleState() != LifecycleStopped {
+		t.Fatalf("expected stopped state, got %s", srv.LifecycleState())
+	}
+}
+
+func TestServerStartIsIdempotentAndRejectsRestart(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{platform: ps, RootRouter: NewRouter(), Router: NewRouter()}
+	srv.ch = NewChannels(srv)
+
+	if err := srv.Start(); err != nil {
+		t.Fatalf("first server start: %v", err)
+	}
+	if err := srv.Start(); err != nil {
+		t.Fatalf("repeated server start should be idempotent: %v", err)
+	}
+	if err := srv.Shutdown(context.Background()); err != nil {
+		t.Fatalf("server shutdown: %v", err)
+	}
+	if err := srv.Start(); err == nil {
+		t.Fatal("expected restart after shutdown to fail")
+	}
+}
+
+func TestServerStartAndShutdownAreSerialized(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{platform: ps, RootRouter: NewRouter(), Router: NewRouter()}
+	srv.ch = NewChannels(srv)
+
+	startErr := make(chan error, 1)
+	shutdownErr := make(chan error, 1)
+	go func() { startErr <- srv.Start() }()
+	go func() { shutdownErr <- srv.Shutdown(context.Background()) }()
+
+	startResult := <-startErr
+	shutdownResult := <-shutdownErr
+	if startResult != nil && !strings.Contains(startResult.Error(), "server cannot start from stopped state") {
+		t.Fatalf("unexpected server start error: %v", startResult)
+	}
+	if shutdownResult != nil {
+		t.Fatalf("server shutdown: %v", shutdownResult)
+	}
+	if srv.LifecycleState() != LifecycleStopped {
+		t.Fatalf("expected stopped state after serialized lifecycle operations, got %s", srv.LifecycleState())
+	}
+}
+
+func TestChannelsStartWorkerUsesPlatformLifecycle(t *testing.T) {
+	ps, err := platform.New(
+		platform.ServiceOptionConfig(&model.ServerConfig{ServerPort: "8080", AppEnv: "test"}),
+		platform.ServiceOptionJWTSecret("test-secret"),
+	)
+	if err != nil {
+		t.Fatalf("new platform: %v", err)
+	}
+	srv := &YouTrackServer{platform: ps, RootRouter: NewRouter(), Router: NewRouter()}
+	srv.ch = NewChannels(srv)
+	if err := srv.Start(); err != nil {
+		t.Fatalf("server start: %v", err)
+	}
+
+	started := make(chan struct{})
+	finished := make(chan struct{})
+	if !srv.Channels().StartWorker(func(ctx context.Context) {
+		close(started)
+		<-ctx.Done()
+		if srv.IsReady() {
+			t.Error("expected readiness to be false before worker cancellation")
+		}
+		close(finished)
+	}) {
+		t.Fatal("expected channels worker to start")
+	}
+	<-started
+	if err := srv.Shutdown(context.Background()); err != nil {
+		t.Fatalf("server shutdown: %v", err)
+	}
+	select {
+	case <-finished:
+	default:
+		t.Fatal("expected channels worker to finish before shutdown returns")
 	}
 }
 
@@ -308,6 +658,81 @@ func TestChannelsGracefulShutdownIsIdempotent(t *testing.T) {
 	}
 }
 
-func NewRouter() *mux.Router {
-	return mux.NewRouter()
+func TestChannelsStopBeforeStartIsSafe(t *testing.T) {
+	ch := NewChannels(nil)
+	if err := ch.Stop(); err != nil {
+		t.Fatalf("stop before start: %v", err)
+	}
+	if err := ch.Stop(); err != nil {
+		t.Fatalf("second stop before start: %v", err)
+	}
+}
+
+func TestChannelsStopCancelsRegisteredScheduledTasks(t *testing.T) {
+	ch := NewChannels(nil)
+	started := make(chan struct{})
+	release := make(chan struct{})
+	task := model.CreateRecurringTask("test-worker", func() {
+		select {
+		case <-started:
+		default:
+			close(started)
+		}
+		<-release
+	}, time.Millisecond)
+	if !ch.RegisterScheduledTask(task) {
+		t.Fatal("expected scheduled task registration to succeed")
+	}
+	select {
+	case <-started:
+	case <-time.After(time.Second):
+		t.Fatal("scheduled task did not start")
+	}
+
+	stopDone := make(chan struct{})
+	go func() {
+		_ = ch.Stop()
+		close(stopDone)
+	}()
+	select {
+	case <-stopDone:
+		t.Fatal("expected Stop to wait for scheduled task cancellation")
+	case <-time.After(10 * time.Millisecond):
+	}
+	close(release)
+	select {
+	case <-stopDone:
+	case <-time.After(time.Second):
+		t.Fatal("expected Stop to finish after scheduled task cancellation")
+	}
+	if ch.RegisterScheduledTask(model.CreateTask("late-worker", func() {}, time.Millisecond)) {
+		t.Fatal("expected task registration after Stop to fail")
+	}
+}
+
+func TestChannelsStartScheduledTaskStartsAfterOwnership(t *testing.T) {
+	ch := NewChannels(nil)
+	started := make(chan struct{})
+	task := model.NewRecurringTask("owned-worker", func() {
+		select {
+		case <-started:
+		default:
+			close(started)
+		}
+	}, time.Millisecond)
+	if !ch.StartScheduledTask(task) {
+		t.Fatal("expected scheduled task to start")
+	}
+	select {
+	case <-started:
+	case <-time.After(time.Second):
+		t.Fatal("owned scheduled task did not start")
+	}
+	if err := ch.Stop(); err != nil {
+		t.Fatalf("stop channels: %v", err)
+	}
+}
+
+func NewRouter() *chi.Mux {
+	return chi.NewRouter()
 }

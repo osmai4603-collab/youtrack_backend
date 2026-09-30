@@ -10,11 +10,19 @@ import (
 	"youtrack_backend/channels/store"
 )
 
-// ListIssues يعيد قائمة القضايا، مع دعم بحث نصي بسيط.
+// ListIssues يعيد قائمة قضايا مشاريع المستخدم الحالي، مع دعم بحث نصي بسيط.
 func (a *YouTrackApp) ListIssues(c request.CTX, query string) ([]*model.Issue, *model.AppError) {
 	limit := 50
 	ctx := c.Context()
-	issues, err := a.Store().Issues().All(ctx, query, limit)
+
+	// الجلسة الإدارية ترى كل القضايا، وأي جلسة أخرى ترى قضايا مشاريعها فقط.
+	var issues []*model.Issue
+	var err error
+	if a.HasGlobalProjectAccess(c) {
+		issues, err = a.Store().Issues().All(ctx, query, limit)
+	} else {
+		issues, err = a.Store().Issues().AllByUser(ctx, c.UserID(), query, limit)
+	}
 	if err != nil {
 		return nil, model.NewInternalError("App.ListIssues", "failed to load issues", err)
 	}
@@ -24,9 +32,12 @@ func (a *YouTrackApp) ListIssues(c request.CTX, query string) ([]*model.Issue, *
 	return issues, nil
 }
 
-// GetIssue يعيد قضية واحدة مع تفاصيلها.
+// GetIssue يعيد قضية واحدة مع تفاصيلها، بشرط أن تكون ضمن مشاريع المستخدم الحالي.
 func (a *YouTrackApp) GetIssue(c request.CTX, id string) (*model.Issue, *model.AppError) {
 	ctx := c.Context()
+	if err := a.requireIssueAccess(c, id, "App.GetIssue"); err != nil {
+		return nil, err
+	}
 	var i *model.Issue
 	var err error
 	i, err = a.Store().Issues().GetByID(ctx, id)
@@ -38,6 +49,22 @@ func (a *YouTrackApp) GetIssue(c request.CTX, id string) (*model.Issue, *model.A
 	}
 	a.enrichIssue(ctx, i)
 	return i, nil
+}
+
+// requireIssueAccess يتحقق من أن القضية ضمن مشاريع المستخدم الحالي،
+// ويعيد 404 حتى لا تكشف القائمة وجود قضايا لا يملك المستخدم صلاحية عليها.
+func (a *YouTrackApp) requireIssueAccess(c request.CTX, issueRef, where string) *model.AppError {
+	if a.HasGlobalProjectAccess(c) {
+		return nil
+	}
+	allowed, err := a.Store().Issues().CanAccessIssue(c.Context(), c.UserID(), issueRef)
+	if err != nil {
+		return model.NewInternalError(where, "failed to check issue access", err)
+	}
+	if !allowed {
+		return model.NewNotFoundError(where, "issue not found")
+	}
+	return nil
 }
 
 // CreateIssueRequest يحمل بيانات إنشاء قضية.
@@ -54,6 +81,9 @@ func (a *YouTrackApp) CreateIssue(c request.CTX, req CreateIssueRequest) (*model
 		return nil, model.NewBadRequestError("App.CreateIssue", "summary is required")
 	}
 	ctx := c.Context()
+	if err := a.requireProjectAccess(c, req.ProjectID, "App.CreateIssue"); err != nil {
+		return nil, err
+	}
 	project, err := a.Store().Projects().GetByID(ctx, req.ProjectID)
 	if err != nil {
 		return nil, model.NewBadRequestError("App.CreateIssue", "project not found")
@@ -83,9 +113,12 @@ func (a *YouTrackApp) CreateIssue(c request.CTX, req CreateIssueRequest) (*model
 	return i, nil
 }
 
-// GetIssueComments يعيد تعليقات قضية.
+// GetIssueComments يعيد تعليقات قضية، بشرط أن تكون ضمن مشاريع المستخدم الحالي.
 func (a *YouTrackApp) GetIssueComments(c request.CTX, issueID string) ([]*model.IssueComment, *model.AppError) {
 	ctx := c.Context()
+	if err := a.requireIssueAccess(c, issueID, "App.GetIssueComments"); err != nil {
+		return nil, err
+	}
 	comments, err := a.Store().Issues().Comments(ctx, issueID)
 	if err != nil {
 		return nil, model.NewInternalError("App.GetIssueComments", "failed to load comments", err)

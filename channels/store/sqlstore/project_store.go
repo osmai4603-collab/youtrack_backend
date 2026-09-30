@@ -69,6 +69,60 @@ func (s *ProjectStore) All(ctx context.Context) ([]*model.Project, error) {
 	return projects, rows.Err()
 }
 
+// userProjectIDsSQL استعلام فرعي موحّد يحدّد مشاريع المستخدم الحالي.
+// يُستخدم في كل استعلامات التصفية (المشاريع والقضايا) حتى تبقى قاعدة الوصول واحدة.
+// يتوقّع معاملاً واحداً $1 = معرّف المستخدم، ويعيد قائمة project.id.
+const userProjectIDsSQL = `
+	SELECT id FROM projects WHERE leader_id = $1
+	UNION
+	SELECT ar.scope_project_id FROM assigned_roles ar
+		WHERE ar.holder_id = $1 AND ar.holder_type = 'user' AND ar.scope_project_id IS NOT NULL
+	UNION
+	SELECT pt.project_id FROM project_teams pt
+		INNER JOIN project_team_members ptm ON ptm.team_id = pt.id
+		WHERE ptm.user_id = $1 AND pt.project_id IS NOT NULL`
+
+// AllByUser يعيد مشاريع المستخدم الحالي فقط (قائد/عضو فريق/دور بنطاق المشروع).
+func (s *ProjectStore) AllByUser(ctx context.Context, userID string) ([]*model.Project, error) {
+	if userID == "" {
+		return []*model.Project{}, nil
+	}
+	rows, err := s.db.Query(ctx,
+		projectSelect+` WHERE id IN (`+userProjectIDsSQL+`) ORDER BY name`, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	projects := []*model.Project{}
+	for rows.Next() {
+		p, err := scanProject(rows)
+		if err != nil {
+			return nil, err
+		}
+		projects = append(projects, p)
+	}
+	return projects, rows.Err()
+}
+
+// CanAccessProject يفحص ما إذا كان مشروع معيّن ضمن نطاق وصول المستخدم الحالي.
+func (s *ProjectStore) CanAccessProject(ctx context.Context, userID string, projectRef string) (bool, error) {
+	if userID == "" || projectRef == "" {
+		return false, nil
+	}
+	var allowed bool
+	err := s.db.QueryRow(ctx, `
+		SELECT EXISTS (
+			SELECT 1 FROM projects p
+			WHERE (p.id = $2 OR p.short_name = $2)
+			  AND p.id IN (`+userProjectIDsSQL+`)
+		)`, userID, projectRef).Scan(&allowed)
+	if err != nil {
+		return false, err
+	}
+	return allowed, nil
+}
+
 func (s *ProjectStore) GetDetailed(ctx context.Context, id string, tree *fields.FieldTree) (*model.Project, error) {
 	row := s.db.QueryRow(ctx, projectDetailedSelect+` WHERE id = $1 OR short_name = $1`, id)
 	p := &model.Project{}

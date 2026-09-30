@@ -9,7 +9,7 @@ import (
 // مستوحى من أسلوب Mattermost في استخدام متغيرات البيئة، لكن دون الاعتماد على Viper.
 func Load() *model.ServerConfig {
 	cfg := &model.ServerConfig{
-		ServerPort: getEnv("SERVER_PORT", "8080"),
+		ServerPort: getEnv("SERVER_PORT", "8099"),
 		AppEnv:     getEnv("APP_ENV", "development"),
 		DBHost:     getEnv("DB_HOST", "localhost"),
 		DBPort:     getEnv("DB_PORT", "8090"),

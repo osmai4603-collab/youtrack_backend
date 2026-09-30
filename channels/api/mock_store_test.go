@@ -22,8 +22,8 @@ func (mockStoreBase) SavedQueries() store.SavedQueryStore       { return nil }
 func (mockStoreBase) Search() store.SearchStore                 { return nil }
 func (mockStoreBase) Subscriptions() store.SubscriptionStore    { return nil }
 func (mockStoreBase) SecuritySearch() store.SecuritySearchStore { return nil }
-func (mockStoreBase) Ready(ctx context.Context) error { return nil }
-func (mockStoreBase) Close() {}
+func (mockStoreBase) Ready(ctx context.Context) error           { return nil }
+func (mockStoreBase) Close()                                    {}
 func (mockStoreBase) GetDbVersion() (string, error) {
 	return "50", nil
 }
@@ -35,9 +35,16 @@ func (mockStoreBase) TotalDbConnections() int { return 1 }
 // newTestApp يبني كائن App مربوطاً بخادم مع مخزن وهمي محدد،
 // بنفس نمط الإنتاج تماماً: PlatformService ← Server ← Channels ← App.
 func newTestApp(st store.Store) *app.YouTrackApp {
-	ps, _ := platform.New(
+	ps, err := platform.New(
 		platform.ServiceOptionStore(st),
 		platform.ServiceOptionJWTSecret("test-secret"),
 	)
-	return app.New(app.ServerConnector(app.NewServerWithOptions(ps).Channels()))
+	if err != nil {
+		panic(err)
+	}
+	server, err := app.NewServerWithOptions(ps)
+	if err != nil {
+		panic(err)
+	}
+	return app.New(app.ServerConnector(server.Channels()))
 }

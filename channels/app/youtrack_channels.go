@@ -2,31 +2,23 @@ package app
 
 import (
 	"context"
-	"errors"
-	"net/http"
-	"os"
-	"os/signal"
 	"sync"
-	"syscall"
-	"time"
 
 	"youtrack_backend/channels/app/platform"
 	"youtrack_backend/channels/model"
-	"youtrack_backend/channels/model/shared/mlog"
 	"youtrack_backend/channels/store"
 )
 
 // YouTrackChannels يحتوي وينسّق جميع خدمات نطاق التطبيق (Users, Projects, Issues, Admin, Subscriptions, Search)
 // مطابقاً لهيكل Mattermost YouTrackChannels.
 type YouTrackChannels struct {
-	server               *YouTrackServer
-	dndTaskMut           sync.Mutex
-	dndTask              *model.ScheduledTask
-	interruptQuitChan    chan struct{}
-	scheduledPostMut     sync.Mutex
-	scheduledPostTask    *model.ScheduledTask
-	startOnce            sync.Once
-	stopOnce             sync.Once
+	server            *YouTrackServer
+	interruptQuitChan chan struct{}
+	scheduledTaskMu   sync.Mutex
+	scheduledTasks    []*model.ScheduledTask
+	scheduledStopped  bool
+	startOnce         sync.Once
+	stopOnce          sync.Once
 }
 
 func (ch *YouTrackChannels) Start() error {
@@ -38,33 +30,6 @@ func (ch *YouTrackChannels) Start() error {
 		if ch.interruptQuitChan == nil {
 			ch.interruptQuitChan = make(chan struct{})
 		}
-
-		interruptChan := make(chan os.Signal, 1)
-		signal.Notify(interruptChan, syscall.SIGINT, syscall.SIGTERM)
-
-		go func() {
-			defer signal.Stop(interruptChan)
-			select {
-			case <-interruptChan:
-				if err := ch.Stop(); err != nil {
-					if ch.server != nil && ch.server.Log() != nil {
-						ch.server.Log().Warn("Error stopping channels", mlog.Err(err))
-					}
-				}
-				if ch.server != nil && ch.server.Server != nil {
-					ch.server.Server.SetKeepAlivesEnabled(false)
-					shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-					defer cancel()
-					if err := ch.server.Shutdown(shutdownCtx); err != nil && !errors.Is(err, http.ErrServerClosed) {
-						if ch.server.Log() != nil {
-							ch.server.Log().Warn("Error during graceful shutdown", mlog.Err(err))
-						}
-					}
-				}
-			case <-ch.interruptQuitChan:
-				return
-			}
-		}()
 	})
 
 	return nil
@@ -77,11 +42,14 @@ func (ch *YouTrackChannels) Stop() error {
 
 	var stopErr error
 	ch.stopOnce.Do(func() {
-		ch.dndTaskMut.Lock()
-		if ch.dndTask != nil {
-			ch.dndTask.Cancel()
+		ch.scheduledTaskMu.Lock()
+		ch.scheduledStopped = true
+		tasks := append([]*model.ScheduledTask(nil), ch.scheduledTasks...)
+		ch.scheduledTasks = nil
+		ch.scheduledTaskMu.Unlock()
+		for _, task := range tasks {
+			task.Cancel()
 		}
-		ch.dndTaskMut.Unlock()
 
 		select {
 		case <-ch.interruptQuitChan:
@@ -92,6 +60,40 @@ func (ch *YouTrackChannels) Stop() error {
 		}
 	})
 	return stopErr
+}
+
+// RegisterScheduledTask transfers ownership of a scheduled task to Channels.
+// Stop cancels every registered task before it returns.
+func (ch *YouTrackChannels) RegisterScheduledTask(task *model.ScheduledTask) bool {
+	if ch == nil || task == nil {
+		return false
+	}
+	ch.scheduledTaskMu.Lock()
+	if ch.scheduledStopped {
+		ch.scheduledTaskMu.Unlock()
+		task.Cancel()
+		return false
+	}
+	ch.scheduledTasks = append(ch.scheduledTasks, task)
+	ch.scheduledTaskMu.Unlock()
+	return true
+}
+
+// StartScheduledTask registers a task before starting its goroutine.
+func (ch *YouTrackChannels) StartScheduledTask(task *model.ScheduledTask) bool {
+	if !ch.RegisterScheduledTask(task) {
+		return false
+	}
+	task.Start()
+	return true
+}
+
+// StartWorker starts a channels worker under the platform lifecycle owner.
+func (ch *YouTrackChannels) StartWorker(worker func(context.Context)) bool {
+	if ch == nil || ch.Platform() == nil {
+		return false
+	}
+	return ch.Platform().GoContext(worker)
 }
 
 // NewChannels ينشئ كائن Channels جديد مرتبط بخدمة المنصة PlatformService.

@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5"
 
 	"youtrack_backend/channels/app"
@@ -271,12 +271,20 @@ func sampleOrganizations() []*model.Organization {
 	}
 }
 
+func setURLVars(r *http.Request, vars map[string]string) *http.Request {
+	rctx := chi.NewRouteContext()
+	for k, v := range vars {
+		rctx.URLParams.Add(k, v)
+	}
+	return r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
+}
+
 func TestRoleAndPermissionByNameEndpoints(t *testing.T) {
 	a := newAdminApp(&mockAdminStore{})
 	h := NewAdminHandler(a)
 
 	roleReq := httptest.NewRequest("GET", "/api/roles/user", nil)
-	roleReq = mux.SetURLVars(roleReq, map[string]string{"name": "user"})
+	roleReq = setURLVars(roleReq, map[string]string{"name": "user"})
 	roleRec := httptest.NewRecorder()
 	h.RoleByName(roleRec, roleReq)
 	if roleRec.Code != http.StatusOK {
@@ -291,7 +299,7 @@ func TestRoleAndPermissionByNameEndpoints(t *testing.T) {
 	}
 
 	permReq := httptest.NewRequest("GET", "/api/permissions/project.read", nil)
-	permReq = mux.SetURLVars(permReq, map[string]string{"name": "project.read"})
+	permReq = setURLVars(permReq, map[string]string{"name": "project.read"})
 	permRec := httptest.NewRecorder()
 	h.PermissionByName(permRec, permReq)
 	if permRec.Code != http.StatusOK {
@@ -306,7 +314,7 @@ func TestRoleAndPermissionByNameEndpoints(t *testing.T) {
 	}
 
 	missingReq := httptest.NewRequest("GET", "/api/roles/not-real-role", nil)
-	missingReq = mux.SetURLVars(missingReq, map[string]string{"name": "not-real-role"})
+	missingReq = setURLVars(missingReq, map[string]string{"name": "not-real-role"})
 	missingRec := httptest.NewRecorder()
 	h.RoleByName(missingRec, missingReq)
 	if missingRec.Code != http.StatusNotFound {

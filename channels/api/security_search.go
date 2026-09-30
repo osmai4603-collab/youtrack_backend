@@ -19,9 +19,9 @@ func NewSecuritySearchHandler(a *app.YouTrackApp) *SecuritySearchHandler {
 
 func (api *API) InitSecuritySearch() {
 	handler := NewSecuritySearchHandler(api.newApp())
-	api.BaseRoutes.APIRoot.Handle("/securitySearch/filterFields", api.APISessionRequiredWithPermission(app.PermissionSecuritySearch, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/securitySearch/filterFields", api.APISessionRequiredWithPermission(app.PermissionSecuritySearch, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetFilterFields(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // GetFilterFields يعالج GET /api/securitySearch/filterFields ويجلب حقول التصفية بناءً على entityType.

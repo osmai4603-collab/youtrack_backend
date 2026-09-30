@@ -72,6 +72,11 @@ type ProjectStore interface {
 	GetByShortName(ctx context.Context, shortName string) (*model.Project, error)
 	GetDetailed(ctx context.Context, id string, tree *fields.FieldTree) (*model.Project, error)
 	All(ctx context.Context) ([]*model.Project, error)
+	// AllByUser يعيد مشاريع المستخدم الحالي فقط: التي يقودها أو له دور بنطاقها
+	// أو ينتمي إلى فريقها. المستخدم بلا مشاريع (أو بمعرّف فارغ) يعيد قائمة فارغة.
+	AllByUser(ctx context.Context, userID string) ([]*model.Project, error)
+	// CanAccessProject يفحص صلاحية الوصول إلى مشروع واحد بمعرّفه أو رمزه المختصر.
+	CanAccessProject(ctx context.Context, userID string, projectRef string) (bool, error)
 	// GetProjectTeamAndLeader يجلب فقط حقول القائد والفريق المطلوبة في الطلب #27
 	// مع تقليم الأعمدة إلى ما طُلب في شجرة الحقول (بدون إرجاع كامل بيانات المشروع).
 	GetProjectTeamAndLeader(ctx context.Context, id string, leaderTree, teamTree *fields.FieldTree) (*model.ProjectTeamAndLeader, error)
@@ -82,6 +87,10 @@ type IssueStore interface {
 	GetByID(ctx context.Context, id string) (*model.Issue, error)
 	GetByReadableID(ctx context.Context, idReadable string) (*model.Issue, error)
 	All(ctx context.Context, query string, limit int) ([]*model.Issue, error)
+	// AllByUser يعيد قضايا مشاريع المستخدم الحالي فقط (نفس نطاق AllByUser في ProjectStore).
+	AllByUser(ctx context.Context, userID string, query string, limit int) ([]*model.Issue, error)
+	// CanAccessIssue يفحص صلاحية الوصول إلى قضية بمعرّفها الداخلي أو رمزها المقروء (T1A-1).
+	CanAccessIssue(ctx context.Context, userID string, issueRef string) (bool, error)
 	Create(ctx context.Context, i *model.Issue) error
 	Update(ctx context.Context, i *model.Issue) error
 	Delete(ctx context.Context, id string) error

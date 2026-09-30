@@ -1,6 +1,8 @@
 package app
 
 import (
+	"errors"
+
 	"youtrack_backend/channels/app/platform"
 	"youtrack_backend/channels/model"
 	"youtrack_backend/channels/store/retrylayer"
@@ -89,6 +91,17 @@ func WithJWTSecret(secret string) Option {
 			return err
 		}
 		s.platform.SetJWTSecret(secret)
+		return nil
+	}
+}
+
+// WithListenerFactory injects listener creation for startup testing or custom transports.
+func WithListenerFactory(factory ListenerFactory) Option {
+	return func(s *YouTrackServer) error {
+		if factory == nil {
+			return errors.New("listener factory is nil")
+		}
+		s.listenerFunc = factory
 		return nil
 	}
 }

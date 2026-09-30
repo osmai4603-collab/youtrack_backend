@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 
 	"youtrack_backend/channels/app"
 	"youtrack_backend/channels/model"
@@ -57,33 +57,37 @@ func NewIssueHandler(a *app.YouTrackApp) *IssueHandler {
 func (api *API) InitIssue() {
 	handler := NewIssueHandler(api.newApp())
 
-	api.BaseRoutes.Issues.Handle("", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Method("GET", "/", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.List(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Issues.Handle("", api.APISessionRequiredWithPermission(app.PermissionIssueWrite, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Method("POST", "/", api.APISessionRequiredWithPermission(app.PermissionIssueWrite, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Create(w, r)
-	})).Methods("POST")
+	}))
 
-	api.BaseRoutes.APIRoot.Handle("/sortedIssues", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.APIRoot.Method("GET", "/sortedIssues", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetSortedIssues(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.APIRoot.Handle("/issuesGetter/count", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	countHandler := api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Count(w, r)
-	})).Methods("GET", "POST")
+	})
+	api.BaseRoutes.APIRoot.Method("GET", "/issuesGetter/count", countHandler)
+	api.BaseRoutes.APIRoot.Method("POST", "/issuesGetter/count", countHandler)
 
-	api.BaseRoutes.APIRoot.Handle("/issuesGetter", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	getterHandler := api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Getter(w, r)
-	})).Methods("GET", "POST")
+	})
+	api.BaseRoutes.APIRoot.Method("GET", "/issuesGetter", getterHandler)
+	api.BaseRoutes.APIRoot.Method("POST", "/issuesGetter", getterHandler)
 
-	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+}", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.GetByID(w, r)
-	})).Methods("GET")
+	}))
 
-	api.BaseRoutes.Issues.Handle("/{id:[A-Za-z0-9_\\-\\.]+}/comments", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
+	api.BaseRoutes.Issues.Method("GET", "/{id:[A-Za-z0-9_\\-\\.]+}/comments", api.APISessionRequiredWithPermission(app.PermissionIssueRead, func(c *Context, w http.ResponseWriter, r *http.Request) {
 		handler.Comments(w, r)
-	})).Methods("GET")
+	}))
 }
 
 // List يعيد قائمة القضايا (مع بحث اختياري).
@@ -101,7 +105,7 @@ func (h *IssueHandler) List(w http.ResponseWriter, r *http.Request) {
 // GetByID يعيد قضية واحدة.
 func (h *IssueHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	issueID := mux.Vars(r)["id"]
+	issueID := chi.URLParam(r, "id")
 	if issueID == "" {
 		issueID = r.PathValue("id")
 	}
@@ -144,7 +148,7 @@ func (h *IssueHandler) Create(w http.ResponseWriter, r *http.Request) {
 // Comments يعيد تعليقات قضية.
 func (h *IssueHandler) Comments(w http.ResponseWriter, r *http.Request) {
 	c := ContextFromRequest(h.app, r)
-	issueID := mux.Vars(r)["id"]
+	issueID := chi.URLParam(r, "id")
 	if issueID == "" {
 		issueID = r.PathValue("id")
 	}

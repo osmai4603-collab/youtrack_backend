@@ -28,6 +28,12 @@ func (m *mockProjectStore) GetByShortName(ctx context.Context, shortName string)
 func (m *mockProjectStore) All(ctx context.Context) ([]*model.Project, error) {
 	return []*model.Project{m.project}, nil
 }
+func (m *mockProjectStore) AllByUser(ctx context.Context, userID string) ([]*model.Project, error) {
+	return []*model.Project{m.project}, nil
+}
+func (m *mockProjectStore) CanAccessProject(ctx context.Context, userID string, projectRef string) (bool, error) {
+	return true, nil
+}
 
 // GetDetailed يعيد مشروع DEMO كامل مع احترام شجرة الحقول، ويعيد pgx.ErrNoRows
 // للمعرّف "missing" لمحاكاة حالة 404.
