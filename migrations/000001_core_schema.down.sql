@@ -1,0 +1,66 @@
+-- =============================================================================
+--  000001_core_schema.down.sql
+--  =============================================================================
+--  Purpose: Rollback core identity and domain database schema.
+-- =============================================================================
+DROP TABLE IF EXISTS issue_voters CASCADE;
+DROP TABLE IF EXISTS issue_links CASCADE;
+DROP TABLE IF EXISTS issue_comments CASCADE;
+DROP TABLE IF EXISTS issue_attachments CASCADE;
+DROP TABLE IF EXISTS issue_work_items CASCADE;
+DROP TABLE IF EXISTS issue_activity_log CASCADE;
+DROP TABLE IF EXISTS issue_tag_mappings CASCADE;
+DROP TABLE IF EXISTS issue_custom_field_values CASCADE;
+DROP TABLE IF EXISTS issue_tags CASCADE;
+DROP TABLE IF EXISTS tags CASCADE;
+DROP TABLE IF EXISTS issue_watchers CASCADE;
+DROP TABLE IF EXISTS issues CASCADE;
+DROP TABLE IF EXISTS project_team_members CASCADE;
+DROP TABLE IF EXISTS project_teams CASCADE;
+DROP TABLE IF EXISTS project_custom_fields CASCADE;
+DROP TABLE IF EXISTS project_saved_searches CASCADE;
+DROP TABLE IF EXISTS project_components CASCADE;
+DROP TABLE IF EXISTS project_versions CASCADE;
+DROP TABLE IF EXISTS projects CASCADE;
+DROP TABLE IF EXISTS project_types CASCADE;
+DROP TABLE IF EXISTS user_group_members CASCADE;
+DROP TABLE IF EXISTS user_group_roles CASCADE;
+DROP TABLE IF EXISTS user_groups CASCADE;
+DROP TABLE IF EXISTS assigned_roles CASCADE;
+DROP TABLE IF EXISTS role_permissions CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS permissions CASCADE;
+DROP TABLE IF EXISTS permission_dependencies CASCADE;
+DROP TABLE IF EXISTS cached_permissions CASCADE;
+DROP TABLE IF EXISTS cached_permission_projects CASCADE;
+DROP TABLE IF EXISTS user_ssh_keys CASCADE;
+DROP TABLE IF EXISTS user_gpg_keys CASCADE;
+DROP TABLE IF EXISTS user_access_tokens CASCADE;
+DROP TABLE IF EXISTS user_emails CASCADE;
+DROP TABLE IF EXISTS user_type_assignments CASCADE;
+DROP TABLE IF EXISTS user_types CASCADE;
+DROP TABLE IF EXISTS user_profiles CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS organizations CASCADE;
+DROP TABLE IF EXISTS dashboard_widgets CASCADE;
+DROP TABLE IF EXISTS dashboards CASCADE;
+DROP TABLE IF EXISTS global_settings CASCADE;
+DROP TABLE IF EXISTS system_audit_logs CASCADE;
+DROP TABLE IF EXISTS notification_templates CASCADE;
+DROP TABLE IF EXISTS notification_queue CASCADE;
+DROP TABLE IF EXISTS background_jobs CASCADE;
+DROP TABLE IF EXISTS services CASCADE;
+DROP TABLE IF EXISTS service_credentials CASCADE;
+DROP TABLE IF EXISTS license_keys CASCADE;
+DROP TABLE IF EXISTS feature_flags CASCADE;
+DROP TABLE IF EXISTS api_keys CASCADE;
+DROP TABLE IF EXISTS oauth_clients CASCADE;
+DROP TABLE IF EXISTS oauth_tokens CASCADE;
+DROP TABLE IF EXISTS webhooks CASCADE;
+DROP TABLE IF EXISTS webhook_deliveries CASCADE;
+DROP TABLE IF EXISTS custom_fields CASCADE;
+DROP TABLE IF EXISTS custom_field_defaults CASCADE;
+DROP TABLE IF EXISTS custom_field_options CASCADE;
+DROP TABLE IF EXISTS enum_bundles CASCADE;
+DROP TABLE IF EXISTS enum_bundle_values CASCADE;
+DROP TABLE IF EXISTS saved_searches CASCADE;
