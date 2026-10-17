@@ -1,0 +1,87 @@
+sequenceDiagram
+    autonumber
+    actor Client as Client
+    participant Router as chi Router
+    participant G as middlewares.RequirePermission
+    participant S as ScopeBinding
+    participant Per as perms.PermissionService
+    participant Repo as permstorage.PostgresRepository
+    participant DB as PostgreSQL
+    participant H as Next Handler
+
+    Note over Router,G: Registration time - runs once while routes are built
+    Router->>G: RequireGlobal / RequireOrganization / RequireProject
+    G->>G: build ScopeBinding with scope + entity + IDExtractor
+    G-->>Router: handler returned - no validation here any more
+
+    Note over Client,H: Request time - per request
+    Client->>Router: HTTP Request
+    Note over Router: Authenticate runs first and puts userID in context
+    Router->>G: guard(next)(w, r)
+    activate G
+
+    Note over G: Step 1 - Binding validation - now inside the handler
+    G->>S: binding.Validate(permission) and binding.allows(permission)
+    alt entity scope without Extract
+        S-->>G: Validate error
+        G-->>Client: 500 Internal - authentication required
+    else permission is global but scope is not global
+        S-->>G: allows returns false
+        G-->>Client: 500 Internal - authentication required
+    else binding is valid
+        S-->>G: nil and true
+        Note over G: Step 2 - Identity
+        G->>G: GetCurrentUserID(r.Context())
+        alt no userID in context
+            G-->>Client: 401 Unauthorized - authentication required
+        else identity resolved
+            Note over G: Step 3 - Scope
+            G->>G: ScopeContext type = binding.Scope resourceType = binding.Entity
+            alt EntityScoped(scope)
+                G->>G: binding.Extract(r) via URLParam or QueryParam or ParamOrQuery or ChainIDExtractors
+                alt id cannot be resolved
+                    G-->>Client: 400 Invalid - cannot resolve scope for this request
+                else id resolved
+                    G->>G: set ScopeID - never widen the scope
+                end
+            else global scope
+                G->>G: scope ids stay empty - the query matches only the global branch
+            end
+
+            Note over G: Step 4 - one IsAllowed call for every scope
+            G->>Per: IsAllowed(ctx, userID, permission, scope)
+            activate Per
+            Per->>Per: if permission.IsGlobal then scope becomes global only
+            Per->>Repo: GetPermissionsForUser(ctx, userID, scope)
+            activate Repo
+            Repo->>DB: single query - CTE target and resolved<br/>org falls back to the project owner<br/>global or organization or project in one pass
+            DB-->>Repo: rows of role_scope and permission ref
+            Note over Repo: drop global permissions granted at non global scope<br/>dedupe by ID and Name
+            Repo-->>Per: []Permission
+            deactivate Repo
+            Per->>Per: HasPermissionGranted - direct match then Implies transitively
+            alt permission granted
+                Per-->>G: true, nil
+            else not granted
+                Per-->>G: false, nil
+            end
+            deactivate Per
+
+            Note over G: Step 5 - Decision
+            alt isAllowed and err is nil
+                G->>H: next.ServeHTTP(w, r)
+                activate H
+                H-->>Client: 2xx
+                deactivate H
+            else err is not nil
+                G-->>Client: 403 Forbidden - permissions unexpected error
+            else isAllowed is false
+                G-->>Client: 403 Forbidden - permissions denied
+            end
+        end
+    end
+    deactivate G
+
+    Note over G: authorize.go L45-49 Validate inside the handler 500 - L50-53 scope mismatch 500<br/>L54-58 identity 401 - L60-73 scope build 400<br/>L75 the single IsAllowed call shared by every scope - L77-80 lookup error 403 - L81-84 denial 403 - L86 next handler<br/>validation moved out of registration so a misconfigured guard no longer panics at startup<br/>it now costs every request a recheck and returns 500 instead of failing the build<br/>every guard branch writes through response.Error then returns - the helper is omitted here
+
+    Note over Repo: get_permissions_for_user.go L10-48 one statement for all three scopes<br/>L11-24 target and resolved CTEs - org falls back to the project owner<br/>L62-69 scope ids are passed empty rather than NULL so the CTE guards on empty<br/>L94-96 global permission dropped unless roleScope is global - L98-106 dedupe by ID and Name<br/>no index exists yet on assigned_roles or group_members

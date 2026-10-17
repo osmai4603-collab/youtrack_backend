@@ -1,0 +1,123 @@
+%% UML Object Diagram - Projects Listing (GET /api/projects/me)
+%% User: admin  (migrations/000007 seed: id=admin, system-admin @ global)
+%% Flow: Authenticate -> RequireGlobal(read-project-basic) -> handleProjects
+%%      -> ListProjectsUseCase.ListForUser -> PostgresProjectRepository
+%%      -> ListVisibleToUser (3-CTE SQL) -> 9 Projects -> ProjectsResponse[]
+%% Data sources: 000007 seed (0-0..0-4), 000009 project_favorites seed,
+%%               000011 seed (proj-t1-a/b, proj-t2-a/b)
+
+flowchart TB
+
+  subgraph A["1. HTTP Request (Presentation)"]
+    direction TB
+    oReq["<b>http.Request</b><br/>──────────<br/>Method = GET<br/>Path = /api/projects/me<br/>RawQuery = (empty)<br/>Cookie: youtrack_session"]
+    oCookie["<b>http.Cookie</b> client<br/>──────────<br/>Name = youtrack_session<br/>Value = 9f3c1a7e..b41d2f"]
+    oQuery["<b>ParamsRequest</b> DTO<br/>handles/projects<br/>──────────<br/>IncludeArchived = false<br/><i>query key = archived</i><br/><i>ParseBool error -> false</i>"]
+  end
+
+  subgraph B["2. Session Resolution (Authenticate middleware)"]
+    direction TB
+    oSession["<b>:UserSession</b> domain<br/>──────────<br/>ID = 9f3c1a7e..b41d2f<br/>SessionID = 9f3c1a7e..b41d2f<br/>UserID = admin<br/>ExpiresAt = 2026-10-08T09:14Z<br/><i>rejects if UserID empty or expired</i>"]
+    oSessRow["<b>sessions</b> row<br/>──────────<br/>session_id = 9f3c1a7e..<br/>user_id = admin<br/>expires_at greater than now"]
+    oCtxUser["<b>ctx userID</b><br/>──────────<br/>value = admin"]
+    oCtxSess["<b>ctx sessionID</b><br/>──────────<br/>value = 9f3c1a7e..b41d2f"]
+  end
+
+  subgraph C["3. Authorization (RequireGlobal middleware)"]
+    direction TB
+    oBinding["<b>ScopeBinding</b> valueObject<br/>──────────<br/>Scope = ScopeGlobal<br/>Entity = SystemEntity<br/>Extract = nil"]
+    oPerm["<b>:Permission</b><br/>──────────<br/>ID = read-project-basic<br/>Entity = ProjectEntity<br/>Operation = ReadOperation<br/>IsGlobal = false<br/><i>IsGlobal false so scope NOT rewritten</i>"]
+    oScopeCtx["<b>:ScopeContext</b> valueObject<br/>──────────<br/>Type = ScopeGlobal<br/>ScopeID = empty<br/>ResourceType = SystemEntity"]
+    oAr1["<b>:RoleAssignment</b> 1-1<br/>──────────<br/>RoleID = system-admin<br/>HolderType = user<br/>HolderID = admin<br/>ScopeType = global"]
+    oRoleAdmin["<b>:Role</b> system-admin<br/>──────────<br/>Immutable = true<br/>permissions = 53 refs<br/>includes read-project-basic"]
+    oGranted["<b>perms.Permission slice</b> granted<br/>──────────<br/>contains read-project-basic<br/>result: HasPermissionGranted = TRUE"]
+  end
+
+  subgraph D["4. Use Case (Application)"]
+    direction TB
+    oUC["<b>:ListProjectsUseCase</b><br/>──────────<br/>projects = ProjectReader<br/>logger = slog.Logger"]
+    oParams["<b>ListProjectsParams</b> DTO<br/>──────────<br/>UserID = admin<br/>IncludeArchived = false"]
+    oResult["<b>ListProjectsResult</b> DTO<br/>──────────<br/>Projects = 9 items<br/><i>nil slice normalized to empty</i>"]
+  end
+
+  subgraph E["5. SQL Internals (PostgresProjectRepository)"]
+    direction TB
+    oRefs["<b>string slice grantingRefs</b><br/>──────────<br/>read-project-basic and up<br/><i>flattened id+name list of<br/>transitively granting perms</i>"]
+    oCte1["<b>CTE identity_roles</b><br/>──────────<br/>assigned_roles WHERE holder=user admin<br/>OR holder=group IN group_members<br/><b>result: 1 row</b><br/>role=system-admin scope=global"]
+    oCte2["<b>CTE granted_scopes</b><br/>──────────<br/>JOIN roles plus unnest permissions<br/>WHERE perm = ANY refs<br/><b>result: 1 row</b><br/>scope_type=global scope_id=empty"]
+    oCte3["<b>CTE visible</b><br/>──────────<br/>projects WHERE archived filter<br/>AND EXISTS granted_scopes<br/>is_favorite = EXISTS favorites<br/><b>result: 9 projects</b>"]
+    oFav0["<b>project_favorites</b><br/>──────────<br/>user_id = admin<br/>project_id = 0-0"]
+    oFav1["<b>project_favorites</b><br/>──────────<br/>user_id = admin<br/>project_id = 0-1"]
+  end
+
+  subgraph F["6. Domain Results (9 Projects)"]
+    direction TB
+    oP00["<b>:Project</b> 0-0<br/>──────────<br/>name = Demo project<br/>short_name = DEMO<br/>Pinned = true favorite<br/>IsDemo = true<br/>LeaderID = admin<br/>TeamID = 5-0<br/>OrgID = 1-0"]
+    oP01["<b>:Project</b> 0-1<br/>──────────<br/>name = fingerprint<br/>short_name = FIN<br/>Pinned = true favorite<br/>TeamID = 5-1"]
+    oP02["<b>:Project</b> 0-2<br/>──────────<br/>name = Test project<br/>short_name = TEST<br/>Pinned = false"]
+    oP03["<b>:Project</b> 0-3<br/>──────────<br/>name = pringo<br/>short_name = PRINGO<br/>Pinned = false"]
+    oP04["<b>:Project</b> 0-4<br/>──────────<br/>name = traint-project-scrum<br/>short_name = TRAINT<br/>Pinned = false"]
+    oPt1a["<b>:Project</b> proj-t1-a<br/>──────────<br/>name = Test1 Project Alpha<br/>Pinned = false<br/>LeaderID = test1<br/>OrgID = 1-0<br/><b>col says TRUE but no fav row</b>"]
+    oPt1b["<b>:Project</b> proj-t1-b<br/>──────────<br/>name = Test1 Project Beta<br/>Pinned = false<br/>LeaderID = test1"]
+    oPt2a["<b>:Project</b> proj-t2-a<br/>──────────<br/>name = Test2 Project Alpha<br/>Pinned = false<br/>LeaderID = test2<br/><b>col says TRUE but no fav row</b>"]
+    oPt2b["<b>:Project</b> proj-t2-b<br/>──────────<br/>name = Test2 Project Beta<br/>Pinned = false<br/>LeaderID = test2"]
+  end
+
+  subgraph G["7. Response DTOs (wire)"]
+    direction TB
+    oRes00["<b>ProjectsResponse</b> 0-0<br/>──────────<br/>type = jetbrains.jetpass.tracker.Project<br/>pinned = true<br/>creationTime = 1784851998350"]
+    oResArr["<b>ProjectsResponse slice</b><br/>──────────<br/>len = 9<br/>order: is_favorite DESC, name ASC"]
+    oBody["<b>JSON body</b> 200 OK<br/>──────────<br/>Content-Type = application/json<br/>shape = bare array<br/><i>NOT an Envelope</i><br/><i>CreatedAt UpdatedAt StartingNumber<br/>never reach the wire</i>"]
+  end
+
+  %% ---- request ----
+  oReq -->|"req.Cookie"| oCookie
+  oCookie -.->|"GetSessionFromToken"| oSession
+  oSession --- oSessRow
+  oSession -.->|"ctx WithValue userID"| oCtxUser
+  oSession -.->|"ctx WithValue sessionID"| oCtxSess
+  oReq -.->|"URL.Query Get archived"| oQuery
+
+  %% ---- authz gate ----
+  oCtxUser -.->|"userID"| oBinding
+  oBinding -.-> oPerm
+  oBinding -.->|"Type global Entity system"| oScopeCtx
+  oCtxUser -->|"holder_id"| oAr1
+  oAr1 -->|"role_id"| oRoleAdmin
+  oScopeCtx -.->|"queryPermissionsForUser empty project and org"| oGranted
+  oRoleAdmin -.-> oGranted
+  oPerm -.->|"HasPermissionGranted"| oGranted
+
+  %% ---- usecase ----
+  oQuery -.->|"maps to"| oParams
+  oCtxUser -.->|"UserID"| oParams
+  oUC -->|"ListForUser"| oParams
+  oParams --> oResult
+
+  %% ---- repo sql ----
+  oUC -->|"ListVisibleToUser"| oRefs
+  oRefs -.-> oCte1
+  oCte1 --> oCte2
+  oCte2 --> oCte3
+  oFav0 -.-> oCte3
+  oFav1 -.-> oCte3
+  oCte3 -->|"scanProject x9"| oResult
+
+  %% ---- project results ----
+  oCte3 --> oP00
+  oCte3 --> oP01
+  oCte3 --> oP02
+  oCte3 --> oP03
+  oCte3 --> oP04
+  oCte3 --> oPt1a
+  oCte3 --> oPt1b
+  oCte3 --> oPt2a
+  oCte3 --> oPt2b
+
+  %% ---- response ----
+  oResult -.->|"newProjectParams"| oRes00
+  oRes00 --> oResArr
+  oResArr -->|"response.JSON 200"| oBody
+
+  classDef warn fill:#ffe0e0,stroke:#cc0000,stroke-width:2px
+  class oPt1a,oPt2a warn

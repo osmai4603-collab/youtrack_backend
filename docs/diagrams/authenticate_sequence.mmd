@@ -1,0 +1,72 @@
+sequenceDiagram
+    autonumber
+    actor Client as Client (Browser)
+    participant MW as Authenticate (middlewares/authenticate.go)
+    participant RS as CookieSessionResolver
+    participant SessRepo as PostgresSessionRepository
+    participant DB as PostgreSQL (sessions)
+    participant H as Next Handler / Authorize
+
+    Client->>MW: HTTP Request + Cookie youtrack_session
+    activate MW
+
+    MW->>MW: resolver == nil ? (L30-33)
+    alt resolver == nil
+        MW->>MW: response.Error(wr, Internal("session store unavailable"))
+        MW-->>Client: 500 JSON {success:false, error:{code:"INTERNAL"}}
+    else resolver ready
+        MW->>MW: cookie, err := req.Cookie(DefaultCookieName) (L35)
+        alt err == http.ErrNoCookie (L36-39)
+            MW->>MW: response.Error(wr, Unauthorized("session cookie required"))
+            MW-->>Client: 401 JSON {success:false, error:{code:"UNAUTHORIZED"}}
+        else cookie.Value == "" (L41-44)
+            MW->>MW: response.Error(wr, Unauthorized("session cookie required"))
+            MW-->>Client: 401 JSON {success:false, error:{code:"UNAUTHORIZED"}}
+        else cookie valid
+            MW->>RS: GetSessionFromToken(cookie.Value, req.Context()) (L46)
+            activate RS
+            RS->>SessRepo: GetSession(ctx, token) (session_resolver.go L38)
+            activate SessRepo
+            SessRepo->>DB: SELECT ... WHERE session_id = $1 AND expires_at > now()
+            activate DB
+            alt no rows
+                DB-->>SessRepo: pgx.ErrNoRows
+                SessRepo-->>RS: ErrSessionNotFound
+            else db error
+                DB-->>SessRepo: driver error
+                SessRepo-->>RS: postgres.TranslateError(op, err)
+            else row found (expiry already filtered by SQL)
+                DB-->>SessRepo: session row
+                SessRepo-->>RS: *domain.UserSession
+            end
+            deactivate DB
+            deactivate SessRepo
+
+            alt lookup error (not found, db down, nil db)
+                RS-->>MW: error
+                MW->>MW: response.Error(wr, Unauthorized("authentication required")) (L47-50)
+                MW-->>Client: 401 JSON {code:"UNAUTHORIZED"}
+                Note over MW,Client: storage failures are masked as 401,<br/>never 500
+            else session returned
+                RS-->>MW: *domain.UserSession
+
+                alt session.UserID == "" (L51-54)
+                    MW->>MW: response.Error(wr, Unauthorized("session has no user"))
+                    MW-->>Client: 401 JSON {code:"UNAUTHORIZED"}
+                else ExpiresAt not zero AND not after now().UTC() (L55-58)
+                    MW->>MW: response.Error(wr, Unauthorized("session expired"))
+                    MW-->>Client: 401 JSON {code:"UNAUTHORIZED"}
+                else session valid
+                    MW->>MW: ctx = WithValue("userID") + WithValue("sessionID") (L59-60)
+                    MW->>H: next.ServeHTTP(wr, req.WithContext(ctx)) (L62)
+                    activate H
+                    H->>H: GetCurrentUserID(ctx) / GetSessionID(ctx)
+                    H->>H: Authorize -> IsAllowed(userID, permission, scope)
+                    H-->>MW: handler response (200/4xx/5xx)
+                    deactivate H
+                end
+            end
+            deactivate RS
+        end
+    end
+    deactivate MW

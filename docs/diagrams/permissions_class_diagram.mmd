@@ -1,0 +1,414 @@
+classDiagram
+    %% ============================================================
+    %% YouTrack Backend - RBAC / Permissions Class Diagram
+    %% Source of truth:
+    %%   internal/services/permissions/permissions.go   - Permission catalog, Operation, Entity, Module
+    %%   internal/services/permissions/permission_service.go - ScopeType, ScopeContext, PermissionService
+    %%   internal/storage/permissions/repository.go     - Role, RoleAssignment, Repository
+    %%   internal/httphandlers/middlewares/authorize.go - RequireGlobal / RequireOrganization / RequireProject
+    %%   internal/httphandlers/middlewares/scope.go     - ScopeBinding, IDExtractor
+    %%   internal/usecases/permissions/                  - UserPermissionsUseCase
+    %%   migrations/000001, 000006, 000011, 000012        - roles, assigned_roles, user_groups, user_group_roles
+    %% ============================================================
+
+    direction LR
+
+    %% ------------------------------------------------------------
+    %% 1. Permission catalog (value objects, code-defined - not a table)
+    %% ------------------------------------------------------------
+    class Permission {
+        <<value object>>
+        +string ID
+        +string Name
+        +string Description
+        +Entity PermissionEntityType
+        +Module LocalizedPermissionEntityType
+        +bool IsGlobal
+        +Operation Operation
+        +string[] Dependents
+        +string[] Implies
+    }
+
+    class Operation {
+        <<enumeration>>
+        read
+        create
+        update
+        delete
+        link
+        override
+        apply
+    }
+
+    class Entity {
+        <<enumeration>>
+        project
+        organization
+        user
+        user-profile
+        system
+        issue
+        attachment
+        comment
+        visibility
+        issue-work-item
+        article
+        app
+    }
+
+    class Module {
+        <<enumeration>>
+        Project
+        Organization
+        User
+        System
+        Issue
+        Attachment
+        Comment
+        Visibility
+        Issue Work Item
+        Article
+        App
+    }
+
+    class PermissionCatalog {
+        <<singleton>>
+        -map~string,Permission~ catalogByIDOrName
+        -map~string,Permission~ catalogByName
+        -Permission[] All
+        +GetPermissionByName(name) Permission
+        +GetPermissionByIDOrName(ref) Permission
+        +GrantingPermissions(target) Permission[]
+    }
+
+    %% ------------------------------------------------------------
+    %% 2. Scopes - a separate concept, linked to Permission
+    %% ------------------------------------------------------------
+    class ScopeType {
+        <<enumeration>>
+        global
+        organization
+        project
+    }
+
+    class ScopeContext {
+        <<value object>>
+        +ScopeType Type
+        +string ScopeID
+        +string ResourceID
+        +Entity ResourceType
+    }
+
+    class ScopeResolver {
+        <<component>>
+        +ScopeAllows(p, scopeType) bool
+        +EntityScoped(scopeType) bool
+        -resolveOrg(orgID, projectID) string
+        -matches(scopeType, scopeRow, target) bool
+    }
+
+    %% ------------------------------------------------------------
+    %% 3. Role hierarchy - Composite Pattern + Self-Association
+    %%    (conceptual; the schema stores a flat permissions TEXT[])
+    %% ------------------------------------------------------------
+    class Role {
+        <<entity>>
+        +string ID
+        +string Name
+        +string Description
+        +string AuditTargetID
+        +bool IsUpdatable
+        +bool Immutable
+        +Permission[] Permissions
+        +addChild(role) Role
+        +removeChild(role) Role
+        +getChildren() Role[]
+        +getParent() Role
+        +effectivePermissions() Permission[]
+    }
+
+    class RoleComposite {
+        <<composite>>
+    }
+
+    class RoleLeaf {
+        <<leaf>>
+    }
+
+    class RoleLevel {
+        <<enumeration>>
+        SYSTEM_ADMIN = 100
+        PROJECT_ADMIN = 80
+        SUPERVISOR = 60
+        CONTRIBUTOR = 40
+        OBSERVER = 20
+    }
+
+    %% ------------------------------------------------------------
+    %% 4. Assignment - the bridge that binds Role to Holder + Scope
+    %% ------------------------------------------------------------
+    class RoleAssignment {
+        <<entity>>
+        +string ID
+        +string RoleID
+        +string AuditTargetID
+        +string HolderType
+        +string HolderID
+        +string HolderName
+        +string ScopeType
+        +string ScopeID
+        +string ScopeProjectID
+        +string ScopeOrganizationID
+    }
+
+    %% ------------------------------------------------------------
+    %% 5. Holders (polymorphic: user | group)
+    %% ------------------------------------------------------------
+    class PermissionHolder {
+        <<interface>>
+        +string HolderID
+        +string HolderName
+    }
+
+    class User {
+        <<entity>>
+        +string ID
+        +string Login
+        +string Email
+        +string FullName
+        +string Name
+        +bool Banned
+        +bool Guest
+        +bool CanReadProfile
+    }
+
+    class UserGroup {
+        <<entity>>
+        +string ID
+        +string Name
+        +string GroupType
+        +bool AllUsersGroup
+        +string Description
+        +bool IsUpdatable
+        +bool IsRemovable
+        +string TeamForProjectID
+    }
+
+    class UserGroupMember {
+        <<entity>>
+        +string UserID
+        +string GroupID
+    }
+
+    class UserGroupRole {
+        <<entity>>
+        +string RoleID
+        +string GroupID
+    }
+
+    %% ------------------------------------------------------------
+    %% 6. Scope targets
+    %% ------------------------------------------------------------
+    class Organization {
+        <<entity>>
+        +string ID
+        +string Key
+        +string Name
+        +string IconURL
+        +int ProjectsCount
+    }
+
+    class Project {
+        <<entity>>
+        +string ID
+        +string Name
+        +string ShortName
+        +string OrganizationID
+        +string LeaderID
+        +string TeamID
+        +bool Restricted
+        +bool Archived
+    }
+
+    %% ------------------------------------------------------------
+    %% 7. Services
+    %% ------------------------------------------------------------
+    class PermissionService {
+        <<service>>
+        -UserPermissionsFinder finder
+        +IsAllowed(ctx, userID, permission, scope) bool
+        +HasPermissionGranted(userPermissions, target) bool
+        -matchPermission(userPerm, target, visited) bool
+    }
+
+    class UserPermissionsFinder {
+        <<interface>>
+        +GetPermissionsForUser(ctx, userID, scope) Permission[]
+        +GetPermissionsByRoleIDs(roleIDs, ctx) string[]
+    }
+
+    class PermissionsRepository {
+        <<interface>>
+        +GetPermissionsForUser(ctx, userID, scope) Permission[]
+        +GetPermissionsByRoleIDs(roleIDs, ctx) string[]
+        +GetRolesByUserID(ctx, userID, scope) string[]
+        +GetRolesForUser(ctx, userID, scope) Role[]
+        +GetRolesForUserByOrganization(ctx, userID, orgID) Role[]
+        +GetRolesForUserByProject(ctx, userID, projectID) Role[]
+        +GetRolesForUserByGlobal(ctx, userID, scopeID) Role[]
+        +AssignRole(ctx, assignment) void
+        +RevokeRole(ctx, assignmentID) void
+        +GetAssignedRoles(ctx, holderType, holderID) RoleAssignment[]
+        +GetAllPermissions(ctx) Permission[]
+        +GetAllRoles(ctx) Role[]
+        +GetRoleByID(ctx, roleID) Role
+    }
+
+    %% ------------------------------------------------------------
+    %% 8. Middleware layer (scope binding)
+    %% ------------------------------------------------------------
+    class AuthorizerService {
+        <<interface>>
+        +IsAllowed(ctx, userID, permission, scope) bool
+    }
+
+    class ScopeBinding {
+        <<value object>>
+        +ScopeType Scope
+        +Entity Entity
+        +IDExtractor Extract
+        +Validate(permission) error
+        +allows(permission) bool
+    }
+
+    class IDExtractor {
+        <<functional interface>>
+        +extract(request) string
+    }
+
+    class AuthorizationMiddleware {
+        <<middleware>>
+        +RequireGlobal(svc, permission, next) HandlerFunc
+        +RequireOrganization(svc, permission, next, orgID) HandlerFunc
+        +RequireProject(svc, permission, next, projectID) HandlerFunc
+        +RequirePermission(svc, permission, next, binding) HandlerFunc
+    }
+
+    %% ------------------------------------------------------------
+    %% 9. Read model (usecase layer)
+    %% ------------------------------------------------------------
+    class UserPermissionsUseCase {
+        <<usecase>>
+        -RoleReader roles
+        +Get(ctx, userID) UserPermissions
+    }
+
+    class RoleReader {
+        <<interface>>
+        +GetAssignedRoles(ctx, holderType, holderID) RoleAssignment[]
+        +GetRoleByID(ctx, roleID) Role
+        +GetPermissionsByRoleIDs(roleIDs, ctx) string[]
+    }
+
+    class UserPermissions {
+        <<DTO>>
+        +UserRoleAssignment[] RoleAssignments
+        +string[] OwnedProjectIDs
+    }
+
+    class UserRoleAssignment {
+        <<DTO>>
+        +string RoleID
+        +string RoleName
+        +string ScopeType
+        +string ProjectID
+        +string OrganizationID
+        +string GroupID
+        +string[] Permissions
+    }
+
+    %% ============================================================
+    %% RELATIONS
+    %% ============================================================
+
+    %% --- Permission catalog ---
+    Permission --> Operation : operation
+    Permission --> Entity : entity
+    Permission --> Module : localizedModule
+    PermissionCatalog "1" o-- "*" Permission : holds
+
+    %% --- Composite Pattern / Self-Association on Role ---
+    RoleComposite <|-- Role : is-a
+    RoleLeaf <|-- Role : is-a
+    Role o-- "0..*" RoleComposite : children
+    Role "0..1" --> "0..1" Role : parent
+    Role --> RoleLevel : level
+    Role "1" *-- "0..*" Permission : grants
+
+    note for Role "Composite Pattern plus self-association. parent is an upper level, children are lower levels. Effective permissions of a composite = union of its own permissions and every descendant. The schema has no parent_id column - the hierarchy is implied by the permission sets, not stored."
+
+    %% --- Scope wiring ---
+    ScopeContext --> ScopeType : type
+    ScopeContext --> Entity : resourceType
+    ScopeResolver --> ScopeType : EntityScoped / ScopeAllows
+    ScopeResolver --> ScopeContext : resolves
+
+    note for ScopeType "Scopes are modelled as a separate type rather than baked into Permission. Rule: an IsGlobal permission is only ever meaningful at the global scope, so ScopeAllows returns false for it at organization or project scope."
+
+    %% --- Assignment bridge ---
+    RoleAssignment --> Role : roleID
+    RoleAssignment --> PermissionHolder : holder
+    RoleAssignment --> ScopeType : scopeType
+    RoleAssignment "0..*" --> "0..1" Project : scopeProjectID
+    RoleAssignment "0..*" --> "0..1" Organization : scopeOrganizationID
+
+    note for RoleAssignment "Polymorphic holder: HolderType is 'user' or 'group'. Scoped columns are filled per scope_type - scope_project_id for project scope, scope_organization_id for organization scope. Global scope leaves both empty, and the resolver falls back from project to its owning organization."
+
+    %% --- Holders ---
+    PermissionHolder <|.. User : is-a
+    PermissionHolder <|.. UserGroup : is-a
+    User "1" -- "*" UserGroupMember : member of
+    UserGroup "1" -- "*" UserGroupMember : contains
+    UserGroupRole --> UserGroup : groupID
+    UserGroupRole --> Role : roleID
+
+    %% --- Scope targets ---
+    Organization "1" -- "*" Project : owns
+    Project --> User : leaderID
+
+    %% --- Services ---
+    PermissionService ..|> AuthorizerService : implements
+    PermissionService --> UserPermissionsFinder : finder
+    UserPermissionsFinder <|.. PermissionsRepository : implements
+    PermissionsRepository --> Role : reads/writes
+    PermissionsRepository --> RoleAssignment : reads/writes
+    PermissionsRepository --> PermissionCatalog : resolves refs
+    PermissionsRepository ..> ScopeContext : filters by
+    ScopeResolver ..> PermissionsRepository : applies rules
+
+    %% --- Middleware ---
+    AuthorizationMiddleware ..> AuthorizerService : calls IsAllowed
+    AuthorizationMiddleware "1" *-- "1" ScopeBinding : builds
+    ScopeBinding --> ScopeType : scope
+    ScopeBinding --> Entity : entity
+    ScopeBinding "0..1" --> "0..1" IDExtractor : extract
+    AuthorizationMiddleware ..> ScopeResolver : validates scope
+    AuthorizationMiddleware ..> Permission : guards
+
+    %% --- Read model ---
+    UserPermissionsUseCase --> RoleReader : roles
+    RoleReader <|.. PermissionsRepository : implements
+    UserPermissionsUseCase "1" *-- "*" UserRoleAssignment : builds
+    UserPermissions "1" *-- "*" UserRoleAssignment : roleAssignments
+    UserRoleAssignment --> ScopeType : scopeType
+    UserRoleAssignment --> Role : roleID
+
+    %% ============================================================
+    %% NOTES
+    %% ============================================================
+
+    note for Permission "Implies and Dependents are inverse views of the same edge - if X.implies contains Y then Y.dependents contains X. matchPermission walks Implies transitively with a visited set, so a cycle cannot hang the check. IsGlobal permissions: user, system, organization, app. Non-global permissions: project, issue, comment, attachment, work item, article."
+
+    note for UserGroup "Group roles resolve through two paths: user_group_roles (group to role) and assigned_roles with holder_type = 'group'. The authorization query only reads the assigned_roles path. A new user is auto-inserted into all-users and registered-users by a trigger."
+
+    note for Project "Restricted projects are still reachable by an organization-scoped grant - the scope resolver reads the owning organization via organization_id. Inserting a project auto-assigns project-admin to its leader through a trigger."

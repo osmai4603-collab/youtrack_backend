@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS youtrack2;
+DROP USER IF EXISTS train_user2;
+
+
+CREATE USER train_user2 WITH LOGIN PASSWORD 'postgres';
+CREATE DATABASE youtrack2 OWNER train_user2 ENCODING 'UTF8';

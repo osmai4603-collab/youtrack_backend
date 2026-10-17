@@ -1,0 +1,101 @@
+sequenceDiagram
+    autonumber
+
+    actor Client as Client (HTTP)
+    participant MW as Authorization Middleware
+    participant Adapter as AuthorizerAdapter
+    participant PDP as PDPEngine
+    participant PermSvc as PermissionService
+    participant Handler as HTTP Handler
+
+    %% ─── 1. HTTP Request Arrives ───
+    Client->>MW: HTTP Request (e.g. GET /api/projects)
+
+    %% ─── 2. Validate & Extract Identity ───
+    MW->>MW: binding.Validate(permission)
+    alt Validation Failed
+        MW-->>Client: 500 Internal Error
+    end
+
+    MW->>MW: GetCurrentUserID(ctx)
+    alt UserID Not Found
+        MW-->>Client: 401 Unauthorized
+    end
+
+    %% ─── 3. Build Scope Context ───
+    MW->>MW: Build ScopeContext(Type, ResourceType)
+    opt Entity Scoped (Org/Project)
+        MW->>MW: binding.Extract(r) → ScopeID
+        alt Extraction Failed
+            MW-->>Client: 400 Invalid (cannot resolve scope)
+        end
+    end
+
+    %% ─── 4. Call IsAllowed ───
+    MW->>Adapter: IsAllowed(ctx, userID, permission, scope)
+
+    %% ─── 5. Load & Filter Role Assignments ───
+    Adapter->>Adapter: GetCurrentUserRoleAssignments(ctx)
+    alt No Assignments in Context
+        Adapter-->>MW: error("role assignments missing")
+        MW-->>Client: 403 Forbidden
+    end
+
+    Adapter->>Adapter: Filter by ScopeMatchesAssignment()
+    Note right of Adapter: Global → matches all scopes<br/>Org → org ID match<br/>Project → project/org ID match
+
+    alt No Roles Match Scope
+        Adapter-->>MW: (false, nil)
+        MW-->>Client: 403 Forbidden
+    end
+
+    %% ─── 6. Build AccessRequest & Evaluate ───
+    Adapter->>Adapter: Build AccessRequest{SubjectID, RoleIDs, Assignments, Permission, Scope}
+    Adapter->>PDP: Evaluate(ctx, AccessRequest)
+
+    %% ─── 6.1. Guard Checks ───
+    PDP->>PDP: Guard: permission not empty & roles present
+
+    %% ─── 6.2. Collect Effective Permissions ───
+    PDP->>PDP: Collect permissions from Assignments + RoleGraph
+    alt No Effective Permissions
+        PDP-->>Adapter: Decision{Allowed: false}
+    end
+
+    %% ─── 6.3. Wildcard Check ───
+    PDP->>PDP: Check "*" or "ALL" wildcard
+    alt Wildcard Found
+        PDP-->>Adapter: Decision{Allowed: true}
+    end
+
+    %% ─── 6.4. Expand Implied Permissions via PermissionService ───
+    opt ImpliedResolver configured
+        PDP->>PermSvc: ResolveImplied(effectivePerms)
+        PermSvc->>PermSvc: Transitive closure of ImpliedPerms
+        PermSvc-->>PDP: expandedPerms[]
+        PDP->>PDP: Merge expanded into effectivePermsSet
+    end
+
+    %% ─── 6.5. Permission Match + ABAC ───
+    PDP->>PDP: targetPerm ∈ effectivePermsSet?
+    alt Permission Found
+        opt ContextManager (ABAC) configured
+            PDP->>PDP: EvaluateContext(global + permission rules)
+            alt ABAC Denied
+                PDP-->>Adapter: Decision{Allowed: false, Reason: "contextual eval failed"}
+            end
+        end
+        PDP-->>Adapter: Decision{Allowed: true}
+    else Permission Not Found
+        PDP-->>Adapter: Decision{Allowed: false}
+    end
+
+    %% ─── 7. Return Decision ───
+    alt Allowed
+        Adapter-->>MW: (true, nil)
+        MW->>Handler: next.ServeHTTP(w, r)
+        Handler-->>Client: 200 OK
+    else Denied
+        Adapter-->>MW: (false, nil)
+        MW-->>Client: 403 Forbidden
+    end

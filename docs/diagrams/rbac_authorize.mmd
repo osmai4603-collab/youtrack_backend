@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor Client as العميل (Client)
+    participant MW as Edge PEP (HTTP Middleware)
+    participant UC as Use Case (Application PEP)
+    participant Facade as RBAC Facade (IRBACService)
+    participant PDP as PDP Engine (pdp.go)
+    participant Registry as Role Registry (roles.go)
+    participant Catalog as Permission Catalog (ResolveImplied)
+    participant ContextMgr as Context Evaluator (ABAC)
+
+    Client->>MW: HTTP Request (Cookie / Session)
+    MW->>MW: استخراج الهوية والأدوار والنطاق المستهدف
+    MW->>Facade: Authorize(AccessRequest)
+    Facade->>PDP: Evaluate(AccessRequest)
+    
+    PDP->>Registry: GetEffectivePermissions(roleIDs)
+    Registry-->>PDP: الصلاحيات المباشرة للأدوار
+    
+    PDP->>Catalog: ResolveImplied(permissions)
+    Catalog-->>PDP: الصلاحيات الموسعة بالصلاحيات الضمنية
+    
+    alt الصلاحية غير متوفرة
+        PDP-->>Facade: Decision{Allowed: false, Reason: "Permission Missing"}
+        Facade-->>MW: ErrAccessDenied
+        MW-->>Client: 403 Forbidden (Fast Fail)
+    else الصلاحية متوفرة
+        PDP->>ContextMgr: EvaluateContext(Scope, Ownership, Time)
+        alt فشل فحص السياق (ABAC)
+            ContextMgr-->>PDP: Denied (e.g. Scope Mismatch)
+            PDP-->>Facade: Decision{Allowed: false}
+            Facade-->>MW: ErrAccessDenied
+            MW-->>Client: 403 Forbidden
+        else نجاح فحص السياق
+            ContextMgr-->>PDP: Allowed
+            PDP-->>Facade: Decision{Allowed: true}
+            Facade-->>MW: nil (Success)
+            MW->>UC: Execute(Command)
+            Note over UC: تنفيذ حالة الاستخدام بأمان تام
+            UC-->>MW: Result
+            MW-->>Client: 200 OK
+        end
+    end

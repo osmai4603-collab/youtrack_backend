@@ -1,0 +1,295 @@
+@startuml
+title Object Diagram - Login Scenario for user "test1"  (POST /api/auth/login)
+
+' ---------- 1. HTTP request object ----------
+object "ParamsRequest\n(handles/auth)" as oReq {
+  username = "test1"
+  password = "****"
+}
+
+note left of oReq
+  username = ToLower(TrimSpace(username))
+  max body size = 1 << 20 bytes
+end note
+
+' ---------- 2. Use case input ----------
+object "LoginParams\n(usecases/auth)" as oParams {
+  Username = "test1"
+  Password = "****"
+}
+
+oReq ..> oParams : maps to
+
+' ---------- 3. Persisted user ----------
+object ":User\n(domain)" as oUser <<persisted>> {
+  id = "test1"
+  login = "test1"
+  email = "test1@youtrack.local"
+  full_name = "Test One"
+  name = "test1"
+  avatar_url = "/hub/api/rest/avatar/t1a...0001?s=48"
+  user_type_id = "STANDARD_USER"
+  is_email_verified = true
+  guest = false
+  online = true
+  banned = false
+  ban_badge = null
+  can_read_profile = true
+  is_locked = false
+  ring_id = ""
+  password_hash = "$2a$10$fZRjMe.6mx8/9x7zSqw...qKNnOBC"
+  failed_login_count = 0
+  last_failed_login_at = null
+  last_login_at = null
+  locked_until = null
+  created_at = <now() default>
+}
+
+oParams ..> oUser : FindByLogin("test1")
+
+object ":UserType\n(user_types)" as oUserType <<persisted>> {
+  id = "STANDARD_USER"
+  name = "Standard User"
+}
+
+oUser --> oUserType : user_type_id
+
+object ":LoginState\n(domain)" as oState <<valueObject>> {
+  FailedLoginCount = 0
+  LastFailedLoginAt = null
+  LastLoginAt = 2026-10-01T09:14:22Z
+  LockedUntil = null
+  IsLocked = false
+}
+
+oUser ..> oState : UPDATE
+
+note bottom of oState
+  on success: FailedLoginCount := 0
+               LastLoginAt := now()
+  on 5th failure: IsLocked := true
+                  LockedUntil := now() + 15m
+end note
+
+' ---------- 4. Permission scope used by the query ----------
+object ":ScopeContext\n(services/permissions)" as oScope <<valueObject>> {
+  Type = ScopeGlobal
+  ScopeID = ""
+  ResourceID = ""
+  ResourceType = ""
+}
+
+oParams ..> oScope : GetRolesByUserID
+
+' ---------- 5. Role assignments already in DB ----------
+object ":RoleAssignment\nar-t1a" as oArT1a <<persisted>> {
+  ID = "ar-t1a"
+  RoleID = "project_member"
+  HolderType = "user"
+  HolderID = "test1"
+  HolderName = "test1"
+  ScopeType = "project"
+  ScopeProjectID = "proj-t1-a"
+}
+
+object ":RoleAssignment\nar-t1b" as oArT1b <<persisted>> {
+  ID = "ar-t1b"
+  RoleID = "project_member"
+  HolderType = "user"
+  HolderID = "test1"
+  HolderName = "test1"
+  ScopeType = "project"
+  ScopeProjectID = "proj-t1-b"
+}
+
+object ":Role\n(roles)" as oRolePM <<persisted>> {
+  ID = "project_member"
+  IsUpdatable = false
+  Immutable = false
+  permissions = { read-project-basic,
+                  read-issue,
+                  create-issue,
+                  update-issue }
+}
+
+oUser --> oArT1a : holder_id
+oUser --> oArT1b : holder_id
+oArT1a --> oRolePM : role_id
+oArT1b --> oRolePM : role_id
+
+note bottom of oScope
+  GetRolesByUserID uses ScopeGlobal.
+  test1 has NO global assignment
+  (only project scope).
+  Result = empty, then resolveRoles
+  falls back to ["user"].
+end note
+
+' ---------- 6. Created session ----------
+object ":UserSession\n(domain)" as oSession <<persisted>> {
+  ID = "9f3c1a7e...b41d2f"
+  SessionID = "9f3c1a7e...b41d2f"
+  Data = null
+  UserID = "test1"
+  CreatedAt = 2026-10-01T09:14:22Z
+  UpdatedAt = 2026-10-01T09:14:22Z
+  ExpiresAt = 2026-10-08T09:14:22Z
+}
+
+oUser --> oSession : UserID  1:N CASCADE
+oParams ..> oSession : RandomSessionID() + Create()
+
+object "sessions row" as oRow <<table>> {
+  id = "9f3c1a7e...b41d2f"
+  session_id = "9f3c1a7e...b41d2f"
+  user_id = "test1"
+  expires_at = 2026-10-08T09:14:22Z
+}
+
+oSession ..> oRow : INSERT ON CONFLICT
+
+' ---------- 7. Use case result ----------
+object "LoginResult\n(usecases/auth)" as oResult {
+  User = oUser
+  Session = oSession
+  Roles = ["user"]
+}
+
+oUser --> oResult
+oSession --> oResult
+
+' ---------- 8. Response objects ----------
+object "userParams\n(nested DTO)" as oUserParams {
+  id = "test1"
+  login = "test1"
+  email = "test1@youtrack.local"
+  full_name = "Test One"
+  display_name = "Test One"
+  fullName = "Test One"
+  $type = "User"
+  is_email_verified = true
+}
+
+object "ParamsResponse\n(handles/auth)" as oRes {
+  access_token = "9f3c1a7e...b41d2f"
+  refresh_token = "9f3c1a7e...b41d2f"
+  token_type = "Cookie"
+  expires_in = 604800
+  user_id = "test1"
+  user = oUserParams
+}
+
+object "http.Cookie" as oCookie <<client>> {
+  Name = "youtrack_session"
+  Value = "9f3c1a7e...b41d2f"
+  Path = "/"
+  MaxAge = 604800
+  HttpOnly = true
+  Secure = false
+  SameSite = Lax
+}
+
+oResult ..> oUserParams : userParams(user)
+oUserParams --> oRes : user
+oResult ..> oRes : Set-Cookie
+oSession --> oCookie : Value = SessionID
+
+' ---------- 9. User groups (inserted by trigger) ----------
+object ":UserGroup\nall-users" as oGAll <<persisted>> {
+  id = "all-users"
+  all_users_group = true
+}
+
+object ":UserGroup\ngrp-t1-a" as oGT1A <<persisted>> {
+  id = "grp-t1-a"
+  name = "T1A Project Members"
+  team_for_project_id = "proj-t1-a"
+}
+
+object ":UserGroup\ngrp-t1-b" as oGT1B <<persisted>> {
+  id = "grp-t1-b"
+  name = "T1B Project Members"
+  team_for_project_id = "proj-t1-b"
+}
+
+oUser --> oGAll : group_members
+oUser --> oGT1A : group_members
+oUser --> oGT1B : group_members
+
+note bottom of oGAll
+  added automatically by
+  trigger_after_insert_user
+  (migration 000012)
+end note
+
+' ---------- 10. Projects and teams ----------
+object ":ProjectTeam\nteam-t1-a" as oTeam1A <<persisted>> {
+  id = "team-t1-a"
+  name = "T1A Project Team"
+  project_id = "proj-t1-a"
+}
+
+object ":Project\nproj-t1-a" as oProj1A <<persisted>> {
+  id = "proj-t1-a"
+  name = "Test1 Project Alpha"
+  short_name = "T1A"
+  leader_id = "test1"
+  team_id = "team-t1-a"
+  default_visibility_group_id = "grp-t1-a"
+}
+
+object ":ProjectTeam\nteam-t1-b" as oTeam1B <<persisted>> {
+  id = "team-t1-b"
+  name = "T1B Project Team"
+  project_id = "proj-t1-b"
+}
+
+object ":Project\nproj-t1-b" as oProj1B <<persisted>> {
+  id = "proj-t1-b"
+  name = "Test1 Project Beta"
+  short_name = "T1B"
+  leader_id = "test1"
+  team_id = "team-t1-b"
+  default_visibility_group_id = "grp-t1-b"
+}
+
+oUser --> oProj1A : leader_id
+oUser --> oProj1B : leader_id
+oUser --> oTeam1A : project_team_members
+oUser --> oTeam1B : project_team_members
+oProj1A --> oTeam1A : team_id
+oProj1B --> oTeam1B : team_id
+oProj1A --> oGT1A : default_visibility_group_id
+oProj1B --> oGT1B : default_visibility_group_id
+
+' ---------- 11. Architecture context ----------
+package "Presentation" {
+  object "http.Request" as oHReq
+  object "chi.Router" as oRouter
+}
+
+package "Application" {
+  object ":AuthLoginUseCase" as oUC {
+    sessionTTL = 168h
+    maxFailedLogins = 5
+    lockDuration = 15m
+  }
+}
+
+package "Infrastructure" {
+  object ":PostgresUserRepository" as oUserRepo
+  object ":PostgresPermissionRepository" as oPermRepo
+  object ":PostgresSessionRepository" as oSessRepo
+}
+
+oHReq --> oRouter : POST /api/auth/login
+oRouter --> oUC : TryLogin(ctx, params)
+oUC --> oUserRepo : FindByLogin / UpdateLoginState
+oUC --> oPermRepo : GetRolesByUserID(ctx, "test1", ScopeGlobal)
+oUC --> oSessRepo : Create(session)
+oUserRepo --> oUser : SELECT FROM users
+oSessRepo --> oRow : INSERT
+oPermRepo ..> oArT1a : scope mismatch
+oPermRepo ..> oArT1b : scope mismatch
+
+@enduml

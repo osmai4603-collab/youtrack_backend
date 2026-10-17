@@ -1,0 +1,217 @@
+flowchart LR
+%% ============================================================
+%% YouTrack Backend - UML Use Case Diagram (Permissions / RBAC)
+%%
+%% Sources of truth:
+%%   internal/httphandlers/router.go                            - route table
+%%   internal/httphandlers/handles/auth/init.go                 - login / refresh / logout
+%%   internal/httphandlers/handles/users/init.go                - /me, /me/permissions
+%%   internal/httphandlers/handles/projects/init.go             - 7 project routes
+%%   internal/httphandlers/handles/issues/init.go               - 3 issue routes
+%%   internal/httphandlers/middlewares/authorize.go             - RequireGlobal / Org / Project
+%%   internal/httphandlers/middlewares/scope.go                 - ScopeBinding, IDExtractor
+%%   internal/services/permissions/permission_service.go        - IsAllowed, ScopeAllows
+%%   internal/services/permissions/permissions.go              - 53 permission catalog
+%%   internal/usecases/permissions/usecase_user_permissions.go  - UserPermissionsUseCase
+%%   internal/storage/permissions/                              - roles, assigned_roles queries
+%%   migrations/000006_rbac_roles_and_auth.up.sql               - 7 roles, 2 groups
+%%   migrations/000012_triggers.up.sql                          - auto role / group grants
+%%
+%% Legend:
+%%   stadium  = use case
+%%   solid -->= association   (actor participates in use case)
+%%   dotted -.-> include / extend
+%%   note node = annotation attached with a dotted edge
+%% ============================================================
+
+    %% ------------------------------------------------------------
+    %% ACTORS
+    %% ------------------------------------------------------------
+    Guest["&#128100; Anonymous Client<br/>no session cookie"]
+    User["&#128100; Authenticated User<br/>observer / contributor"]
+    PAdmin["&#128100; Project Admin<br/>scope: one project"]
+    OrgAdmin["&#128100; Organization Admin<br/>scope: one organization"]
+    SysAdmin["&#128100; System Admin<br/>scope: global, immutable role"]
+    Group["&#128100; User Group<br/>all-users / registered-users<br/>holder, not a person"]
+    DB["&#9881; PostgreSQL<br/>roles, assigned_roles,<br/>group_members"]
+
+    %% ------------------------------------------------------------
+    %% SYSTEM BOUNDARY - authentication
+    %% ------------------------------------------------------------
+    subgraph SYSAUTH["Authentication - public routes"]
+        direction TB
+        uc_login(["Login<br/>POST /api/auth/login"])
+        uc_refresh(["Refresh Session<br/>POST /api/auth/refresh"])
+        uc_logout(["Logout<br/>POST /api/auth/logout"])
+    end
+
+    %% ------------------------------------------------------------
+    %% SYSTEM BOUNDARY - self service
+    %% ------------------------------------------------------------
+    subgraph SYSSELF["Self Service - /api/users"]
+        direction TB
+        uc_me(["View Own Profile<br/>GET /api/users/me<br/>global: read-user-details"])
+        uc_perms(["View Own Permissions<br/>GET /api/users/me/permissions<br/>NO GUARD"])
+        uc_upd_self(["Update Own Profile<br/>global: update-self<br/>catalog only, no route"])
+    end
+
+    %% ------------------------------------------------------------
+    %% SYSTEM BOUNDARY - projects
+    %% ------------------------------------------------------------
+    subgraph SYSPROJ["Projects - /api/projects"]
+        direction TB
+        uc_list_proj(["List Visible Projects<br/>GET /me<br/>global: read-project-basic"])
+        uc_get_proj(["View Project<br/>GET /{projectID}<br/>project: read-project-basic"])
+        uc_members(["List Project Members<br/>GET /{projectID}/members<br/>project: read-project-basic"])
+        uc_proj_issues(["List Project Issues<br/>GET /{projectID}/issues<br/>project: read-issue"])
+        uc_board(["View Project Board<br/>GET /{projectID}/board<br/>project: read-project-basic"])
+        uc_fav(["Toggle Project Favorite<br/>PUT /{projectID}/favorite<br/>project: read-project-basic"])
+        uc_create_proj(["Create Project<br/>POST /<br/>global: create-project"])
+    end
+
+    %% ------------------------------------------------------------
+    %% SYSTEM BOUNDARY - issues
+    %% ------------------------------------------------------------
+    subgraph SYSISS["Issues - /api/issues"]
+        direction TB
+        uc_list_iss(["List Issues<br/>GET /<br/>global: read-issue"])
+        uc_get_iss(["View Issue<br/>GET /{issueID}<br/>global: read-issue"])
+        uc_move(["Move Card / Set Issue State<br/>GET /{issueID}/state<br/>global: read-issue - WRONG GUARD"])
+    end
+
+    %% ------------------------------------------------------------
+    %% SYSTEM BOUNDARY - role administration, not exposed by a route
+    %% ------------------------------------------------------------
+    subgraph SYSADMIN["Role Administration - no HTTP route exists"]
+        direction TB
+        uc_assign(["Assign Role to Holder<br/>storage AssignRole"])
+        uc_revoke(["Revoke Role Assignment<br/>storage RevokeRole"])
+        uc_list_roles(["List Roles<br/>storage GetAllRoles"])
+        uc_list_perms(["List Permission Catalog<br/>storage GetAllPermissions"])
+    end
+
+    %% ------------------------------------------------------------
+    %% AUTHORIZATION ENGINE - internal service, no endpoint
+    %% ------------------------------------------------------------
+    subgraph ENGINE["Authorization Engine - internal service"]
+        direction TB
+        uc_validate(["Validate Scope Binding<br/>ScopeBinding.Validate / allows"])
+        uc_ident(["Resolve Identity<br/>GetCurrentUserID"])
+        uc_extract(["Extract Scope ID<br/>URLParam / QueryParam / ParamOrQuery"])
+        uc_resolve(["Resolve Effective Permissions<br/>PermissionService.IsAllowed"])
+        uc_group(["Expand Group Membership<br/>group_members"])
+        uc_implies(["Match Implied Permissions<br/>walk Implies transitively"])
+    end
+
+    %% ============================================================
+    %% ASSOCIATIONS - authentication
+    %% ============================================================
+    Guest --> uc_login
+    Guest --> uc_refresh
+    User --> uc_logout
+
+    %% ============================================================
+    %% ASSOCIATIONS - self service
+    %% ============================================================
+    User --> uc_me
+    User --> uc_perms
+    User --> uc_upd_self
+
+    %% ============================================================
+    %% ASSOCIATIONS - projects and issues
+    %% ============================================================
+    User --> uc_list_proj
+    User --> uc_list_iss
+    PAdmin --> uc_get_proj
+    PAdmin --> uc_members
+    PAdmin --> uc_proj_issues
+    PAdmin --> uc_board
+    PAdmin --> uc_fav
+    PAdmin --> uc_move
+    OrgAdmin --> uc_get_proj
+    OrgAdmin --> uc_members
+    OrgAdmin --> uc_board
+    SysAdmin --> uc_create_proj
+    SysAdmin --> uc_list_proj
+    SysAdmin --> uc_get_proj
+
+    %% ============================================================
+    %% ASSOCIATIONS - administration and data
+    %% ============================================================
+    SysAdmin --> uc_assign
+    SysAdmin --> uc_revoke
+    SysAdmin --> uc_list_roles
+    SysAdmin --> uc_list_perms
+    Group --> uc_group
+    DB --> uc_resolve
+
+    %% ============================================================
+    %% EXTEND - optional or conditional behaviour
+    %% ============================================================
+    uc_perms -.->|extend - client UI gating| uc_me
+    uc_proj_issues -.->|extend - needs project first| uc_get_proj
+    uc_board -.->|extend - needs project first| uc_get_proj
+    uc_move -.->|extend - needs issue first| uc_get_iss
+
+    %% ============================================================
+    %% INCLUDE - every guarded use case funnels into the same check
+    %% ============================================================
+    uc_login -.->|include| uc_resolve
+    uc_refresh -.->|include| uc_resolve
+    uc_me -.->|include| uc_resolve
+    uc_upd_self -.->|include| uc_resolve
+    uc_list_proj -.->|include| uc_resolve
+    uc_get_proj -.->|include| uc_resolve
+    uc_members -.->|include| uc_resolve
+    uc_proj_issues -.->|include| uc_resolve
+    uc_board -.->|include| uc_resolve
+    uc_fav -.->|include| uc_resolve
+    uc_create_proj -.->|include| uc_resolve
+    uc_list_iss -.->|include| uc_resolve
+    uc_get_iss -.->|include| uc_resolve
+    uc_move -.->|include| uc_resolve
+    uc_perms -.->|include| uc_group
+
+    uc_validate -.->|include| uc_ident
+    uc_extract -.->|include| uc_ident
+    uc_resolve -.->|include| uc_group
+    uc_resolve -.->|include| uc_implies
+
+    %% ============================================================
+    %% OUTCOME EDGES - the terminal responses of the guard
+    %% ============================================================
+    uc_resolve -.->|allow| uc_next["next handler runs 2xx"]
+    uc_resolve -.->|deny| uc_403(["403 Forbidden<br/>permissions denied"])
+    uc_resolve -.->|lookup error| uc_403e(["403 Forbidden<br/>unexpected error"])
+
+    %% ============================================================
+    %% NOTES
+    %% ============================================================
+    UC1["Every guarded route runs exactly one IsAllowed call. RequireGlobal,<br/>RequireOrganization and RequireProject only build a ScopeBinding.<br/>Validation was moved into the request path, so a misconfigured guard<br/>costs a 500 per request instead of failing at startup.<br/>authorize.go L45-49, L50-53"]
+    uc_resolve -.- UC1
+
+    UC2["Scope rule: an IsGlobal permission is only meaningful at global scope.<br/>ScopeAllows returns false for it at organization or project scope, and<br/>IsAllowed rewrites the scope to global. Non-global permissions may be<br/>guarded at any scope. permission_service.go L16-21, L60-62"]
+    uc_resolve -.- UC2
+
+    UC3["Create Project is guarded with RequireGlobal, not RequireProject:<br/>the project it would be scoped to does not exist yet.<br/>handles/projects/init.go L66-69"]
+    uc_create_proj -.- UC3
+
+    UC4["DEFECT - GET /{issueID}/state is guarded by read-issue but handleMoveCard<br/>writes issue state through board.UpdateIssueState. A read-only holder can<br/>mutate workflow state, and a GET that parses a JSON body is neither<br/>idempotent nor cache-safe. Expected: PermIssueUpdateIssue on POST or PATCH.<br/>handles/issues/init.go L57"]
+    uc_move -.- UC4
+
+    UC5["DEFECT - GET /api/users/me/permissions has no guard at all. It returns the<br/>caller's full role and permission picture. That is acceptable for a self<br/>query, but the read model is reached with no permission check in front of it.<br/>handles/users/init.go L39"]
+    uc_perms -.- UC5
+
+    UC6["DEFECT - projectIssues is declared on the projects Handler struct but never<br/>assigned in NewHandler, while the route handler is registered.<br/>List Project Issues panics on a nil receiver.<br/>handles/projects/init.go L24, L29-50, L63"]
+    uc_proj_issues -.- UC6
+
+    UC7["Role administration has no HTTP route. AssignRole, RevokeRole, GetAllRoles<br/>and GetAllPermissions exist only in the storage layer and are reachable from<br/>no actor today. Grants come from seed data, from group membership, or from<br/>the project-leader trigger.<br/>storage/permissions/*.go, migrations/000012_triggers.up.sql"]
+    uc_assign -.- UC7
+
+    UC8["Group roles resolve through assigned_roles with holder_type = 'group',<br/>not through the user_group_roles table. user_group_roles has no Go<br/>reference anywhere in the repo.<br/>storage/permissions/get_permissions_for_user.go"]
+    uc_group -.- UC8
+
+    classDef note fill:#eef2f7,stroke:#4a6fa5,stroke-width:1px,color:#1b2a41
+    classDef warn fill:#fdecec,stroke:#c0392b,stroke-width:2px,color:#5b1a12
+    class UC1,UC2,UC3,UC7,UC8 note
+    class UC4,UC5,UC6 warn
